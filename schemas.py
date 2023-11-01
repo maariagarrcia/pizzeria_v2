@@ -4,13 +4,11 @@ import datetime
 import random
 
 
-
 class PedidoModel(BaseModel):
     pizza: str
-    alergias: str 
-    precio: int= random.randint(1, 100)
+    alergias: str
+    precio: int = random.randint(1, 100)
     hora: ClassVar[datetime.datetime] = datetime.datetime.now()
-
 
     class Config():
         orm_mode = True
@@ -32,6 +30,7 @@ class UserDisplayModel(BaseModel):
 
 #  ------------------------------------------------------------
 
+
 class User(BaseModel):
     id: int
     username: str
@@ -43,7 +42,7 @@ class User(BaseModel):
 class PedidoBaseModel(BaseModel):
     pizza: str
     alergias: str
-    precio: int= random.randint(1, 100)
+    precio: int = random.randint(1, 100)
     hora: ClassVar[datetime.datetime] = datetime.datetime.now()
     creator_id: int
 
@@ -52,7 +51,7 @@ class PedidoDisplayModel(BaseModel):
     pizza: str
     alergias: str
     precio: int
-    hora: ClassVar[datetime.datetime] 
+    hora: ClassVar[datetime.datetime]
     user: User
 
     class Config():
@@ -67,12 +66,14 @@ class User2(BaseModel):
     class Config():
         orm_mode = True
 
+
 class InfoBaseModel(BaseModel):
     nombre_completo: str
     telefono: int
     direccion: str
     saldo: int
     creator_id: int
+
 
 class InfoDisplayModel(BaseModel):
     nombre_completo: str
