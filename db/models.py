@@ -52,3 +52,36 @@ class DbPedido(Base):
     hora = Column(String)
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("DbUser", back_populates="pedidos")
+
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+
+class DbItem(Base):
+    __tablename__ = "items"
+
+    id = Column(Integer, primary_key=True)
+    masa = Column(String)
+    salsa = Column(String)
+    tecnica = Column(String)
+    presentacion = Column(String)
+    maridaje = Column(String)
+
+    # Define las relaciones con las tablas Ingredient y Extra
+    ingredientes = relationship("Ingredient", back_populates="item")
+    extras = relationship("Extra", back_populates="item")
+
+class Ingredient(Base):
+    __tablename__ = "ingredients"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    item_id = Column(Integer, ForeignKey('items.id'))
+    item = relationship("DbItem", back_populates="ingredientes")
+
+class Extra(Base):
+    __tablename__ = "extras"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    item_id = Column(Integer, ForeignKey('items.id'))
+    item = relationship("DbItem", back_populates="extras")

@@ -4,6 +4,26 @@ import datetime
 import random
 
 
+
+class Item(BaseModel):
+    masa:str
+    salsa:str
+    ingredientes: List[str] = []
+    extras: List[str] = []
+    tecnica: str 
+    presentacion: str 
+    maridaje: str
+
+class ItemDisplayModel(BaseModel):
+    masa:str
+    salsa:str
+    ingredientes: List[str] = []
+    extras: List[str] = []
+    tecnica: str 
+    presentacion: str 
+    maridaje: str
+
+#-------------------------
 class PedidoModel(BaseModel):
     masa:str
     salsa:str
@@ -100,3 +120,5 @@ class InfoDisplayModel(BaseModel):
     class Config():
         orm_mode = True
 
+
+# ------------------------------------------

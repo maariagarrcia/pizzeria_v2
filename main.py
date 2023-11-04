@@ -3,17 +3,22 @@ from sqlalchemy.orm import Session
 from db import models
 from db.database import engine
 
-from router import user, pedido, extra_info
+from router import user, pedido, extra_info,item
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from pydantic import BaseModel
 
+from pathlib import Path
+import random   # Permite generar números aleatorios
+import uvicorn
 
 app = FastAPI()
+app.include_router(item.router)
 app.include_router(user.router)
 app.include_router(pedido.router)
 app.include_router(extra_info.router)
+
 
 
 app.mount("/static/css/", StaticFiles(directory="static/css"), name="static")
@@ -28,3 +33,11 @@ async def root():
 
 # SE CREA EL DABATASE
 models.Base.metadata.create_all(engine)
+
+if __name__ == "__main__":
+    print("-> Inicio integrado de servicIo web")
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+else:
+    print("=> Iniciado desde el servidor web")
+    print("   Módulo python iniciado:", __name__)
+

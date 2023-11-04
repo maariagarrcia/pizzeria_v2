@@ -5,7 +5,7 @@ from typing import List
 from sqlalchemy.orm import Session
 from db.database import get_db
 
-from schemas import PedidoBaseModel, PedidoDisplayModel
+from schemas import PedidoBaseModel, PedidoDisplayModel,ItemDisplayModel, Item
 
 from db import db_pedidos
 
@@ -27,23 +27,12 @@ router.mount("/templates", StaticFiles(directory="templates"), name="templates")
 templates = Jinja2Templates(directory="templates")
 
 # ----------------- Ejemplo de uso de Pydantic -----------------
-class Item(BaseModel):
-    masa:str
-    salsa:str
-    ingredientes: List[str] = []
-    extras: List[str] = []
-    tecnica: str 
-    presentacion: str 
-    maridaje: str
 
-
-    
 
 @router.post("/post")
 async def create_item(item: Item):
     item_dict = item.model_dump()
     return item_dict
-
 
 
 #-----------------------------------------------------------------
