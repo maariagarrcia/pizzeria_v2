@@ -1,31 +1,39 @@
+/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: black; /* Color de fondo gris claro */
     margin: 0;
     padding: 0;
 }
 
+/* Encabezado */
 header {
-    background-color: #ff6600;
-    color: #fff;
+    background: linear-gradient(180deg, #577796, #2c3e50); /* Fondo con gradiente de colores (de arriba a abajo) */
+    color: #ecf0f1; /* Color de texto blanco */
     padding: 20px;
     text-align: center;
+    text-transform: uppercase;
 }
 
+/* Título principal */
 h1 {
     margin: 0;
-    font-size: 40px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #8ba5bf; /* Color de texto azul oscuro */
 }
 
+/* Barra de navegación */
 nav {
-    background-color: #222;
-    color: #fff;
+    background-color: #34495e; /* Color de fondo azul oscuro */
+    color: #ecf0f1; /* Color de texto blanco */
+    border: 1px solid #0f0f10; /* Borde azul oscuro */
     text-align: center;
-    padding: 10px;
+    padding: 15px;
 }
 
 nav a {
-    color: #ff6600;
+    color: #ecf0f1; /* Color de texto blanco */
     text-decoration: none;
     margin: 0 10px;
 }
@@ -34,66 +42,89 @@ nav a:hover {
     text-decoration: underline;
 }
 
+/* Contenedor principal */
 .container {
-    max-width: 800px;
-    margin: 20px auto;
+    max-width: 100%;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: black; /* Color de fondo gris claro */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0px;
 }
 
+/* Títulos secundarios */
 h2 {
     text-transform: uppercase;
     font-weight: bold;
-    color: black;
-    font-size: 40px;
-    background-color:#ff6600; /* Cambia el color de fondo al que desees */
+    color: #577796; /* Hace que el texto sea transparente */
+    font-size: 35px;
     text-align: center;
+    border: 1px solid #2c3e50; /* Borde azul oscuro */
+    border-radius: 5px;
+    padding: 5px;
 }
 
 h3 {
     font-size: 30px;
-    color: #ff6600;
+    color: #2c3e50; /* Color de texto azul oscuro */
     text-align: center;
     text-transform: uppercase;
+}
 
+h4 {
+    font-size: 20px;
+    color: #2c3e50; /* Color de texto azul oscuro */
+    text-align: center;
+}
+
+h5 {
+    font-size: 23px;
+    color: #2c3e50; /* Color de texto azul oscuro */
+    text-align: center;
+    text-transform: uppercase;
+}
+
+h6{
+    color:#8ba5bf;
+    margin:10px;
 }
 
 .menu-item {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-bottom: 50px;
-
-
+    text-align: center;
 }
 
 .stylish-button {
-    background-color: #ff6600;
-    color: #fff;
+    background-color: #2c3e50;
+    color: #ecf0f1;
     border: none;
     width: 150px;
     height: 50px;
-    border-radius: 2px;
+    border-radius: 10px;
     cursor: pointer;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Agrega sombra */
     transition: background-color 0.3s ease, transform 0.3s ease;
+
 }
+
 .stylish-button:hover {
-    background-color: #ff9933; /* Cambia el color al pasar el mouse */
+    background-color: #577796; /* Cambia el color al pasar el mouse */
     transform: scale(1.1); /* Efecto de escala al pasar el mouse */
 }
 
+
 /* Estilos del formulario */
 form {
-    max-width: 400px;
-    margin: 0 auto;
+    height: 500px;
     padding: 40px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    border: 1px solid black;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: black;
     font-size: 16px;
 }
+
 
 label {
     display: block;
@@ -102,6 +133,7 @@ label {
 
 input[type="text"],
 input[type="email"],
+input[type="password"],
 textarea {
     width: 100%;
     padding: 10px;
@@ -109,24 +141,291 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 16px;
+    background-color: black;
+    color:white;
 
 }
 
 textarea {
     resize: vertical;
+    background-color: black;
+
+}
+
+.form-class textarea{
+    resize: vertical;
+    background-color: black;
 }
 
 input[type="submit"] {
-    background-color: #ff6600;
+    background-color: #34495e;
     color: #fff;
-    border: none;
+    border: 10px;
     padding: 10px 20px;
     border-radius: 3px;
     cursor: pointer;
+    justify-content: center;
+
 }
 
 input[type="submit"]:hover {
-    background-color: #f39150;
+    background-color: #577796;
+    transform: scale(1); /* Efecto de escala al pasar el mouse */
+
+}
+
+/* Estilos específicos para campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    background-color: black;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: left;
+    padding-left: 10px;
+    transition: border-color 0.3s;
+
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #577796;
+    background-color: black;
+
+}
+
+.auth-title {
+    background-color: #000;
+    color: #577796;
+    padding: 20px;
+
+}
+
+/* Contenedor principal */
+.contain {
+    width: 1500px;
+    height: 900px;
+    padding: 30px;
+    background-color: black; /* Color de fondo gris claro */
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.scroll-container {
+    width:100%; /* Ancho del contenedor rectangular */
+    height: 600px; /* Altura del contenedor rectangular */
+    overflow: auto; /* Habilitar la barra de desplazamiento */
+    border: 1px solid #000; /* Borde para resaltar el contenedor */
+    margin:  auto; /* Centrar el contenedor */
+
+}
+
+.scroll-conte {
+    width: 100%;
+    height: 1030px; /* Altura del contenido, debe ser mayor que la del contenedor para que aparezca la barra de desplazamiento */
+    background-color: black; /* Color de fondo del contenido */
+    margin: 0;
+    text-align: auto;
+    justify-content: auto;
+    
+}
+
+.scroll-content {
+    width: 100%;
+    height: 1450px; /* Altura del contenido, debe ser mayor que la del contenedor para que aparezca la barra de desplazamiento */
+    background-color: black; /* Color de fondo del contenido */
+    margin: 0;
+    text-align: auto;
+    justify-content: auto;
+    
+}
+
+.scroll-contt {
+    width: 100%;
+    height: 1250px; /* Altura del contenido, debe ser mayor que la del contenedor para que aparezca la barra de desplazamiento */
+    background-color: black; /* Color de fondo del contenido */
+    margin: 0;
+    text-align: auto;
+    justify-content: auto;
+    
+}
+
+.scroll-conten {
+    width: 100%;
+    height: 700px; /* Altura del contenido, debe ser mayor que la del contenedor para que aparezca la barra de desplazamiento */
+    background-color: black; /* Color de fondo del contenido */
+    margin: 0;
+    text-align: auto;
+    justify-content: auto;
+    
+}
+
+.scroll-cont {
+    width: 100%;
+    height: 900px; /* Altura del contenido, debe ser mayor que la del contenedor para que aparezca la barra de desplazamiento */
+    background-color: black; /* Color de fondo del contenido */
+    margin: 0;
+    text-align: auto;
+    justify-content: auto;
+    
+}
+
+
+
+.image-container {
+    width: 380px; /* Ancho del cuadro contenedor */
+    height: 400px; /* Altura del cuadro contenedor */
+    display: inline-block;
+    margin: 30px 0px 10px 70px; /* Margen en la parte superior y los lados */
+    overflow: hidden; /* Oculta el contenido que se desborda */
+
+}
+  
+.image-container img {
+    width: 380px;
+    max-width: 380px;
+
+}
+
+.image-container img:hover {
+    transform: scale(1.2); /* Escala la imagen al 120% cuando se pasa el ratón por encima */
+}
+
+p{
+    margin:0;
+    text-align: center;
+    font-size: 35px;
+    font-weight: bold;
+    color: #8ba5bf; /* Color de texto azul oscuro */
+    
+}
+
+.image-description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.image-description p {
+    margin-top: 20px ;
+    font-size: 20px;
+}
+
+.image-description button {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+
+.image-description button:hover {
+    background-color: #577796; /* Cambia el color al pasar el mouse */
+    transform: scale(1.1); /* Efecto de escala al pasar el mouse */
+}
+
+
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: black;
+    color: #666;
+    outline: none;
+}
+
+select:hover {
+    background-color: black;
+}
+
+select:focus {
+    border: 2px solid #007bff;
+}
+
+/* Estilo para el contenedor de ingredientes */
+fieldset {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+legend {
+    font-weight: bold;
+    font-size: 18px;
+
+    color:#577796;
+}
+
+/* Estilo para las etiquetas de ingredientes */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #577796;
+    
+}
+
+.promocion p{
+    font-size: 18px;
+    color: #577796; /* Color de texto azul oscuro */
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 10px;
+
+}
+
+.ingredient-label {
+    display: inline-block;
+    margin-right: 5px;
+    color: #666; /* Cambia el color del texto de todas las etiquetas de ingredientes a rojo (#ff0000) */
+}
+
+/* Estilo para las casillas de verificación */
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Cambia el aspecto de las casillas de verificación marcadas */
+input[type="checkbox"]:checked + label {
+    color: #009900; /* Cambia el color de la etiqueta cuando se marca */
+    font-weight: normal; /* Reduce el peso de la fuente cuando se marca */
+}
+
+/* Estilo opcional para el contenedor de ingredientes seleccionados */
+#ingredientes-seleccionados {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Estilo opcional para los ingredientes seleccionados */
+#ingredientes-seleccionados label {
+    color: #009900;
+}
+
+
+li{
+    color:#577796;
+    text-align: center;
+
+}
+.jumbotron {
+    border-radius: 0; /* Establece el border radius en 0 para eliminar los bordes redondeados */
 }
 
 @media (max-width: 768px) {

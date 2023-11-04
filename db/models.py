@@ -19,7 +19,7 @@ class DbUser(Base):
     username = Column(String)
     hashed_password = Column(String)
     email = Column(String)
-    items = relationship("DbPedido", back_populates="user")
+    pedidos = relationship("DbPedido", back_populates="user")
     extra_info = relationship("DbInfoPersonal", uselist=False, back_populates="user")
 
 #  INFORMACIÓN  EXTTRA DEL USUARIO
@@ -39,9 +39,16 @@ class DbPedido(Base):
     __tablename__ = "pedidos"
 
     id = Column(Integer, primary_key=True, index=True)
-    pizza = Column(String)
-    alergias = Column(String)
-    precio= Column(Integer)
+
+    # pizza
+    masa = Column(String)
+    salsa = Column(String)
+    ingredientes = Column()
+    extras = Column()
+    tecnica = Column(String)
+    presentacion = Column(String)
+    maridaje = Column(String)
+    precio = Column(Integer)
     hora = Column(String)
     user_id = Column(Integer, ForeignKey("users.id"))
-    user = relationship("DbUser", back_populates="items")
+    user = relationship("DbUser", back_populates="pedidos")

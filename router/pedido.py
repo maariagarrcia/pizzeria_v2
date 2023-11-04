@@ -9,12 +9,50 @@ from schemas import PedidoBaseModel, PedidoDisplayModel
 
 from db import db_pedidos
 
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+
+from pydantic import BaseModel
+
+
 router = APIRouter(
     prefix='/pedido',
     tags=['Pedidos']
 )
 
-@router.post('/', response_model=PedidoDisplayModel)
+router.mount("/static/css/", StaticFiles(directory="static/css"), name="static")
+router.mount("/templates", StaticFiles(directory="templates"), name="templates")
+templates = Jinja2Templates(directory="templates")
+
+# ----------------- Ejemplo de uso de Pydantic -----------------
+class Item(BaseModel):
+    masa:str
+    salsa:str
+    ingredientes: List[str] = []
+    extras: List[str] = []
+    tecnica: str 
+    presentacion: str 
+    maridaje: str
+
+
+    
+
+@router.post("/post")
+async def create_item(item: Item):
+    item_dict = item.model_dump()
+    return item_dict
+
+
+
+#-----------------------------------------------------------------
+
+@router.get('/crear')
+async def mostrar_pedido(request: Request):
+    return templates.TemplateResponse("pizza_personalizada.html", {"request": request})
+
+@router.post('/submit', response_model=PedidoDisplayModel)
 async def create_pedido(request: PedidoBaseModel, db: Session = Depends(get_db)):
     new_pedido= db_pedidos.CrudPedidos.create_pedido(db, request)
     return new_pedido
@@ -34,3 +72,4 @@ async def update_pedido(id: int, request: PedidoBaseModel, db: Session = Depends
 @router.delete('/{id}/delete')
 async def delete_pedido(id: int, db: Session = Depends(get_db)):
     return db_pedidos.CrudPedidos.delete_pedido(id, db)
+

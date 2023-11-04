@@ -32,17 +32,22 @@ class CrudPedidosInterfaz:
         # delete a record from the database
         pass
 
-
 class CrudPedidos(CrudPedidosInterfaz):
     @staticmethod
     def create_pedido(db:Session, request:PedidoBaseModel):
         new_pedido = DbPedido(
-            pizza = request.pizza,
-            alergias = request.alergias,
+            masa = request.masa,
+            salsa = request.salsa,
+            ingredientes = request.ingredientes,
+            extras = request.extras,
+            tecnica = request.tecnica,
+            presentacion = request.presentacion,
+            maridaje = request.maridaje,
             precio = request.precio,
             hora = request.hora,
-            user_id = request.creator_id
+            user_id = request.user_id
             )
+        
         db.add(new_pedido)
         db.commit()
         db.refresh(new_pedido)
@@ -72,8 +77,16 @@ class CrudPedidos(CrudPedidosInterfaz):
             db.refresh(pedido)
             return PedidoDisplayModel(
                 id = pedido.id,
-                pizza = pedido.pizza,
-                alergias = pedido.alergias
+                masa = pedido.masa,
+                salsa = pedido.salsa,
+                ingredientes = pedido.ingredientes,
+                extras = pedido.extras,
+                tecnica = pedido.tecnica,
+                presentacion = pedido.presentacion,
+                maridaje = pedido.maridaje,
+                precio = pedido.precio,
+                hora = pedido.hora,
+                user_id = pedido.user_id
             )
         raise HTTPException(status_code=404, detail="Pedido no encontrado")
     

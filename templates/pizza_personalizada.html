@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea Tu Pizza Personalizada</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style_templates.css">
+    <script>
+    async function send() {
+        var masa = document.getElementById("masa").value;
+        var salsa = document.getElementById("salsa").value;
+
+        var ingredientes = [];
+        var ingredientCheckboxes = document.getElementsByName("ingredientes[]");
+        for (var i = 0; i < ingredientCheckboxes.length; i++) {
+            if (ingredientCheckboxes[i].checked) {
+                ingredientes.push(ingredientCheckboxes[i].value);
+            }
+        }
+
+        var extras = [];
+        var extraCheckboxes = document.getElementsByName("ingredientes[]");
+        for (var i = 0; i < extraCheckboxes.length; i++) {
+            if (extraCheckboxes[i].checked) {
+                extras.push(extraCheckboxes[i].value);
+            }
+        }
+
+        var tecnica = document.getElementById("tecnica").value;
+        var presentacion = document.getElementById("presentacion").value;
+        var maridaje = document.getElementById("maridaje").value;
+
+        const pizzaData = {
+            masa: masa,
+            salsa: salsa,
+            ingredientes: ingredientes,
+            extras: extras,
+            tecnica: tecnica,
+            presentacion: presentacion,
+            maridaje: maridaje
+        };
+
+        const response = await fetch("http://127.0.0.1:8000/pedido/post", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(pizzaData),
+        });
+
+        const json_response = await response.json();
+        console.log(json_response);
+    }
+
+    </script>
+
+</head>
+
+<body>
+    <header class="jumbotron mb-0">
+        <h1 class="display-4">Pizza a la Carta</h1>
+    </header>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark justify-content-center" style="background-color: black;">
+        <a class="navbar-brand" href="base.html">Inicio</a>
+        <a class="navbar-brand" href="/templates/menu.html">Menú</a>
+        <a class="navbar-brand" href="/templates/promociones.html">Promociones</a>
+        <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
+    
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/templates/login.html">LOGIN</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/templates/register.html">REGISTRO</a>
+            </li>
+        </ul>
+    </nav>
+        
+    <div class="scroll-container">
+    <div class="scroll-contt">
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <hr style="flex: 1; border: 7px solid #577796;">
+        <span style="padding: 0 10px; color: #577796 ;font-size: 30px;">CREA TU PIZZA PERSONALIZADA</span>
+        <hr style="flex: 1; border: 7px solid #577796;">
+    </div>
+
+
+        <fieldset>
+        <label for="masa">Masa:</label>
+        <select name="masa" id="masa">
+            <option value="masa1">Masa Original</option>
+            <option value="masa2">Masa Finísima</option>
+            <option value="masa3">Masa Queso</option>
+            <!-- Agrega más opciones de masa según sea necesario -->
+        </select>
+        </fieldset>
+
+
+        <fieldset>
+        <label for="salsa">Salsa:</label>
+        <select name="salsa" id="salsa">
+            <option value="salsa1">Salsa Tomate</option>
+            <option value="salsa2">Salsa Barbacoa</option>
+            <option value="salsa3">Salsa Chimichurri</option>
+            <!-- Agrega más opciones de salsa según sea necesario -->
+        </select>
+        </fieldset>
+
+ 
+        <fieldset>
+            <label for="ingrediients">Ingredientes:</label>
+            <input type="checkbox" name="ingredientes[]" id="peperoni" style="display: inline-block; margin-right: 5px;" value="Peperoni">
+            <label for="peperoni" class="ingredient-label" style="display: inline-block; margin-right: 5px;" >Peperoni</label><br>
+
+            <input type ="checkbox" name="ingredientes[]" id="york" style="display: inline-block; margin-right: 5px;"value="York">
+            <label for="york" class="ingredient-label" style="display: inline-block; margin-right: 5px;">York</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="jamonSerrano" style="display: inline-block; margin-right: 5px;"value="Jamón Serrano">
+            <label for="jamonSerrano" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Jamón Serrano</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="bacon"style="display: inline-block; margin-right: 5px;" value="Bacon">
+            <label for="bacon" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Bacon</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="carneDeVacuno" style="display: inline-block; margin-right: 5px;" value="Carne de Vacuno">
+            <label for="carneDeVacuno" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Carne de Vacuno</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="polloALaParrilla" style="display: inline-block; margin-right: 5px;" value="Pollo a la Parrilla">
+            <label for="polloALaParrilla" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Pollo a la Parrilla</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="pimiento" style="display: inline-block; margin-right: 5px;" value="Pimiento">
+            <label for="pimiento" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Pimiento</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="champinon" style="display: inline-block; margin-right: 5px;" value="Champiñón">
+            <label for="champinon" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Champiñón</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="cebollaCaramelizada" style="display: inline-block; margin-right: 5px;" value="Cebolla Caramelizada">
+            <label for="cebollaCaramelizada" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Cebolla Caramelizada</label><br>
+
+        </fieldset>
+
+        <fieldset>
+            <label for="ingrediients">Extras:</label>
+            <input type="checkbox" name="ingredientes[]" id="doble_queso" style="display: inline-block; margin-right: 5px;" value="doble_queso">
+            <label for="doble_queso" class="ingredient-label" style="display: inline-block; margin-right: 5px;" >Doble de queso</label><br>
+
+            <input type ="checkbox" name="ingredientes[]" id="doble_york" style="display: inline-block; margin-right: 5px;"value="doble_york">
+            <label for="doble_york" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de York</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="doble_jamon" style="display: inline-block; margin-right: 5px;"value="doble_jamon">
+            <label for="doble_jamon" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de Jamón Serrano</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="doble_bacon"style="display: inline-block; margin-right: 5px;" value="doble_bacon">
+            <label for="doble_bacon" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de Bacon</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="Doble_Pimiento" style="display: inline-block; margin-right: 5px;" value="Doble_Pimiento">
+            <label for="Doble_Pimiento" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Doble de Pimiento</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="doble_champi" style="display: inline-block; margin-right: 5px;" value="doble_champi">
+            <label for="doble_champi" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Doble de Champiñón</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="doble_cebolla" style="display: inline-block; margin-right: 5px;" value="doble_cebolla">
+            <label for="doble_cebolla" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de Cebolla Caramelizada</label><br>
+
+        </fieldset>
+
+        <fieldset>
+        <label for="tecnica">Tecnica:</label>
+        <select name="tecnica" id="tecnica">
+            <option value="tecnica1">Horno convencional</option>
+            <option value="tecnica2">Horno de leña</option>
+            <option value="tecnica3">Sartén de hierro fundido</option>
+
+        </select>
+        </fieldset>
+
+        <fieldset>
+        <label for="presentacion">Presentacion:</label>
+        <select name="presentacion" id="presentacion">
+            <option value="presentacion1">Pizza pequeña</option>
+            <option value="presentacion2">Pizza mediana</option>
+            <option value="presentacion3">Pizza familiar</option>
+
+        </select>
+        </fieldset>
+
+        <fieldset>
+        <label for="maridaje">Maridaje:</label>
+        <select name="maridaje" id="maridaje">
+            <option value="maridaje1">Vino tinto</option>
+            <option value="maridaje2">Vino blanco</option>
+
+        </select>
+        </fieldset>
+
+        <button onclick="send()">Crear</button>
+
+    </form>
+</body>
+</html>

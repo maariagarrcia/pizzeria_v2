@@ -5,8 +5,13 @@ import random
 
 
 class PedidoModel(BaseModel):
-    pizza: str
-    alergias: str
+    masa:str
+    salsa:str
+    ingredientes: List[str] = []
+    extras: List[str] = []
+    tecnica: str 
+    presentacion: str 
+    maridaje: str    
     precio: int = random.randint(1, 100)
     hora: ClassVar[datetime.datetime] = datetime.datetime.now()
 
@@ -40,16 +45,26 @@ class User(BaseModel):
 
 
 class PedidoBaseModel(BaseModel):
-    pizza: str
-    alergias: str
+    masa:str
+    salsa:str
+    ingredientes: List[str] = []
+    extras: List[str] = []
+    tecnica: str 
+    presentacion: str 
+    maridaje: str
     precio: int = random.randint(1, 100)
     hora: ClassVar[datetime.datetime] = datetime.datetime.now()
     creator_id: int
 
 
 class PedidoDisplayModel(BaseModel):
-    pizza: str
-    alergias: str
+    masa:str
+    salsa:str
+    ingredientes: List[str] = []
+    extras: List[str] = []
+    tecnica: str 
+    presentacion: str 
+    maridaje: str
     precio: int
     hora: ClassVar[datetime.datetime]
     user: User
@@ -84,3 +99,4 @@ class InfoDisplayModel(BaseModel):
 
     class Config():
         orm_mode = True
+

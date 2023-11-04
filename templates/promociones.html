@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú de Pizzería</title> 
-    <!-- Enlaza los archivos CSS de Bootstrap para el header y la navegación -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/style_templates.css">
+    <title>Pizza a la Carta</title>
 </head>
 <body>
     <header class="jumbotron mb-0">
@@ -14,9 +13,9 @@
     </header>
 
     <nav class="navbar navbar-expand-lg navbar-dark justify-content-center" style="background-color: black;">
-        <a class="navbar-brand" href="base.html">Inicio</a>
+        <a class="navbar-brand" href="/templates/base.html">Inicio</a>
         <a class="navbar-brand" href="/templates/menu.html">Menú</a>
-        <a class="navbar-brand" href="/templates/promociones.html">Promociones</a>
+        <a class="navbar-brand" href="promociones.html">Promociones</a>
         <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
     
         <ul class="navbar-nav">
@@ -32,24 +31,18 @@
     <div class="scroll-container">
     <div class="scroll-conten">
     <div class="container">
-        <div style="display: flex; justify-content: center; align-items: center;">
+        <div class="promocion">
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <hr style="flex: 1; border: 7px solid #577796; ">
+                <span style="padding: 0 10px; color: #577796 ;font-size: 33px; ;">¡PROMOCIÓN DE LA SEMANA!</span>
             <hr style="flex: 1; border: 7px solid #577796;">
-            <span style="padding: 0 10px; color: #577796 ;font-size: 30px;">CREA TU PIZZA</span>
-            <hr style="flex: 1; border: 7px solid #577796;">
+            </div>
+            <img src="/static/images/pizza_promocion.png" alt="Promoción de la semana" width="700px" height ="425px"style=" margin-left:350px;margin-top: 20px;">
+            <p>Esta semana, disfruta de nuestra deliciosa Pizza Barrosa a mitad de precio. ¡No te lo pierdas!</p>
+            <p> Creada por uno de nuestos clientes</p>
+            <p>¡Promoción válida hasta el 15 de febrero!</p>
         </div>
-        <img src="/static/images/pizza.png" alt="Pizza Personalizada" width="100%" height="auto" style="margin-bottom: 20px; margin-top: 20px;">
-        <br>
-        <h4> En PIZZAS SALCHI puedes crear tu propia pizza a tu gusto.</h4>
-        <h4> Solo tienes que elegir tus alimentos favoritos</h4>
-        <h4> y nosotros nos encargamos del resto.</h4>
-        <h5> ¡A que esperas para disfrutar de tu pizza personalizada!</h5>
-        <h4> Desde 8.99€ </h4>
 
-        <div class="menu-item">
-            <a href="/templates/pizza_personalizada.html">
-                <button class="stylish-button"> CREAR PIZZA </button>
-            </a>
-        </div>
     </div>
 </body>
 </html>
