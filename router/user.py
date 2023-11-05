@@ -7,10 +7,17 @@ from schemas import UserBaseModel, UserDisplayModel
 from db.database import get_db
 from db import db_user
 
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+
 router = APIRouter(
     prefix='/user',
     tags=['Users']
 )
+router.mount("/static/css/", StaticFiles(directory="static/css"), name="static")
+router.mount("/templates", StaticFiles(directory="templates"), name="templates")
+templates = Jinja2Templates(directory="templates")
+
 
 @router.post('/', response_model=UserDisplayModel)
 async def create_user(request: UserBaseModel, db: Session = Depends(get_db)):

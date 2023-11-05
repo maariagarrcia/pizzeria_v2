@@ -13,6 +13,11 @@ from pathlib import Path
 import random   # Permite generar números aleatorios
 import uvicorn
 
+from fastapi import FastAPI, Request
+from fastapi.responses import RedirectResponse
+
+from fastapi import status
+
 app = FastAPI()
 app.include_router(item.router)
 app.include_router(user.router)
@@ -20,17 +25,20 @@ app.include_router(pedido.router)
 app.include_router(extra_info.router)
 
 
+# -- SERVIR ARCHIVOS HTML ESTATICOS
 
+app.mount("/static/images/", StaticFiles(directory="static/images"), name="static")
 app.mount("/static/css/", StaticFiles(directory="static/css"), name="static")
+
 app.mount("/templates", StaticFiles(directory="templates"), name="templates")
 templates = Jinja2Templates(directory="templates")
 
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
+async def root(request: Request):
+    return templates.TemplateResponse("base.html", {"request": request})
 
-
+# -- REDIRECCIONES: index.html pasa a ser archivo por defecto de la ruta
 # SE CREA EL DABATASE
 models.Base.metadata.create_all(engine)
 
