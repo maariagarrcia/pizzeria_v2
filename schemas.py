@@ -3,6 +3,12 @@ from typing import List, Union, ClassVar
 import datetime
 import random
 
+class User(BaseModel):
+    id: int
+    username: str
+
+    class Config():
+        orm_mode = True
 
 
 class Item(BaseModel):
@@ -13,6 +19,7 @@ class Item(BaseModel):
     tecnica: str 
     presentacion: str 
     maridaje: str
+    creator_id: int
 
 class ItemDisplayModel(BaseModel):
     masa:str
@@ -22,9 +29,10 @@ class ItemDisplayModel(BaseModel):
     tecnica: str 
     presentacion: str 
     maridaje: str
+    user:User
 
 #-------------------------
-class PedidoModel(BaseModel):
+class ItemModel(BaseModel):
     masa:str
     salsa:str
     ingredientes: List[str] = []
@@ -32,8 +40,6 @@ class PedidoModel(BaseModel):
     tecnica: str 
     presentacion: str 
     maridaje: str    
-    precio: int = random.randint(1, 100)
-    hora: ClassVar[datetime.datetime] = datetime.datetime.now()
 
     class Config():
         orm_mode = True
@@ -48,52 +54,13 @@ class UserBaseModel(BaseModel):
 class UserDisplayModel(BaseModel):
     username: str
     email: str
-    items: List[PedidoModel] = []
+    items: List[ItemModel] = []
 
     class Config():
         orm_mode = True
 
 #  ------------------------------------------------------------
 
-
-class User(BaseModel):
-    id: int
-    username: str
-
-    class Config():
-        orm_mode = True
-
-
-class PedidoBaseModel(BaseModel):
-    masa:str
-    salsa:str
-    ingredientes: List[str] = []
-    extras: List[str] = []
-    tecnica: str 
-    presentacion: str 
-    maridaje: str
-    precio: int = random.randint(1, 100)
-    hora: ClassVar[datetime.datetime] = datetime.datetime.now()
-    creator_id: int
-
-
-class PedidoDisplayModel(BaseModel):
-    masa:str
-    salsa:str
-    ingredientes: List[str] = []
-    extras: List[str] = []
-    tecnica: str 
-    presentacion: str 
-    maridaje: str
-    precio: int
-    hora: ClassVar[datetime.datetime]
-    user: User
-
-    class Config():
-        orm_mode = True
-
-
-# ------------------------------------------------------------
 class User2(BaseModel):
     id: int
     username: str

@@ -15,7 +15,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 from sqlalchemy.orm import Session
-from db.models import DbItem, Ingredient, Extra
+from db.models import DbItem, Ingredient, Extra, DbUser
 
 class ItemBuilder:
     def __init__(self, id: int, db: Session):
@@ -68,3 +68,9 @@ class ItemBuilder:
             extras = self.item.extras
             self.item.extras = [extra.name if extra else None for extra in extras]
         return self.item.extras
+
+
+    def get_user(self):
+        if self.item:
+            self.item.user = self.db.query(DbUser).filter(DbUser.id == self.item.user_id).first()
+        return self.item.user

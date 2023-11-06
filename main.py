@@ -3,14 +3,15 @@ from sqlalchemy.orm import Session
 from db import models
 from db.database import engine
 
-from router import user, pedido, extra_info,item
+from router import user, extra_info, item
+from auth import authentication
+
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from pydantic import BaseModel
 
 from pathlib import Path
-import random   # Permite generar números aleatorios
 import uvicorn
 
 from fastapi import FastAPI, Request
@@ -19,13 +20,14 @@ from fastapi.responses import RedirectResponse
 from fastapi import status
 
 app = FastAPI()
+app.include_router(authentication.router)
 app.include_router(item.router)
 app.include_router(user.router)
-app.include_router(pedido.router)
 app.include_router(extra_info.router)
 
 
 # -- SERVIR ARCHIVOS HTML ESTATICOS
+
 
 app.mount("/static/images/", StaticFiles(directory="static/images"), name="static")
 app.mount("/static/css/", StaticFiles(directory="static/css"), name="static")

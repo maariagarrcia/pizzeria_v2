@@ -7,6 +7,32 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/style_templates.css">
     <script>
+    let selectedMaridaje = ""; // Variable para almacenar la selección de maridaje
+
+    async function obtenerRecomendacionMaridaje() {
+        const tecnica = document.getElementById("tecnica").value;
+        // Genera recomendaciones de maridaje basadas en la técnica de cocción seleccionada
+        const recomendacionTecnica = generarRecomendacionTecnicaMaridaje(tecnica);
+        // Muestra la recomendación en el HTML
+        const tecnicaRecomendacionTexto = document.getElementById('tecnicaRecomendacionTexto');
+        tecnicaRecomendacionTexto.textContent = recomendacionTecnica;
+    }
+
+    function generarRecomendacionTecnicaMaridaje(tecnicaSeleccionada) {
+        // Define tus propias recomendaciones de maridaje basadas en la técnica de cocción
+        switch (tecnicaSeleccionada) {
+            case "Horno convencional":
+                return "Recomendación de maridaje para Horno convencional: Vino tinto.";
+            case "Horno de leña":
+                return "Recomendación de maridaje para Horno de leña: Cerveza artesanal.";
+            case "Sartén de hierro fundido":
+                return "Recomendación de maridaje para Sartén de hierro fundido: Vino blanco.";
+            default:
+                return "No hay recomendación de maridaje disponible.";
+        }
+    }
+
+
     async function send() {
         var masa = document.getElementById("masa").value;
         var salsa = document.getElementById("salsa").value;
@@ -29,7 +55,6 @@
 
         var tecnica = document.getElementById("tecnica").value;
         var presentacion = document.getElementById("presentacion").value;
-        var maridaje = document.getElementById("maridaje").value;
 
         const pizzaData = {
             masa: masa,
@@ -38,7 +63,7 @@
             extras: extras,
             tecnica: tecnica,
             presentacion: presentacion,
-            maridaje: maridaje
+            maridaje: selectedMaridaje
         };
 
         const response = await fetch("http://127.0.0.1:8000/item/submit", {
@@ -51,7 +76,30 @@
 
         const json_response = await response.json();
         console.log(json_response);
+            
+        // Genera recomendaciones de maridaje basadas en la técnica de cocción seleccionada
+        const recomendacionTecnica = generarRecomendacionTecnicaMaridaje(tecnica);
+
+        // Muestra la recomendación en el HTML
+        const tecnicaRecomendacionTexto = document.getElementById('tecnicaRecomendacionTexto');
+        tecnicaRecomendacionTexto.textContent = recomendacionTecnica;
     }
+
+    function generarRecomendacionTecnicaMaridaje(tecnicaSeleccionada) {
+        // Aquí puedes definir tus propias recomendaciones de maridaje basadas en la técnica de cocción
+        switch (tecnicaSeleccionada) {
+            case "Horno convencional":
+                return "Recomendación de maridaje para Horno convencional: Vino tinto.";
+            case "Horno de leña":
+                return "Recomendación de maridaje para Horno de leña: Cerveza artesanal.";
+            case "Sartén de hierro fundido":
+                return "Recomendación de maridaje para Sartén de hierro fundido: Vino blanco.";
+            default:
+                return "No hay recomendación de maridaje disponible.";
+        }
+    }
+
+    
 
     </script>
 
@@ -185,16 +233,28 @@
         </select>
         </fieldset>
 
+ 
         <fieldset>
-        <label for="maridaje">Maridaje:</label>
-        <select name="maridaje" id="maridaje">
-            <option value="Vino tinto">Vino tinto</option>
-            <option value="Vino blanco">Vino blanco</option>
-
-        </select>
+            <label for="maridaje">Maridaje:</label>
+            <select name="maridaje" id="maridaje">
+                <option value="Vino tinto">Vino tinto</option>
+                <option value="Cerveza artesanal">Cerveza artesanal</option>
+                <option value="Vino blanco">Vino blanco</option>
+                <!-- Agrega más opciones de maridaje según sea necesario -->
+            </select>
         </fieldset>
 
-        <button onclick="send()">Crear</button>
+        <div id="tecnicaRecomendaciones" class="mt-4 mb-4 border p-3" style="font-size: 18px;">
+            <h5 class="text-primary">Recomendaciones de Maridaje según Técnica de Cocción:</h5>
+            <h5 class="text-primary" id="tecnicaRecomendacionTexto" class="mt-4"></h5>
+        </div>
+
+
+        <br>
+
+
+        <button onclick="obtenerRecomendacionMaridaje()" class="btn btn-primary">Recomendación Maridaje</button>
+        <button onclick="send()" class="btn btn-success">Crear</button>
 
     </form>
 </body>

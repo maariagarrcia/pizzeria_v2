@@ -43,6 +43,7 @@ class CrudItems(CrudItemsInterfaz):
             tecnica = request.tecnica,
             presentacion = request.presentacion,
             maridaje = request.maridaje,
+            user_id = request.creator_id
             )
         
         db.add(new_pedido)

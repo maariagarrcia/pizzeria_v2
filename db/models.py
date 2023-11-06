@@ -3,7 +3,8 @@ from sqlalchemy import  Column
 from sqlalchemy.sql.sqltypes import Boolean, Integer, String
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
-
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 # MODELO DE DEFINICION DE LA TABLA DE LA BASE DE DATOS
 # es la estructura de la tabla 
@@ -19,7 +20,7 @@ class DbUser(Base):
     username = Column(String)
     hashed_password = Column(String)
     email = Column(String)
-    pedidos = relationship("DbPedido", back_populates="user")
+    items = relationship("DbItem", back_populates="user")
     extra_info = relationship("DbInfoPersonal", uselist=False, back_populates="user")
 
 #  INFORMACIÓN  EXTTRA DEL USUARIO
@@ -34,27 +35,6 @@ class DbInfoPersonal(Base):
     user = relationship("DbUser", back_populates="extra_info")
 
 
-# INFORMACIÓN DE LOS PEDIDOS
-class DbPedido(Base):
-    __tablename__ = "pedidos"
-
-    id = Column(Integer, primary_key=True, index=True)
-
-    # pizza
-    masa = Column(String)
-    salsa = Column(String)
-    ingredientes = Column()
-    extras = Column()
-    tecnica = Column(String)
-    presentacion = Column(String)
-    maridaje = Column(String)
-    precio = Column(Integer)
-    hora = Column(String)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    user = relationship("DbUser", back_populates="pedidos")
-
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
 
 class DbItem(Base):
     __tablename__ = "items"
@@ -69,6 +49,10 @@ class DbItem(Base):
     # Define las relaciones con las tablas Ingredient y Extra
     ingredientes = relationship("Ingredient", back_populates="item")
     extras = relationship("Extra", back_populates="item")
+
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user=relationship("DbUser", back_populates="items")
+
 
 class Ingredient(Base):
     __tablename__ = "ingredients"

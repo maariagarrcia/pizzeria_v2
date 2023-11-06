@@ -4,7 +4,8 @@ from typing import List
 from sqlalchemy.orm import Session
 from db.database import get_db
 
-from schemas import PedidoBaseModel, PedidoDisplayModel,ItemDisplayModel, Item
+from schemas import ItemDisplayModel, Item
+from auth.oauth2 import oauth2_scheme, get_current_user
 
 
 from fastapi import Request
@@ -14,6 +15,9 @@ from fastapi.staticfiles import StaticFiles
 
 from pydantic import BaseModel
 from typing import Optional
+
+from db import db_user
+from schemas import UserBaseModel, UserDisplayModel, ItemDisplayModel, ItemModel, Item, User
 
 from db.models import  DbItem, Ingredient, Extra
 from builder import ItemBuilder  # Asegúrate de importar ItemBuilder desde el módulo adecuado
@@ -29,10 +33,7 @@ router.mount("/templates", StaticFiles(directory="templates"), name="templates")
 templates = Jinja2Templates(directory="templates")
 
 
-@router.post("/post")
-async def create_item(item: Item):
-    item_dict = item.model_dump()
-    return item_dict
+
 
 @router.get('/crear')
 async def mostrar_pedido(request: Request):
@@ -52,7 +53,8 @@ async def create_pedido(request: Item, db: Session = Depends(get_db)):
         salsa=request.salsa,
         tecnica=request.tecnica,
         presentacion=request.presentacion,
-        maridaje=request.maridaje
+        maridaje=request.maridaje,
+        user_id = request.creator_id
     )
 
     # Agrega ingredientes relacionados
@@ -78,40 +80,20 @@ async def create_pedido(request: Item, db: Session = Depends(get_db)):
         "extras": [extra.name for extra in new_pedido.extras],
         "tecnica": new_pedido.tecnica,
         "presentacion": new_pedido.presentacion,
-        "maridaje": new_pedido.maridaje
+        "maridaje": new_pedido.maridaje,
+        "user": {
+            "id": new_pedido.user.id,
+            "username": new_pedido.user.username
+        }
     }
 
     # Devuelve el diccionario como respuesta
     return new_pedido_dict
 
-@router.get('/{item_id}', response_model=ItemDisplayModel)
-async def get_pedido(item_id: int, db: Session = Depends(get_db)):
-    # Busca el pedido en la base de datos
-    pedido = db.query(DbItem).filter(DbItem.id == item_id).first()
-
-    # Si no se encuentra el pedido, devuelve un error
-    if not pedido:
-        raise HTTPException(status_code=404, detail="Item not found")
-
-    # Crea un diccionario con los datos del pedido
-    pedido_dict = {
-        "masa": pedido.masa,
-        "salsa": pedido.salsa,
-        "ingredientes": [ingrediente.name for ingrediente in pedido.ingredientes],
-        "extras": [extra.name for extra in pedido.extras],
-        "tecnica": pedido.tecnica,
-        "presentacion": pedido.presentacion,
-        "maridaje": pedido.maridaje
-    }
-
-    # Devuelve el diccionario como respuesta
-    return pedido_dict
 
 
-
-
-@router.get('/{items_id}', response_model=ItemDisplayModel)
-async def get_pedido(items_id: int, db: Session = Depends(get_db)):
+@router.get('/{items_id}')
+async def get_pedido(items_id: int, db: Session = Depends(get_db),current_user:UserBaseModel =Depends(get_current_user)):
     # Crear un ItemBuilder y configurarlo con el id y la sesión de la base de datos
     item_builder = ItemBuilder(items_id, db)
     
@@ -123,7 +105,8 @@ async def get_pedido(items_id: int, db: Session = Depends(get_db)):
     item_builder.get_maridaje()
     item_builder.get_ingredientes()
     item_builder.get_extras()
-    
+    item_builder.get_user()
+   
     # Construir el objeto de pizza con los detalles recuperados
     pizza = item_builder.build()
 
@@ -132,3 +115,5 @@ async def get_pedido(items_id: int, db: Session = Depends(get_db)):
 
     # Devolver la pizza como respuesta
     return pizza
+
+    
