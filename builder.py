@@ -10,49 +10,61 @@
 # Maridajes recomendados: Una base de datos con cientos de opciones de vinos, cervezas y cocteles, con recomendaciones basadas en las elecciones de los ingredientes de la pizza.
 # Extras y finalizaciones: Desde bordes especiales hasta acabados con ingredientes gourmet como trufas y caviar.
 
-class Pizza:
-    def __init__(self):
-        self.masa_type = None
-        self.sauce = None
-        self.ingredients = []
-        self.techniques = []
-        self.presentation = None
-        self.pairing = None  # maridaje
-        self.extras = []
 
-class PizzaBuilder:
-    def __init__(self):
-        self.pizza = Pizza()
+from typing import List, Optional
+from pydantic import BaseModel
 
-    def set_masa_type(self, masa_type):
-        self.pizza.masa_type = masa_type
-        return self
+from sqlalchemy.orm import Session
+from db.models import DbItem, Ingredient, Extra
 
-    def set_sauce(self, sauce):
-        self.pizza.sauce = sauce
-        return self
+class ItemBuilder:
+    def __init__(self, id: int, db: Session):
+        self.item = db.query(DbItem).filter(DbItem.id == id).first()
+        self.db = db
 
-    def add_ingredient(self, ingredient):
-        self.pizza.ingredients.append(ingredient)
-        return self
+    def get_property(self, property_name):
+        if self.item:
+            property_value = getattr(self.item, property_name)
+            if property_value:
+                return property_value.name
+        return None
 
-    def set_technique(self, technique):
-        self.pizza.techniques.append(technique)
-        return self
+    def build(self):
+        return self.item
 
-    def set_presentation(self, presentation):
-        self.pizza.presentation = presentation
-        return self
-
-    def set_pairing(self, pairing):  # maridaje
-        self.pizza.pairing = pairing
-        return self
-
-    def add_extra(self, extra):
-        self.pizza.extras.append(extra)
-        return self
-
-    def get_result(self) -> Pizza:
-        return self.pizza
-
-
+    def get_masa(self):
+        if self.item:
+            self.item.masa = self.get_property("masa")
+        return self.item.masa
+    
+    def get_salsa(self):
+        if self.item:
+            self.item.salsa = self.get_property("salsa")
+        return self.item.salsa
+    
+    def get_tecnica(self):
+        if self.item:
+            self.item.tecnica = self.get_property("tecnica")
+        return self.item.tecnica
+    
+    def get_presentacion(self):
+        if self.item:
+            self.item.presentacion = self.get_property("presentacion")
+        return self.item.presentacion
+    
+    def get_maridaje(self):
+        if self.item:
+            self.item.maridaje = self.get_property("maridaje")
+        return self.item.maridaje
+    
+    def get_ingredientes(self):
+        if self.item:
+            ingredientes = self.item.ingredientes
+            self.item.ingredientes = [ingrediente.name if ingrediente else None for ingrediente in ingredientes]
+        return self.item.ingredientes
+    
+    def get_extras(self):
+        if self.item:
+            extras = self.item.extras
+            self.item.extras = [extra.name if extra else None for extra in extras]
+        return self.item.extras

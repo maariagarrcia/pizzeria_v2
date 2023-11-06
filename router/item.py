@@ -16,6 +16,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 from db.models import  DbItem, Ingredient, Extra
+from builder import ItemBuilder  # Asegúrate de importar ItemBuilder desde el módulo adecuado
 
 
 router = APIRouter(
@@ -82,3 +83,52 @@ async def create_pedido(request: Item, db: Session = Depends(get_db)):
 
     # Devuelve el diccionario como respuesta
     return new_pedido_dict
+
+@router.get('/{item_id}', response_model=ItemDisplayModel)
+async def get_pedido(item_id: int, db: Session = Depends(get_db)):
+    # Busca el pedido en la base de datos
+    pedido = db.query(DbItem).filter(DbItem.id == item_id).first()
+
+    # Si no se encuentra el pedido, devuelve un error
+    if not pedido:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    # Crea un diccionario con los datos del pedido
+    pedido_dict = {
+        "masa": pedido.masa,
+        "salsa": pedido.salsa,
+        "ingredientes": [ingrediente.name for ingrediente in pedido.ingredientes],
+        "extras": [extra.name for extra in pedido.extras],
+        "tecnica": pedido.tecnica,
+        "presentacion": pedido.presentacion,
+        "maridaje": pedido.maridaje
+    }
+
+    # Devuelve el diccionario como respuesta
+    return pedido_dict
+
+
+
+
+@router.get('/{items_id}', response_model=ItemDisplayModel)
+async def get_pedido(items_id: int, db: Session = Depends(get_db)):
+    # Crear un ItemBuilder y configurarlo con el id y la sesión de la base de datos
+    item_builder = ItemBuilder(items_id, db)
+    
+    # Recuperar los detalles de la pizza desde la base de datos
+    item_builder.get_masa()
+    item_builder.get_salsa()
+    item_builder.get_tecnica()
+    item_builder.get_presentacion()
+    item_builder.get_maridaje()
+    item_builder.get_ingredientes()
+    item_builder.get_extras()
+    
+    # Construir el objeto de pizza con los detalles recuperados
+    pizza = item_builder.build()
+
+    if not pizza:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    # Devolver la pizza como respuesta
+    return pizza
