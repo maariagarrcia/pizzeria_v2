@@ -32,6 +32,7 @@
             const usernameElement = document.getElementById("username");
             const navbarNav = document.getElementById("navbar-nav");
             const logoutContainer = document.getElementById("logout-container");
+            const navbar = document.getElementById("navbar");
 
             if (username !== "") {
                 // If a user is logged in, display the username and hide the navigation bar
@@ -39,14 +40,19 @@
                 usernameElement.innerText = username;
                 navbarNav.style.display = "none";
                 logoutContainer.style.display = "block";
+                navbar.style.display = "block";
+
                 
             } else {
                 // If no user is logged in, hide the user-container and show the navigation bar
                 userContainer.style.display = "none";
                 navbarNav.style.display = "block";
                 logoutContainer.style.display = "none";
+                navbar.style.display = "none";
+
             }
         });
+        
         function cerrar_sesion() {
             document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -65,7 +71,8 @@
         <a class="navbar-brand" href="/templates/menu.html">Menú</a>
         <a class="navbar-brand" href="promociones.html">Promociones</a>
         <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
-    
+        <a class="navbar-brand" href="/templates/seccion_pedidos.html" id ="navbar">Pedidos<a>
+
         <ul class="navbar-nav" id="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="/templates/login.html">LOGIN</a>
@@ -87,7 +94,6 @@
                 <button onclick="cerrar_sesion()" class="btn btn-success">Cerrar Sesion</button>
             </div>
         </div>
-
 
     </nav>
 

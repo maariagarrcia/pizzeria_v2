@@ -105,7 +105,6 @@ async def create_pedido(request: Item, db: Session = Depends(get_db)):
         maridaje=new_pedido.maridaje,
         user=userr
     )
-    print(new_pedido_dict)
     # Devuelve el diccionario como respuesta
     return new_pedido_dict
 
