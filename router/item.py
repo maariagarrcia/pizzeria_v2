@@ -19,8 +19,11 @@ from typing import Optional
 from db import db_user
 from schemas import UserBaseModel, UserDisplayModel, ItemDisplayModel, ItemModel, Item, User
 
-from db.models import  DbItem, Ingredient, Extra
-from builder import ItemBuilder  # Asegúrate de importar ItemBuilder desde el módulo adecuado
+from db.models import DbItem, Ingredient, Extra
+
+
+# Asegúrate de importar ItemBuilder desde el módulo adecuado
+from builder import ItemBuilder
 
 
 from auth.oauth2 import get_current_user
@@ -31,10 +34,9 @@ router = APIRouter(
 )
 
 router.mount("/static/css/", StaticFiles(directory="static/css"), name="static")
-router.mount("/templates", StaticFiles(directory="templates"), name="templates")
+router.mount("/templates", StaticFiles(directory="templates"),
+             name="templates")
 templates = Jinja2Templates(directory="templates")
-
-
 
 
 @router.get('/crear')
@@ -44,12 +46,12 @@ async def mostrar_pedido(request: Request):
 
 @router.post('/submit', response_model=ItemDisplayModel)
 async def create_pedido(request: Item, db: Session = Depends(get_db)):
-    # Asegúrate de que request.ingredientes y request.extras sean listas vacías en lugar de listas vacías
+
     if not request.ingredientes:
         request.ingredientes = []
     if not request.extras:
         request.extras = []
-    
+
     # Crea un nuevo ítem en la tabla "items"
     new_pedido = DbItem(
         masa=request.masa,
@@ -57,8 +59,8 @@ async def create_pedido(request: Item, db: Session = Depends(get_db)):
         tecnica=request.tecnica,
         presentacion=request.presentacion,
         maridaje=request.maridaje,
+        user_id=request.creator_id
     )
-
 
     # Agrega ingredientes relacionados
     for ingrediente_name in request.ingredientes:
@@ -76,29 +78,43 @@ async def create_pedido(request: Item, db: Session = Depends(get_db)):
     db.refresh(new_pedido)
 
     # Crea un diccionario con los datos del nuevo pedido
-    new_pedido_dict = {
-        "masa": new_pedido.masa,
-        "salsa": new_pedido.salsa,
-        "ingredientes": [ingrediente.name for ingrediente in new_pedido.ingredientes],
-        "extras": [extra.name for extra in new_pedido.extras],
-        "tecnica": new_pedido.tecnica,
-        "presentacion": new_pedido.presentacion,
-        "maridaje": new_pedido.maridaje,
-        "user": {
-            "id": 1,
-            "username": "mery",
-        }
-    }
-    
+    # new_pedido_dict = {
+    # "masa": new_pedido.masa,
+    # "salsa": new_pedido.salsa,
+    # "ingredientes": [ingrediente.name for ingrediente in new_pedido.ingredientes],
+    # "extras": [extra.name for extra in new_pedido.extras],
+    # "tecnica": new_pedido.tecnica,
+    # "presentacion": new_pedido.presentacion,
+    # "maridaje": new_pedido.maridaje,
+    # "user": {
+    #     "id":new_pedido.user_id,
+    #     "username":"mery"
+    # }
+    # }
+
+    userr = User(id=request.creator_id, username=" ")
+
+    new_pedido_dict = ItemDisplayModel(
+        masa=new_pedido.masa,
+        salsa=new_pedido.salsa,
+        ingredientes=[
+            ingrediente.name for ingrediente in new_pedido.ingredientes],
+        extras=[extra.name for extra in new_pedido.extras],
+        tecnica=new_pedido.tecnica,
+        presentacion=new_pedido.presentacion,
+        maridaje=new_pedido.maridaje,
+        user=userr
+    )
+    print(new_pedido_dict)
     # Devuelve el diccionario como respuesta
     return new_pedido_dict
 
 
 @router.get('/{items_id}')
-async def get_pedido(items_id: int, db: Session = Depends(get_db),current_user:UserBaseModel =Depends(get_current_user)):
+async def get_pedido(items_id: int, db: Session = Depends(get_db), current_user: UserBaseModel = Depends(get_current_user)):
     # Crear un ItemBuilder y configurarlo con el id y la sesión de la base de datos
     item_builder = ItemBuilder(items_id, db)
-    
+
     # Recuperar los detalles de la pizza desde la base de datos
     item_builder.get_masa()
     item_builder.get_salsa()
@@ -108,7 +124,7 @@ async def get_pedido(items_id: int, db: Session = Depends(get_db),current_user:U
     item_builder.get_ingredientes()
     item_builder.get_extras()
     item_builder.get_user()
-   
+
     # Construir el objeto de pizza con los detalles recuperados
     pizza = item_builder.build()
 
@@ -117,5 +133,3 @@ async def get_pedido(items_id: int, db: Session = Depends(get_db),current_user:U
 
     # Devolver la pizza como respuesta
     return pizza
-
-    
