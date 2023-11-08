@@ -49,6 +49,13 @@
             }
         });
 
+        function cerrar_sesion() {
+            document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            window.location.href = "/templates/login.html";
+        }   
+        
+
 
     </script>
      
@@ -61,7 +68,7 @@
     </header>
 
     <nav class="navbar navbar-expand-lg navbar-dark justify-content-center" style="background-color: black">
-        <a class="navbar-brand" href="base.html">Inicio</a>
+        <a class="navbar-brand" href="/templates/base.html">Inicio</a>
         <a class="navbar-brand" href="/templates/menu.html">Menú</a>
         <a class="navbar-brand" href="/templates/promociones.html">Promociones</a>
         <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
@@ -84,7 +91,7 @@
         <div id="logout-container" style="display: none; margin-left: 10px;">
             <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
                 <span id="username" style="color: white;"></span>
-            <a href="/templates/logout.html">Cerrar Sesión</a>
+                <button onclick="cerrar_sesion()" class="btn btn-success">Cerrar Sesion</button>
             </div>
         </div>
 

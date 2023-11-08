@@ -30,10 +30,10 @@ def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depe
     access_token = oauth2.create_access_token(data={"sub": user.username})
 
     response= JSONResponse(content={"access_token": access_token, "token_type": "bearer", "user_id": user.id, "username": user.username})
-    response.set_cookie(key="access_token", value=f"{access_token}")
-    response.set_cookie(key="token_type", value="bearer")
-    response.set_cookie(key="user_id", value=f"{user.id}")
-    response.set_cookie(key="username", value=f"{user.username}")
+    response.set_cookie(key="access_token", value=f"{access_token}",max_age=10,expires=10)
+    response.set_cookie(key="token_type", value="bearer",max_age=10,expires=10)
+    response.set_cookie(key="user_id", value=f"{user.id}",max_age=10,expires=10)
+    response.set_cookie(key="username", value=f"{user.username}",max_age=10,expires=10)
 
     return response
 

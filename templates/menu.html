@@ -49,6 +49,12 @@
             }
         });
 
+        function cerrar_sesion() {
+            document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            window.location.href = "/templates/login.html";
+        } 
+
     </script>
 
 </head>
@@ -82,7 +88,7 @@
         <div id="logout-container" style="display: none; margin-left: 10px;">
             <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
                 <span id="username" style="color: white;"></span>
-            <a href="/templates/logout.html">Cerrar Sesión</a>
+                <button onclick="cerrar_sesion()" class="btn btn-success">Cerrar Sesion</button>
             </div>
         </div>
 
