@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from db.database import get_db
 
 from schemas import ItemDisplayModel, Item
-from auth.oauth2 import oauth2_scheme, get_current_user
+from auth.oauth2 import get_current_user
 
 
 from fastapi import Request
@@ -23,6 +23,8 @@ from db.models import  DbItem, Ingredient, Extra
 from builder import ItemBuilder  # Asegúrate de importar ItemBuilder desde el módulo adecuado
 
 
+from auth.oauth2 import get_current_user
+
 router = APIRouter(
     prefix='/item',
     tags=['Items']
@@ -39,6 +41,7 @@ templates = Jinja2Templates(directory="templates")
 async def mostrar_pedido(request: Request):
     return templates.TemplateResponse("pizza_personalizada.html", {"request": request})
 
+
 @router.post('/submit', response_model=ItemDisplayModel)
 async def create_pedido(request: Item, db: Session = Depends(get_db)):
     # Asegúrate de que request.ingredientes y request.extras sean listas vacías en lugar de listas vacías
@@ -46,7 +49,7 @@ async def create_pedido(request: Item, db: Session = Depends(get_db)):
         request.ingredientes = []
     if not request.extras:
         request.extras = []
-
+    
     # Crea un nuevo ítem en la tabla "items"
     new_pedido = DbItem(
         masa=request.masa,
@@ -54,8 +57,8 @@ async def create_pedido(request: Item, db: Session = Depends(get_db)):
         tecnica=request.tecnica,
         presentacion=request.presentacion,
         maridaje=request.maridaje,
-        user_id = request.creator_id
     )
+
 
     # Agrega ingredientes relacionados
     for ingrediente_name in request.ingredientes:
@@ -82,14 +85,13 @@ async def create_pedido(request: Item, db: Session = Depends(get_db)):
         "presentacion": new_pedido.presentacion,
         "maridaje": new_pedido.maridaje,
         "user": {
-            "id": new_pedido.user.id,
-            "username": new_pedido.user.username
+            "id": 1,
+            "username": "mery",
         }
     }
-
+    
     # Devuelve el diccionario como respuesta
     return new_pedido_dict
-
 
 
 @router.get('/{items_id}')

@@ -45,7 +45,7 @@ class DbItem(Base):
     tecnica = Column(String)
     presentacion = Column(String)
     maridaje = Column(String)
-
+    
     # Define las relaciones con las tablas Ingredient y Extra
     ingredientes = relationship("Ingredient", back_populates="item")
     extras = relationship("Extra", back_populates="item")

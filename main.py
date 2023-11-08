@@ -42,6 +42,7 @@ async def root(request: Request):
 
 # -- REDIRECCIONES: index.html pasa a ser archivo por defecto de la ruta
 # SE CREA EL DABATASE
+
 models.Base.metadata.create_all(engine)
 
 if __name__ == "__main__":

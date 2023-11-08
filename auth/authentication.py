@@ -6,6 +6,9 @@ from typing import Optional
 from db import models
 from db.hash import Hash
 from auth import oauth2
+from fastapi.responses import JSONResponse
+
+
 
 router = APIRouter(
     tags=["authentication"]
@@ -26,4 +29,11 @@ def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depe
 
     access_token = oauth2.create_access_token(data={"sub": user.username})
 
-    return {"access_token": access_token, "token_type": "bearer", "user_id": user.id, "username": user.username} 
+    response= JSONResponse(content={"access_token": access_token, "token_type": "bearer", "user_id": user.id, "username": user.username})
+    response.set_cookie(key="access_token", value=f"{access_token}")
+    response.set_cookie(key="token_type", value="bearer")
+    response.set_cookie(key="user_id", value=f"{user.id}")
+    response.set_cookie(key="username", value=f"{user.username}")
+
+    return response
+

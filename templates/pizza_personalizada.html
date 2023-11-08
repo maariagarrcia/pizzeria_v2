@@ -7,102 +7,99 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/style_templates.css">
     <script>
-    let selectedMaridaje = ""; // Variable para almacenar la selección de maridaje
+        let selectedMaridaje = ""; // Variable para almacenar la selección de maridaje
 
-    async function obtenerRecomendacionMaridaje() {
-        const tecnica = document.getElementById("tecnica").value;
-        // Genera recomendaciones de maridaje basadas en la técnica de cocción seleccionada
-        const recomendacionTecnica = generarRecomendacionTecnicaMaridaje(tecnica);
-        // Muestra la recomendación en el HTML
-        const tecnicaRecomendacionTexto = document.getElementById('tecnicaRecomendacionTexto');
-        tecnicaRecomendacionTexto.textContent = recomendacionTecnica;
-    }
+        async function obtenerRecomendacionMaridaje() {
+            const tecnica = document.getElementById("tecnica").value;
+            const maridaje = document.getElementById("maridaje").value; // Obtén el valor del maridaje seleccionado
+            selectedMaridaje = maridaje; // Asigna el valor del maridaje a la variable selectedMaridaje
 
-    function generarRecomendacionTecnicaMaridaje(tecnicaSeleccionada) {
-        // Define tus propias recomendaciones de maridaje basadas en la técnica de cocción
-        switch (tecnicaSeleccionada) {
-            case "Horno convencional":
-                return "Recomendación de maridaje para Horno convencional: Vino tinto.";
-            case "Horno de leña":
-                return "Recomendación de maridaje para Horno de leña: Cerveza artesanal.";
-            case "Sartén de hierro fundido":
-                return "Recomendación de maridaje para Sartén de hierro fundido: Vino blanco.";
-            default:
-                return "No hay recomendación de maridaje disponible.";
+            // Genera recomendaciones de maridaje basadas en la técnica de cocción seleccionada
+            const recomendacionTecnica = generarRecomendacionTecnicaMaridaje(tecnica);
+
+            // Muestra la recomendación en el HTML
+            const tecnicaRecomendacionTexto = document.getElementById('tecnicaRecomendacionTexto');
+            tecnicaRecomendacionTexto.textContent = recomendacionTecnica;
         }
-    }
 
-
-    async function send() {
-        var masa = document.getElementById("masa").value;
-        var salsa = document.getElementById("salsa").value;
-
-        var ingredientes = [];
-        var ingredientCheckboxes = document.getElementsByName("ingredientes[]");
-        for (var i = 0; i < ingredientCheckboxes.length; i++) {
-            if (ingredientCheckboxes[i].checked) {
-                ingredientes.push(ingredientCheckboxes[i].value);
+        function generarRecomendacionTecnicaMaridaje(tecnicaSeleccionada) {
+            // Define tus propias recomendaciones de maridaje basadas en la técnica de cocción
+            switch (tecnicaSeleccionada) {
+                case "Horno convencional":
+                    return "Recomendación de maridaje para Horno convencional: Vino tinto.";
+                case "Horno de leña":
+                    return "Recomendación de maridaje para Horno de leña: Cerveza artesanal.";
+                case "Sartén de hierro fundido":
+                    return "Recomendación de maridaje para Sartén de hierro fundido: Vino blanco.";
+                default:
+                    return "No hay recomendación de maridaje disponible.";
             }
         }
-
-        var extras = [];
-        var extraCheckboxes = document.getElementsByName("ingredientes[]");
-        for (var i = 0; i < extraCheckboxes.length; i++) {
-            if (extraCheckboxes[i].checked) {
-                extras.push(extraCheckboxes[i].value);
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+              let c = ca[i];
+              while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+              }
             }
+            return "";
         }
 
-        var tecnica = document.getElementById("tecnica").value;
-        var presentacion = document.getElementById("presentacion").value;
-
-        const pizzaData = {
-            masa: masa,
-            salsa: salsa,
-            ingredientes: ingredientes,
-            extras: extras,
-            tecnica: tecnica,
-            presentacion: presentacion,
-            maridaje: selectedMaridaje
-        };
-
-        const response = await fetch("http://127.0.0.1:8000/item/submit", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(pizzaData),
-        });
-
-        const json_response = await response.json();
-        console.log(json_response);
+        async function send() {            
             
-        // Genera recomendaciones de maridaje basadas en la técnica de cocción seleccionada
-        const recomendacionTecnica = generarRecomendacionTecnicaMaridaje(tecnica);
+            var masa = document.getElementById("masa").value;
+            var salsa = document.getElementById("salsa").value;
 
-        // Muestra la recomendación en el HTML
-        const tecnicaRecomendacionTexto = document.getElementById('tecnicaRecomendacionTexto');
-        tecnicaRecomendacionTexto.textContent = recomendacionTecnica;
-    }
+            var ingredientes = [];
+            var ingredientCheckboxes = document.getElementsByName("ingredientes[]");
+            for (var i = 0; i < ingredientCheckboxes.length; i++) {
+                if (ingredientCheckboxes[i].checked) {
+                    ingredientes.push(ingredientCheckboxes[i].value);
+                }
+            }
 
-    function generarRecomendacionTecnicaMaridaje(tecnicaSeleccionada) {
-        // Aquí puedes definir tus propias recomendaciones de maridaje basadas en la técnica de cocción
-        switch (tecnicaSeleccionada) {
-            case "Horno convencional":
-                return "Recomendación de maridaje para Horno convencional: Vino tinto.";
-            case "Horno de leña":
-                return "Recomendación de maridaje para Horno de leña: Cerveza artesanal.";
-            case "Sartén de hierro fundido":
-                return "Recomendación de maridaje para Sartén de hierro fundido: Vino blanco.";
-            default:
-                return "No hay recomendación de maridaje disponible.";
+            var extras = [];
+            var extraCheckboxes = document.getElementsByName("ingredientes[]");
+            for (var i = 0; i < extraCheckboxes.length; i++) {
+                if (extraCheckboxes[i].checked) {
+                    extras.push(extraCheckboxes[i].value);
+                }
+            }
+
+            var tecnica = document.getElementById("tecnica").value;
+            var presentacion = document.getElementById("presentacion").value;
+            var maridaje = document.getElementById("maridaje").value;
+
+            const pizzaData = {
+                masa: masa,
+                salsa: salsa,
+                ingredientes: ingredientes,
+                extras: extras,
+                tecnica: tecnica,
+                presentacion: presentacion,
+                maridaje: maridaje,
+                creator_id: getCookie("user_id"),
+            };
+
+            const response = await fetch("http://127.0.0.1:8000/item/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(pizzaData),
+            });
+
+            const json_response = await response.json();
+            console.log(json_response);
         }
-    }
-
-    
-
+        
     </script>
-
 </head>
 
 <body>
@@ -125,7 +122,7 @@
             </li>
         </ul>
     </nav>
-        
+
     <div class="scroll-container">
     <div class="scroll-contt">
     <div style="display: flex; justify-content: center; align-items: center;">
@@ -135,29 +132,29 @@
     </div>
 
 
-        <fieldset>
-        <label for="masa">Masa:</label>
-        <select name="masa" id="masa">
-            <option value="Masa Original">Masa Original</option>
-            <option value="Masa Finísima">Masa Finísima</option>
-            <option value="Masa Queso">Masa Queso</option>
-            <!-- Agrega más opciones de masa según sea necesario -->
-        </select>
-        </fieldset>
+    <fieldset>
+    <label for="masa">Masa:</label>
+    <select name="masa" id="masa">
+        <option value="Masa Original">Masa Original</option>
+        <option value="Masa Finísima">Masa Finísima</option>
+        <option value="Masa Queso">Masa Queso</option>
+        <!-- Agrega más opciones de masa según sea necesario -->
+    </select>
+    </fieldset>
 
 
-        <fieldset>
-        <label for="salsa">Salsa:</label>
-        <select name="salsa" id="salsa">
-            <option value="Salsa Tomate">Salsa Tomate</option>
-            <option value="Salsa Barbacoa">Salsa Barbacoa</option>
-            <option value="Salsa Chimichurri">Salsa Chimichurri</option>
-            <!-- Agrega más opciones de salsa según sea necesario -->
-        </select>
-        </fieldset>
+    <fieldset>
+    <label for="salsa">Salsa:</label>
+    <select name="salsa" id="salsa">
+        <option value="Salsa Tomate">Salsa Tomate</option>
+        <option value="Salsa Barbacoa">Salsa Barbacoa</option>
+        <option value="Salsa Chimichurri">Salsa Chimichurri</option>
+        <!-- Agrega más opciones de salsa según sea necesario -->
+    </select>
+    </fieldset>
 
  
-        <fieldset>
+    <fieldset>
             <label for="ingrediients">Ingredientes:</label>
             <input type="checkbox" name="ingredientes[]" id="peperoni" style="display: inline-block; margin-right: 5px;" value="Peperoni">
             <label for="peperoni" class="ingredient-label" style="display: inline-block; margin-right: 5px;" >Peperoni</label><br>
@@ -186,9 +183,9 @@
             <input type="checkbox" name="ingredientes[]" id="cebollaCaramelizada" style="display: inline-block; margin-right: 5px;" value="Cebolla Caramelizada">
             <label for="cebollaCaramelizada" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Cebolla Caramelizada</label><br>
 
-        </fieldset>
+    </fieldset>
 
-        <fieldset>
+    <fieldset>
             <label for="ingrediients">Extras:</label>
             <input type="checkbox" name="ingredientes[]" id="doble_queso" style="display: inline-block; margin-right: 5px;" value="doble_queso">
             <label for="doble_queso" class="ingredient-label" style="display: inline-block; margin-right: 5px;" >Doble de queso</label><br>
@@ -211,51 +208,54 @@
             <input type="checkbox" name="ingredientes[]" id="doble_cebolla" style="display: inline-block; margin-right: 5px;" value="doble_cebolla">
             <label for="doble_cebolla" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de Cebolla Caramelizada</label><br>
 
-        </fieldset>
+    </fieldset>
 
-        <fieldset>
-        <label for="tecnica">Tecnica:</label>
-        <select name="tecnica" id="tecnica">
-            <option value="Horno convencional">Horno convencional</option>
-            <option value="Horno de leña">Horno de leña</option>
-            <option value="Sartén de hierro fundido">Sartén de hierro fundido</option>
+    <fieldset>
+    <label for="tecnica">Tecnica:</label>
+    <select name="tecnica" id="tecnica">
+        <option value="Horno convencional">Horno convencional</option>
+        <option value="Horno de leña">Horno de leña</option>
+        <option value="Sartén de hierro fundido">Sartén de hierro fundido</option>
 
-        </select>
-        </fieldset>
+    </select>
+    </fieldset>
 
-        <fieldset>
-        <label for="presentacion">Presentacion:</label>
-        <select name="presentacion" id="presentacion">
-            <option value="Pizza pequeña">Pizza pequeña</option>
-            <option value="Pizza mediana">Pizza mediana</option>
-            <option value="Pizza familiar">Pizza familiar</option>
+    <fieldset>
+    <label for="presentacion">Presentacion:</label>
+    <select name="presentacion" id="presentacion">
+        <option value="Pizza pequeña">Pizza pequeña</option>
+        <option value="Pizza mediana">Pizza mediana</option>
+        <option value="Pizza familiar">Pizza familiar</option>
 
-        </select>
-        </fieldset>
+    </select>
+    </fieldset>
 
  
-        <fieldset>
-            <label for="maridaje">Maridaje:</label>
-            <select name="maridaje" id="maridaje">
-                <option value="Vino tinto">Vino tinto</option>
-                <option value="Cerveza artesanal">Cerveza artesanal</option>
-                <option value="Vino blanco">Vino blanco</option>
-                <!-- Agrega más opciones de maridaje según sea necesario -->
-            </select>
-        </fieldset>
+    <fieldset>
+        <label for="maridaje">Maridaje:</label>
+        <select name="maridaje" id="maridaje">
+            <option value="Vino tinto">Vino tinto</option>
+            <option value="Cerveza artesanal">Cerveza artesanal</option>
+            <option value="Vino blanco">Vino blanco</option>
+            <!-- Agrega más opciones de maridaje según sea necesario -->
+        </select>
+    </fieldset>
 
-        <div id="tecnicaRecomendaciones" class="mt-4 mb-4 border p-3" style="font-size: 18px;">
-            <h5 class="text-primary">Recomendaciones de Maridaje según Técnica de Cocción:</h5>
-            <h5 class="text-primary" id="tecnicaRecomendacionTexto" class="mt-4"></h5>
-        </div>
-
-
-        <br>
+    <div id="tecnicaRecomendaciones" class="mt-4 mb-4 border p-3" style="font-size: 18px;">
+        <h5 class="text-primary">Recomendaciones de Maridaje según Técnica de Cocción:</h5>
+        <h5 class="text-primary" id="tecnicaRecomendacionTexto" class="mt-4"></h5>
+    </div>
 
 
-        <button onclick="obtenerRecomendacionMaridaje()" class="btn btn-primary">Recomendación Maridaje</button>
-        <button onclick="send()" class="btn btn-success">Crear</button>
+
+    <button onclick="obtenerRecomendacionMaridaje()" class="btn btn-primary">Recomendación Maridaje</button>
+    <button onclick="send()" class="btn btn-success">Crear</button>
+
 
     </form>
+
+
+
+
 </body>
 </html>

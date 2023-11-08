@@ -7,6 +7,8 @@ from fastapi import Depends, HTTPException, status
 from db.database import get_db
 from sqlalchemy.orm.session import Session
 from db import db_user
+from db.db_user import *
+
  
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
  
@@ -28,7 +30,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
   return encoded_jwt
 
-def get_current_user(token: str = Depends(oauth2_scheme),db: Session = Depends(get_db)):
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
   # standard way to raise an exception of authentication user 
   credentials_exception = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,
@@ -45,8 +47,8 @@ def get_current_user(token: str = Depends(oauth2_scheme),db: Session = Depends(g
 
   except JWTError:
     raise credentials_exception
-
-  user = db_user.get_user_by_username(db, username=username)
+  
+  user = db_user.CrudUser.get_user_by_username(username,db)
 
   if user is None:
     raise credentials_exception
