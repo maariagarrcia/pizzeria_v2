@@ -32,19 +32,22 @@
             const userContainer = document.getElementById("success-message");
             const usernameElement = document.getElementById("username");
             const navbarNav = document.getElementById("navbar-nav");
+            const logoutContainer = document.getElementById("logout-container");
 
             if (username !== "") {
                 // If a user is logged in, display the username and hide the navigation bar
                 userContainer.style.display = "block";
                 usernameElement.innerText = username;
                 navbarNav.style.display = "none";
+                logoutContainer.style.display = "block";
+                
             } else {
                 // If no user is logged in, hide the user-container and show the navigation bar
                 userContainer.style.display = "none";
                 navbarNav.style.display = "block";
+                logoutContainer.style.display = "none";
             }
         });
-
 
     </script>
 
@@ -74,6 +77,13 @@
             <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
                 <span id="username" style="color: white;"></span>
         </div>
+        </div>
+        
+        <div id="logout-container" style="display: none; margin-left: 10px;">
+            <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
+                <span id="username" style="color: white;"></span>
+            <a href="/templates/logout.html">Cerrar Sesión</a>
+            </div>
         </div>
 
     </nav>
