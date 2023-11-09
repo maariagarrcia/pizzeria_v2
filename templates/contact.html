@@ -26,7 +26,8 @@
             }
 
             const username = getCookie("username");
-            
+
+
             // Get the elements
             const userContainer = document.getElementById("success-message");
             const usernameElement = document.getElementById("username");
@@ -52,13 +53,12 @@
 
             }
         });
-        
+
         function cerrar_sesion() {
             document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             window.location.href = "/templates/login.html";
         } 
-
     </script>
 </head>
 <body>
@@ -69,7 +69,7 @@
         <a class="navbar-brand" href="/templates/base.html">Inicio</a>
         <a class="navbar-brand" href="/templates/menu.html">Menú</a>
         <a class="navbar-brand" href="/templates/promociones.html">Promociones</a>
-        <a class="navbar-brand" href="contact.html">Contacto</a>
+        <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
         <a class="navbar-brand" href="/templates/seccion_pedidos.html" id ="navbar">Pedidos<a>
 
         <ul class="navbar-nav" id="navbar-nav">
@@ -79,16 +79,16 @@
             <li class="nav-item">
                 <a class="nav-link" href="/templates/register.html">REGISTRO</a>
             </li>
-        </ul>
 
+        </ul>   
+    
         <div id="success-message" style="display: none; margin-left: 70px;">
-            <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
-                <span id="username" style="color: white;"></span>
+            <div id="user-container" style="border: 1px solid #577796; padding: 6px; background-color: #29465B; border-radius: 8px;">
+                <span id="username" style="color: white; font-size: 18px; font-weight: bold;"></span>
             </div>
         </div>
-        
+
         <div id="logout-container" style="display: none; margin-left: 10px;">
-            <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
                 <span id="username" style="color: white;"></span>
                 <button onclick="cerrar_sesion()" class="btn btn-success">Cerrar Sesion</button>
             </div>
@@ -109,11 +109,14 @@
             <li>Teléfono: 123-456-789</li>
             <li>Correo electrónico: info@pizzeriadeliciosa.com</li>
             <li>Dirección: Calle de la Pizza, 123, Ciudad</li>
+            <li>Horario de atención: Lunes a Viernes de 9:00 a 18:00</li>
+
         <div style="display: flex; justify-content: center; align-items: center;">
             <hr style="flex: 1; border: 7px solid #577796; margin-top:40px; margin-bottom:30px">
             <span style="padding: 0 10px; color: #577796 ;font-size: 33px;margin-top:30px;margin-bottom:26px ;">FORMULARIO DE CONTACTO</span>
             <hr style="flex: 1; border: 7px solid #577796;margin-top:40px; margin-bottom:30px">
         </div>
+
         <h4>Si prefiere, puede utilizar el siguiente formulario para enviarnos un mensaje:</h4>
         <form action="/templates/confirmacion.html" method="get">
             <div class="form-group">
@@ -131,9 +134,10 @@
                 <textarea class="form-control" id="mensaje" name="mensaje" rows="4" required style="background-color: black;"></textarea>
             </div>
 
-
             <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
+    </div>
+    </div>
     </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

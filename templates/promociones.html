@@ -52,7 +52,6 @@
 
             }
         });
-        
         function cerrar_sesion() {
             document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -69,7 +68,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark justify-content-center" style="background-color: black;">
         <a class="navbar-brand" href="/templates/base.html">Inicio</a>
         <a class="navbar-brand" href="/templates/menu.html">Menú</a>
-        <a class="navbar-brand" href="promociones.html">Promociones</a>
+        <a class="navbar-brand" href="/templates/promociones.html">Promociones</a>
         <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
         <a class="navbar-brand" href="/templates/seccion_pedidos.html" id ="navbar">Pedidos<a>
 
@@ -80,16 +79,16 @@
             <li class="nav-item">
                 <a class="nav-link" href="/templates/register.html">REGISTRO</a>
             </li>
-        </ul>
 
+        </ul>   
+    
         <div id="success-message" style="display: none; margin-left: 70px;">
-        <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
-            <span id="username" style="color: white;"></span>
+            <div id="user-container" style="border: 1px solid #577796; padding: 6px; background-color: #29465B; border-radius: 8px;">
+                <span id="username" style="color: white; font-size: 18px; font-weight: bold;"></span>
+            </div>
         </div>
-        </div>
-        
+
         <div id="logout-container" style="display: none; margin-left: 10px;">
-            <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
                 <span id="username" style="color: white;"></span>
                 <button onclick="cerrar_sesion()" class="btn btn-success">Cerrar Sesion</button>
             </div>
@@ -106,12 +105,16 @@
                 <span style="padding: 0 10px; color: #577796 ;font-size: 33px; ;">¡PROMOCIÓN DE LA SEMANA!</span>
             <hr style="flex: 1; border: 7px solid #577796;">
             </div>
+
             <img src="/static/images/pizza_promocion.png" alt="Promoción de la semana" width="700px" height ="425px" style=" margin-left:350px;margin-top: 20px;">
+           
             <p>Esta semana, disfruta de nuestra deliciosa Pizza Barrosa a mitad de precio. ¡No te lo pierdas!</p>
             <p> Creada por uno de nuestos clientes</p>
             <p>¡Promoción válida hasta el 15 de febrero!</p>
         </div>
-
+    
+    </div>
+    </div>
     </div>
 </body>
 </html>

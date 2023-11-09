@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú de Pizzería</title> 
-    <!-- Enlaza los archivos CSS de Bootstrap para el header y la navegación -->
+    <title>Pizzería deliciosamente suya</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/style_templates.css">
+    <link rel="stylesheet"  href="/static/css/style_templates.css">
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Function to get a cookie value by name
@@ -27,6 +26,7 @@
             }
 
             const username = getCookie("username");
+
 
             // Get the elements
             const userContainer = document.getElementById("success-message");
@@ -61,7 +61,7 @@
         } 
 
     </script>
-
+    
 </head>
 <body>
     <header class="jumbotron mb-0">
@@ -71,7 +71,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark justify-content-center" style="background-color: black;">
         <a class="navbar-brand" href="/templates/base.html">Inicio</a>
         <a class="navbar-brand" href="/templates/menu.html">Menú</a>
-        <a class="navbar-brand" href="promociones.html">Promociones</a>
+        <a class="navbar-brand" href="/templates/promociones.html">Promociones</a>
         <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
         <a class="navbar-brand" href="/templates/seccion_pedidos.html" id ="navbar">Pedidos<a>
 
@@ -86,20 +86,18 @@
         </ul>   
     
         <div id="success-message" style="display: none; margin-left: 70px;">
-            <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
-                <span id="username" style="color: white;"></span>
+            <div id="user-container" style="border: 1px solid #577796; padding: 6px; background-color: #29465B; border-radius: 8px;">
+                <span id="username" style="color: white; font-size: 18px; font-weight: bold;"></span>
+            </div>
         </div>
-        </div>
-        
+
         <div id="logout-container" style="display: none; margin-left: 10px;">
-            <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
                 <span id="username" style="color: white;"></span>
                 <button onclick="cerrar_sesion()" class="btn btn-success">Cerrar Sesion</button>
             </div>
         </div>
 
     </nav>
-
     <div class="scroll-container">
     <div class="scroll-conten">
     <div class="container">
@@ -121,6 +119,8 @@
                 <button class="stylish-button"> CREAR PIZZA </button>
             </a>
         </div>
+    </div>
+    </div>
     </div>
 </body>
 </html>
