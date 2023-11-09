@@ -34,6 +34,7 @@
             const navbarNav = document.getElementById("navbar-nav");
             const logoutContainer = document.getElementById("logout-container");
             const navbar = document.getElementById("navbar");
+            const crear_pizza = document.getElementById("crear_pizza");
 
             if (username !== "") {
                 // If a user is logged in, display the username and hide the navigation bar
@@ -42,6 +43,7 @@
                 navbarNav.style.display = "none";
                 logoutContainer.style.display = "block";
                 navbar.style.display = "block";
+                crear_pizza.style.display = "block";
 
                 
             } else {
@@ -50,6 +52,7 @@
                 navbarNav.style.display = "block";
                 logoutContainer.style.display = "none";
                 navbar.style.display = "none";
+                crear_pizza.style.display = "none";
 
             }
         });
@@ -113,7 +116,7 @@
         <h5> ¡A que esperas para disfrutar de tu pizza personalizada!</h5>
         <h4> Desde 8.99€ </h4>
 
-        <div class="menu-item">
+        <div class="menu-item" id=crear_pizza>
             <a href="/templates/pizza_personalizada.html">
                 <button class="btn btn-primary"> CREAR PIZZA </button>
             </a>
