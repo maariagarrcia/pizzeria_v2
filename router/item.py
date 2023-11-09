@@ -65,3 +65,4 @@ async def update_pedido(items_id: int, request: Item, db: Session = Depends(get_
 async def delete_pedido(items_id: int, db: Session = Depends(get_db)):
     pedido = CrudItems.delete_pedido(items_id, db)
     return pedido
+

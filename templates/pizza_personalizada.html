@@ -52,13 +52,15 @@
             return "";
         }
 
+
         async function send() {         
             const createMessage = document.getElementById("create-message");
             createMessage.style.display = "block";
 
             const form = document.getElementById("create-form");
             form.style.display = "none";
-   
+
+
             var masa = document.getElementById("masa").value;
             var salsa = document.getElementById("salsa").value;
 
@@ -101,8 +103,14 @@
                 body: JSON.stringify(pizzaData),
             });
 
+
+
             const json_response = await response.json();
+            window.scrollTo(0, 0);
             console.log(json_response);
+            // Llama a la función para obtener el último pedido cuando sea necesario
+
+
         }
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -124,6 +132,8 @@
             }
 
             const username = getCookie("username");
+            const id = getCookie("pedido_id");
+
 
             // Get the elements
             const userContainer = document.getElementById("success-message");
@@ -133,6 +143,7 @@
             const navbar = document.getElementById("navbar");
             const createMessage = document.getElementById("create-message");
             const createForm = document.getElementById("create-form");
+            const idElement = document.getElementById("id");
 
             if (username !== "") {
                 // If a user is logged in, display the username and hide the navigation bar
@@ -209,6 +220,7 @@
 
         <div id="create-message" style="display: none; color: green; margin-top: 90px; ">
             <h5 style="color: green; ">Pedido Creado Con Éxito :) </h5>
+
             <img src="https://icones.pro/wp-content/uploads/2021/03/symbole-visage-souriant-vert.png" style="width: 150px; height: 150px; margin-left:650px">
         </div>
 

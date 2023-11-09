@@ -7,6 +7,9 @@ from abc import ABC, abstractmethod
 from db.models import DbItem, Ingredient, Extra
 from schemas import ItemDisplayModel, ItemModel, Item, UserBaseModel, UserDisplayModel
 from schemas import UserBaseModel, UserDisplayModel, ItemDisplayModel, ItemModel, Item, User
+from fastapi.responses import JSONResponse
+
+
 
 
 class CrudItemsInterfaz:
@@ -83,7 +86,13 @@ class CrudItems(CrudItemsInterfaz):
             maridaje=new_pedido.maridaje,
             user=userr
         )
-        # Devuelve el diccionario como respuesta
+        
+        new_pedido_id = new_pedido.id
+        response= JSONResponse(content={"pedido_id":  new_pedido.id})
+        response.set_cookie(key="pedido_id", value=f"{new_pedido.id}")
+
+        
+        print(f"Pedido creado con ID: {new_pedido_id}")
         return new_pedido_dict    
     
 
