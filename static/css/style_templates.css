@@ -31,13 +31,12 @@ nav {
     color: #ecf0f1; /* Color de texto blanco */
     border: 1px solid #0f0f10; /* Borde azul oscuro */
     text-align: center;
-    padding: 15px;
 }
 
 nav a {
     color: #ecf0f1; /* Color de texto blanco */
     text-decoration: none;
-    margin: 0 10px;
+    margin: 0 7px;
 }
 
 nav a:hover {

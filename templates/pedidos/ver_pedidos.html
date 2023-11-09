@@ -53,6 +53,10 @@
             }
         });
 
+        async function send() {
+
+        }
+
 
     </script>
 </head>
@@ -84,13 +88,11 @@
     </div>
     </div>
 
-        <div id="logout-container" style="display: none; margin-left: 10px;">
-            <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
+       <div id="logout-container" style="display: none; margin-left: 10px;">
                 <span id="username" style="color: white;"></span>
                 <button onclick="cerrar_sesion()" class="btn btn-success">Cerrar Sesion</button>
             </div>
         </div>
-
     </nav>
 
     <!-- Contenido -->
@@ -104,11 +106,9 @@
                 </div>
                 <br>
 
-                <div class="menu-item">
-                    <a href="/templates/pedidos/ver_pedidos_detallados.html">
-                        <button class="stylish-button"> VER PEDIDOS DETALLADOS </button>
-                    </a>
-                </div>
+               
+               <button onclick="send()" class="btn btn-success">Enviar</button>
+               
 
             </div>
         </div>
@@ -117,4 +117,3 @@
 </body>
 
 </html>
-```
