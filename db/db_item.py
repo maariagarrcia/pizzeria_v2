@@ -87,7 +87,6 @@ class CrudItems(CrudItemsInterfaz):
         return new_pedido_dict    
     
 
-    
     @staticmethod
     def get_pedido_by_id(items_id: int, db: Session):
         try:
@@ -114,9 +113,7 @@ class CrudItems(CrudItemsInterfaz):
         except Exception as e:
             print(f"Error en get_pedido_by_id: {e}")
             raise
-
-
-    
+ 
     @staticmethod
     def update_pedido(id:int,db:Session,request:Item):
         pedido = CrudItems.get_pedido_by_id(id, db)
