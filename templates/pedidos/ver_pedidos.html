@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
+    <title>Ver Pedidos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/style_templates.css">
     <script>
@@ -41,22 +41,56 @@
                 navbarNav.style.display = "none";
                 logoutContainer.style.display = "block";
                 navbar.style.display = "block";
-
-                
             } else {
                 // If no user is logged in, hide the user-container and show the navigation bar
                 userContainer.style.display = "none";
                 navbarNav.style.display = "block";
                 logoutContainer.style.display = "none";
                 navbar.style.display = "none";
-
             }
         });
 
         async function send() {
+            const pedidoInfo = document.getElementById("pedidoInfo");
+            pedidoInfo.style.display = "block";
 
+            const pedidoIdInput = document.getElementById("pedidoId");
+            const pedidoId = parseInt(pedidoIdInput.value);
+
+            if (isNaN(pedidoId)) {
+                console.error("El valor de pedidoId no es un número entero válido.");
+                return;
+            }
+
+            const response = await fetch(`http://127.0.0.1:8000/item/${pedidoId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const json_response = await response.json();
+            console.log(json_response);
+                        // Actualizar el contenido del elemento con la información del pedido
+                        
+            const pedidoInfoContainer = document.getElementById("pedidoInfo");
+            // Actualizar el contenido del elemento con la información del pedido
+            document.getElementById("masaValue").innerText = json_response.masa;
+            document.getElementById("presentacionValue").innerText = json_response.presentacion;
+            document.getElementById("salsaValue").innerText = json_response.salsa;
+            document.getElementById("tecnicaValue").innerText = json_response.tecnica;              
+            document.getElementById("maridajeValue").innerText = json_response.maridaje;
+
+            // Mostrar solo los nombres de los elementos en la lista de extras
+            const extrasNames = json_response.extras.map(extra => extra.name).join(', ');
+            document.getElementById("extrasValue").innerText = extrasNames;
+            
+            // Mostrar solo los nombres de los elementos en la lista de ingredientes
+            const ingredientesNames = json_response.ingredientes.map(ingrediente => ingrediente.name).join(', ');
+            document.getElementById("ingredientesValue").innerText = ingredientesNames;
         }
 
+        
 
     </script>
 </head>
@@ -70,7 +104,7 @@
         <a class="navbar-brand" href="/templates/menu.html">Menú</a>
         <a class="navbar-brand" href="/templates/promociones.html">Promociones</a>
         <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
-        <a class="navbar-brand" href="/templates/seccion_pedidos.html" id ="navbar">Pedidos<a>
+        <a class="navbar-brand" href="/templates/seccion_pedidos.html" id="navbar">Pedidos<a>
 
         <ul class="navbar-nav" id="navbar-nav">
             <li class="nav-item">
@@ -79,19 +113,17 @@
             <li class="nav-item">
                 <a class="nav-link" href="/templates/register.html">REGISTRO</a>
             </li>
-
         </ul>   
     
-    <div id="success-message" style="display: none; margin-left: 70px;">
-        <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
-            <span id="username" style="color: white;"></span>
-    </div>
-    </div>
-
-       <div id="logout-container" style="display: none; margin-left: 10px;">
+        <div id="success-message" style="display: none; margin-left: 70px;">
+            <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
                 <span id="username" style="color: white;"></span>
-                <button onclick="cerrar_sesion()" class="btn btn-success">Cerrar Sesion</button>
             </div>
+        </div>
+
+        <div id="logout-container" style="display: none; margin-left: 10px;">
+            <span id="username" style="color: white;"></span>
+            <button onclick="cerrar_sesion()" class="btn btn-primary">Cerrar Sesion</button>
         </div>
     </nav>
 
@@ -105,15 +137,40 @@
                     <hr style="flex: 1; border: 7px solid #577796;">
                 </div>
                 <br>
+                <label for="pedidoId">Selecciona el ID del pedido:</label>
+                <input type="text" id="pedidoId" name="pedidoId">
 
-               
-               <button onclick="send()" class="btn btn-success">Enviar</button>
-               
+                <div class="menu-item">
+                    <button onclick="send()" class="btn btn-primary">Obtener Pedido</button>
+                </div>
+
+        <div id="pedidoInfo" style="margin-top: 20px; background-color: black; padding: 20px; border-radius: 8px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); border: 1px solid ; display: none;">
+            <h3 style="color: #577796; text-align: center; margin-bottom: 15px;">Información del Pedido</h3>
+
+            <div style="border-bottom: 1px solid; margin-bottom: 15px ;"></div>
+
+            <div style="margin-bottom: 15px;">
+                <h5 style="color: #577796;"><strong>Masa:</strong> <span id="masaValue"></span></h5>
+                <h5 style="color: #577796;"><strong>Presentación:</strong> <span id="presentacionValue"></span></h5>
+                <h5 style="color: #577796;"><strong>Salsa:</strong> <span id="salsaValue"></span></h5>
+                <h5 style="color: #577796;"><strong>Técnica:</strong> <span id="tecnicaValue"></span></h5>
+                <h5 style="color: #577796;"><strong>Maridaje:</strong> <span id="maridajeValue"></span></h5>
 
             </div>
+
+
+            <div style="margin-bottom: 15px;">
+                <h5 style="color: #577796;"><strong>Extras:</strong> <span id="extrasValue"></span></h5>
+            </div>
+
+
+            <div style="margin-bottom: 15px;">
+                <h5 style="color: #577796;"><strong>Ingredientes:</strong> <span id="ingredientesValue"></span></h5>
+            </div>
+
+        </div>
+        </div>
         </div>
     </div>
-
 </body>
-
 </html>
