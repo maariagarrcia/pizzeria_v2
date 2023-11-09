@@ -1,19 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
+    <title>Crea Tu Pizza Personalizada</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/style_templates.css">
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        let selectedMaridaje = ""; // Variable para almacenar la selección de maridaje
+
+        async function obtenerRecomendacionMaridaje() {
+            const tecnica = document.getElementById("tecnica").value;
+            const maridaje = document.getElementById("maridaje").value; // Obtén el valor del maridaje seleccionado
+            selectedMaridaje = maridaje; // Asigna el valor del maridaje a la variable selectedMaridaje
+
+            // Genera recomendaciones de maridaje basadas en la técnica de cocción seleccionada
+            const recomendacionTecnica = generarRecomendacionTecnicaMaridaje(tecnica);
+
+            // Muestra la recomendación en el HTML
+            const tecnicaRecomendacionTexto = document.getElementById('tecnicaRecomendacionTexto');
+            tecnicaRecomendacionTexto.textContent = recomendacionTecnica;
+        }
+
+        function generarRecomendacionTecnicaMaridaje(tecnicaSeleccionada) {
+            // Define tus propias recomendaciones de maridaje basadas en la técnica de cocción
+            switch (tecnicaSeleccionada) {
+                case "Horno convencional":
+                    return "Recomendación de maridaje para Horno convencional: Vino tinto.";
+                case "Horno de leña":
+                    return "Recomendación de maridaje para Horno de leña: Cerveza artesanal.";
+                case "Sartén de hierro fundido":
+                    return "Recomendación de maridaje para Sartén de hierro fundido: Vino blanco.";
+                default:
+                    return "No hay recomendación de maridaje disponible.";
+            }
+        }
+
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        async function mostrar() {
+            const pedidoInfo = document.getElementById("pedidoInfo");
+            pedidoInfo.style.display = "block";
+
+            const pedidoIdInput = document.getElementById("pedidoId");
+            const pedidoId = parseInt(pedidoIdInput.value);
+
+            if (isNaN(pedidoId)) {
+                console.error("El valor de pedidoId no es un número entero válido.");
+                return;
+            }
+
+            const response = await fetch(`http://127.0.0.1:8000/item/get_id/${pedidoId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const json_response = await response.json();
+            console.log(json_response);
+
+            const pedidoInfoContainer = document.getElementById("pedidoInfo");
+            // Actualizar el contenido del elemento con la información del pedido
+            document.getElementById("masaValue").innerText = json_response.masa;
+            document.getElementById("presentacionValue").innerText = json_response.presentacion;
+            document.getElementById("salsaValue").innerText = json_response.salsa;
+            document.getElementById("tecnicaValue").innerText = json_response.tecnica;              
+            document.getElementById("maridajeValue").innerText = json_response.maridaje;
+
+            // Mostrar solo los nombres de los elementos en la lista de extras
+            const extrasNames = json_response.extras.map(extra => extra.name).join(', ');
+            document.getElementById("extrasValue").innerText = extrasNames;
+            
+            // Mostrar solo los nombres de los elementos en la lista de ingredientes
+            const ingredientesNames = json_response.ingredientes.map(ingrediente => ingrediente.name).join(', ');
+            document.getElementById("ingredientesValue").innerText = ingredientesNames;            
+            mostrarCamposModificacion(json_response);
+
+        }
+
+        async function send() {
+            const pedidoIdInput = document.getElementById("pedidoId");
+            const pedidoId = parseInt(pedidoIdInput.value);     
+
+            const modificar = document.getElementById('modificar');
+            modificar.style.display = 'none';     
+
+            const pedidoInfo = document.getElementById("pedidoInfo");
+            pedidoInfo.style.display = "none";
+
+            const updateMessage = document.getElementById('update-message');
+            updateMessage.style.display = 'block';
+
+
+            var masa = document.getElementById("masa").value;
+            var salsa = document.getElementById("salsa").value;     
+
+            var ingredientes = [];
+            var ingredientCheckboxes = document.getElementsByName("ingredientes[]");
+            for (var i = 0; i < ingredientCheckboxes.length; i++) {
+                if (ingredientCheckboxes[i].checked) {
+                    ingredientes.push(ingredientCheckboxes[i].value);
+                }
+            }       
+
+            var extras = [];
+            var extraCheckboxes = document.getElementsByName("extras[]");
+            for (var i = 0; i < extraCheckboxes.length; i++) {
+                if (extraCheckboxes[i].checked) {
+                    extras.push(extraCheckboxes[i].value);
+                }
+            }       
+
+            var tecnica = document.getElementById("tecnica").value;
+            var presentacion = document.getElementById("presentacion").value;
+            var maridaje = document.getElementById("maridaje").value;       
+
+            const pizzaData = {
+                masa: masa,
+                salsa: salsa,
+                ingredientes: ingredientes,
+                extras: extras,
+                tecnica: tecnica,
+                presentacion: presentacion,
+                maridaje: maridaje,
+                creator_id: getCookie("user_id"),
+            };      
+
+            const response = await fetch(`http://127.0.0.1:8000/item/put/${pedidoId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(pizzaData),
+            });     
+
+            const json_response = await response.json();
+            console.log(json_response);
+            }
+
+
+        function mostrarCamposModificacion(pedidoData) {
+            const modificar = document.getElementById('modificar');
+            modificar.style.display = 'block';
+
+        
+            const updateMessage = document.getElementById('update-message');
+            updateMessage.style.display = 'none';
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
             // Function to get a cookie value by name
             function getCookie(cname) {
                 let name = cname + "=";
                 let decodedCookie = decodeURIComponent(document.cookie);
                 let ca = decodedCookie.split(';');
-                for(let i = 0; i < ca.length; i++) {
+                for (let i = 0; i < ca.length; i++) {
                     let c = ca[i];
                     while (c.charAt(0) == ' ') {
                         c = c.substring(1);
@@ -41,39 +198,23 @@
                 navbarNav.style.display = "none";
                 logoutContainer.style.display = "block";
                 navbar.style.display = "block";
-
-                
             } else {
                 // If no user is logged in, hide the user-container and show the navigation bar
                 userContainer.style.display = "none";
                 navbarNav.style.display = "block";
                 logoutContainer.style.display = "none";
                 navbar.style.display = "none";
-
             }
         });
 
-        async function send() {
-            const pedidoIdInput = document.getElementById("pedidoId");
-            const pedidoId = parseInt(pedidoIdInput.value);
-
-            if (isNaN(pedidoId)) {
-                console.error("El valor de pedidoId no es un número entero válido.");
-                return;
-            }
-
-            const response = await fetch(`http://127.0.0.1:8000/item/put/${pedidoId}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                // No es necesario enviar un cuerpo en la solicitud DELETE
-            });
-
-
+        function cerrar_sesion() {
+            document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            window.location.href = "/templates/login.html";
         }
     </script>
 </head>
+
 <body>
     <header class="jumbotron mb-0">
         <h1 class="display-4">Pizza a la Carta</h1>
@@ -102,11 +243,9 @@
         </div>
 
         <div id="logout-container" style="display: none; margin-left: 10px;">
-                <span id="username" style="color: white;"></span>
-                <button onclick="cerrar_sesion()" class="btn btn-primary">Cerrar Sesion</button>
-            </div>
+            <span id="username" style="color: white;"></span>
+            <button onclick="cerrar_sesion()" class="btn btn-primary">Cerrar Sesion</button>
         </div>
-
     </nav>
 
 
@@ -120,20 +259,167 @@
                     <hr style="flex: 1; border: 7px solid #577796;">
                 </div>
                 <br>
-
+                
+                <label for="pedidoId">Selecciona el ID del pedido:</label>
+                <input type="text" id="pedidoId" name="pedidoId">
                 <div class="menu-item">
-                    <a href="/templates/pizza_personalizada.html">
-                        <button class="stylish-button"> CREAR PEDIDO PERSONALIZADO </button>
-                    </a>
+                    <button onclick="mostrar()" class="btn btn-primary">Obtener Pedido</button>
                 </div>
-                <!-- Otros elementos o botones para crear pedidos -->
+                
+                <div id="update-message" style="display: none; color: green; margin-top: 10px;">
+                    <h5 style="color: green; ">Pedido Modificado Con Éxito :) </h5>
+                </div>
+
+        <div id="pedidoInfo" style="margin-top: 20px; background-color: black; padding: 20px; border-radius: 8px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); border: 1px solid ; display: none;">
+            <h3 style="color: #577796; text-align: center; margin-bottom: 15px;">Información del Pedido</h3>
+
+            <div style="border-bottom: 1px solid; margin-bottom: 15px ;"></div>
+
+            <div style="margin-bottom: 15px;">
+                <h5 style="color: #577796;"><strong>Masa:</strong> <span id="masaValue"></span></h5>
+                <h5 style="color: #577796;"><strong>Presentación:</strong> <span id="presentacionValue"></span></h5>
+                <h5 style="color: #577796;"><strong>Salsa:</strong> <span id="salsaValue"></span></h5>
+                <h5 style="color: #577796;"><strong>Técnica:</strong> <span id="tecnicaValue"></span></h5>
+                <h5 style="color: #577796;"><strong>Maridaje:</strong> <span id="maridajeValue"></span></h5>
+
             </div>
 
-                <div id="update-message" style="display: none; color: green; margin-top: 10px;">
-                    <h5 style="color: green; ">Pedido Moodificado Con Éxito :) </h5>
-                </div>
 
+            <div style="margin-bottom: 15px;">
+                <h5 style="color: #577796;"><strong>Extras:</strong> <span id="extrasValue"></span></h5>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <h5 style="color: #577796;"><strong>Ingredientes:</strong> <span id="ingredientesValue"></span></h5>
+            </div>
         </div>
+
+    <div id="modificar" style="display: none;">
+    <fieldset>
+    <label for="masa">Masa:</label>
+    <select name="masa" id="masa">
+        <option value="Masa Original">Masa Original</option>
+        <option value="Masa Finísima">Masa Finísima</option>
+        <option value="Masa Queso">Masa Queso</option>
+        <!-- Agrega más opciones de masa según sea necesario -->
+    </select>
+    </fieldset>
+
+
+    <fieldset>
+    <label for="salsa">Salsa:</label>
+    <select name="salsa" id="salsa">
+        <option value="Salsa Tomate">Salsa Tomate</option>
+        <option value="Salsa Barbacoa">Salsa Barbacoa</option>
+        <option value="Salsa Chimichurri">Salsa Chimichurri</option>
+        <!-- Agrega más opciones de salsa según sea necesario -->
+    </select>
+    </fieldset>
+
+ 
+    <fieldset>
+            <label for="ingrediients">Ingredientes:</label>
+            <input type="checkbox" name="ingredientes[]" id="peperoni" style="display: inline-block; margin-right: 5px;" value="Peperoni">
+            <label for="peperoni" class="ingredient-label" style="display: inline-block; margin-right: 5px;" >Peperoni</label><br>
+
+            <input type ="checkbox" name="ingredientes[]" id="york" style="display: inline-block; margin-right: 5px;"value="York">
+            <label for="york" class="ingredient-label" style="display: inline-block; margin-right: 5px;">York</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="jamonSerrano" style="display: inline-block; margin-right: 5px;"value="Jamón Serrano">
+            <label for="jamonSerrano" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Jamón Serrano</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="bacon"style="display: inline-block; margin-right: 5px;" value="Bacon">
+            <label for="bacon" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Bacon</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="carneDeVacuno" style="display: inline-block; margin-right: 5px;" value="Carne de Vacuno">
+            <label for="carneDeVacuno" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Carne de Vacuno</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="polloALaParrilla" style="display: inline-block; margin-right: 5px;" value="Pollo a la Parrilla">
+            <label for="polloALaParrilla" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Pollo a la Parrilla</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="pimiento" style="display: inline-block; margin-right: 5px;" value="Pimiento">
+            <label for="pimiento" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Pimiento</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="champinon" style="display: inline-block; margin-right: 5px;" value="Champiñón">
+            <label for="champinon" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Champiñón</label><br>
+
+            <input type="checkbox" name="ingredientes[]" id="cebollaCaramelizada" style="display: inline-block; margin-right: 5px;" value="Cebolla Caramelizada">
+            <label for="cebollaCaramelizada" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Cebolla Caramelizada</label><br>
+    </fieldset>
+
+    <fieldset>
+            <label for="ingrediients">Extras:</label>
+            <input type="checkbox" name="extras[]" id="Doble de queso" style="display: inline-block; margin-right: 5px;" value="Doble de queso">
+            <label for="doble_queso" class="ingredient-label" style="display: inline-block; margin-right: 5px;" >Doble de queso</label><br>
+
+            <input type ="checkbox" name="extras[]" id="Doble de York" style="display: inline-block; margin-right: 5px;"value="Doble de York">
+            <label for="doble_york" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de York</label><br>
+
+            <input type="checkbox" name="extras[]" id="Doble de Jamón Serrano" style="display: inline-block; margin-right: 5px;"value="Doble de Jamón Serrano">
+            <label for="doble_jamon" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de Jamón Serrano</label><br>
+
+            <input type="checkbox" name="e[]" id="Doble de Bacon"style="display: inline-block; margin-right: 5px;" value="Doble de Bacon">
+            <label for="doble_bacon" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de Bacon</label><br>
+
+            <input type="checkbox" name="extras[]" id="Doble de Pimiento" style="display: inline-block; margin-right: 5px;" value="Doble de Pimiento">
+            <label for="Doble_Pimiento" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Doble de Pimiento</label><br>
+
+            <input type="checkbox" name="extras[]" id="Doble de Champiñón" style="display: inline-block; margin-right: 5px;" value="Doble de Champiñón">
+            <label for="doble_champi" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Doble de Champiñón</label><br>
+
+            <input type="checkbox" name="extras[]" id="Doble de Cebolla Caramelizada" style="display: inline-block; margin-right: 5px;" value="Doble de Cebolla Caramelizada">
+            <label for="doble_cebolla" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de Cebolla Caramelizada</label><br>
+
+    </fieldset>
+
+    <fieldset>
+    <label for="tecnica">Tecnica:</label>
+    <select name="tecnica" id="tecnica">
+        <option value="Horno convencional">Horno convencional</option>
+        <option value="Horno de leña">Horno de leña</option>
+        <option value="Sartén de hierro fundido">Sartén de hierro fundido</option>
+
+    </select>
+    </fieldset>
+
+    <fieldset>
+    <label for="presentacion">Presentacion:</label>
+    <select name="presentacion" id="presentacion">
+        <option value="Pizza pequeña">Pizza pequeña</option>
+        <option value="Pizza mediana">Pizza mediana</option>
+        <option value="Pizza familiar">Pizza familiar</option>
+
+    </select>
+    </fieldset>
+
+ 
+    <fieldset>
+        <label for="maridaje">Maridaje:</label>
+        <select name="maridaje" id="maridaje">
+            <option value="Vino tinto">Vino tinto</option>
+            <option value="Cerveza artesanal">Cerveza artesanal</option>
+            <option value="Vino blanco">Vino blanco</option>
+            <!-- Agrega más opciones de maridaje según sea necesario -->
+        </select>
+    </fieldset>
+
+    <div id="tecnicaRecomendaciones" class="mt-4 mb-4 border p-3" style="font-size: 18px;">
+        <h5 class="text-primary">Recomendaciones de Maridaje según Técnica de Cocción:</h5>
+        <h5 class="text-primary" id="tecnicaRecomendacionTexto" class="mt-4"></h5>
+    </div>
+
+
+    <button onclick="obtenerRecomendacionMaridaje()" class="btn btn-primary">Recomendación Maridaje</button>
+    <button onclick="send()" class="btn btn-success">Crear</button>
+
+
+
+        
+        
+    </div>
+    </div>
+    </div>
+ 
     </div>
 
 </body>

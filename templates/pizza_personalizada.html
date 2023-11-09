@@ -53,6 +53,12 @@
         }
 
         async function send() {            
+            const updateMessage = document.getElementById('create-message');
+            updateMessage.style.display = 'block';
+
+            const createForm = document.getElementById('create');
+            createForm.style.display = 'none';
+
             var masa = document.getElementById("masa").value;
             var salsa = document.getElementById("salsa").value;
 
@@ -196,6 +202,12 @@
         <span style="padding: 0 10px; color: #577796 ;font-size: 30px;">CREA TU PIZZA PERSONALIZADA</span>
         <hr style="flex: 1; border: 7px solid #577796;">
     </div>
+
+    <div id="update-message" style="display: none; color: green; margin-top: 10px;">
+        <h5 style="color: green; ">Pedido Creado Con Éxito :) </h5>
+    </div>
+
+    <form id="create-form">
     <fieldset>
     <label for="masa">Masa:</label>
     <select name="masa" id="masa">
@@ -314,7 +326,7 @@
     <button onclick="send()" class="btn btn-success">Crear</button>
 
     </form>
-
+    </div>
     </div>
     </div>
 

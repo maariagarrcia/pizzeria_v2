@@ -115,33 +115,45 @@ class CrudItems(CrudItemsInterfaz):
             raise
  
     @staticmethod
-    def update_pedido(id:int,db:Session,request:Item):
+    def update_pedido(id: int, db: Session, request: Item):
         pedido = CrudItems.get_pedido_by_id(id, db)
-
+    
         if pedido:
             pedido.masa = request.masa
             pedido.salsa = request.salsa
-            pedido.ingredientes = request.ingredientes
-            pedido.extras = request.extras
+    
+            # Convertir la lista de ingredientes a una cadena separada por comas
+            ingredientes_str = ', '.join(request.ingredientes)
+            # Crear instancias de Ingredient para cada ingrediente en la lista
+            ingredientes_objetos = [Ingredient(name=nombre) for nombre in ingredientes_str.split(', ')]
+            pedido.ingredientes = ingredientes_objetos
+    
+            # Convertir la lista de extras a una cadena separada por comas
+            extras_str = ', '.join(request.extras)
+            # Crear instancias de Extra para cada extra en la lista
+            extras_objetos = [Extra(name=nombre) for nombre in extras_str.split(', ')]
+            pedido.extras = extras_objetos
+    
             pedido.tecnica = request.tecnica
             pedido.presentacion = request.presentacion
             pedido.maridaje = request.maridaje
-
+    
             db.commit()
+    
             db.refresh(pedido)
             return ItemDisplayModel(
-                id = pedido.id,
-                masa = pedido.masa,
-                salsa = pedido.salsa,
-                ingredientes = pedido.ingredientes,
-                extras = pedido.extras,
-                tecnica = pedido.tecnica,
-                presentacion = pedido.presentacion,
-                maridaje = pedido.maridaje,
-                user = User(id=request.creator_id, username=" ")
+                id=pedido.id,
+                masa=pedido.masa,
+                salsa=pedido.salsa,
+                ingredientes=[ingrediente.name for ingrediente in pedido.ingredientes],
+                extras=[extra.name for extra in pedido.extras],
+                tecnica=pedido.tecnica,
+                presentacion=pedido.presentacion,
+                maridaje=pedido.maridaje,
+                user=User(id=request.creator_id, username=" ")
             )
         raise HTTPException(status_code=404, detail="Pedido no encontrado")
-    
+
     @staticmethod
     def delete_pedido(id:int,db:Session):
         # Obtener el pedido por ID
