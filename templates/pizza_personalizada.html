@@ -53,11 +53,7 @@
         }
 
         async function send() {            
-            const updateMessage = document.getElementById('create-message');
-            updateMessage.style.display = 'block';
-
-            const createForm = document.getElementById('create');
-            createForm.style.display = 'none';
+            
 
             var masa = document.getElementById("masa").value;
             var salsa = document.getElementById("salsa").value;
@@ -207,7 +203,6 @@
         <h5 style="color: green; ">Pedido Creado Con Éxito :) </h5>
     </div>
 
-    <form id="create-form">
     <fieldset>
     <label for="masa">Masa:</label>
     <select name="masa" id="masa">
@@ -328,7 +323,7 @@
     </form>
     </div>
     </div>
-    </div>
+    
 
 
 
