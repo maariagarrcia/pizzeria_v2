@@ -52,9 +52,13 @@
             return "";
         }
 
-        async function send() {            
-            
+        async function send() {         
+            const createMessage = document.getElementById("create-message");
+            createMessage.style.display = "block";
 
+            const form = document.getElementById("create-form");
+            form.style.display = "none";
+   
             var masa = document.getElementById("masa").value;
             var salsa = document.getElementById("salsa").value;
 
@@ -127,6 +131,8 @@
             const navbarNav = document.getElementById("navbar-nav");
             const logoutContainer = document.getElementById("logout-container");
             const navbar = document.getElementById("navbar");
+            const createMessage = document.getElementById("create-message");
+            const createForm = document.getElementById("create-form");
 
             if (username !== "") {
                 // If a user is logged in, display the username and hide the navigation bar
@@ -135,6 +141,7 @@
                 navbarNav.style.display = "none";
                 logoutContainer.style.display = "block";
                 navbar.style.display = "block";
+                createMessage.style.display = "none";
 
                 
             } else {
@@ -143,6 +150,7 @@
                 navbarNav.style.display = "block";
                 logoutContainer.style.display = "none";
                 navbar.style.display = "none";
+                createMessage.style.display = "none";
 
             }
         });
@@ -165,7 +173,7 @@
     <nav class="navbar p-1 navbar-expand-lg navbar-dark justify-content-center align-items-center" style="background-color: black">
         <a class="navbar-brand" href="/templates/base.html">Inicio</a>
         <a class="navbar-brand" href="/templates/menu.html">Menú</a>
-        <a class="navbar-brand" href="promociones.html">Promociones</a>
+        <a class="navbar-brand" href="/templates/promociones.html">Promociones</a>
         <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
         <a class="navbar-brand" href="/templates/seccion_pedidos.html" id ="navbar">Pedidos<a>
 
@@ -193,16 +201,18 @@
 
     <div class="scroll-container">
     <div class="scroll-contt">
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <hr style="flex: 1; border: 7px solid #577796;">
-        <span style="padding: 0 10px; color: #577796 ;font-size: 30px;">CREA TU PIZZA PERSONALIZADA</span>
-        <hr style="flex: 1; border: 7px solid #577796;">
-    </div>
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <hr style="flex: 1; border: 7px solid #577796;">
+            <span style="padding: 0 10px; color: #577796 ;font-size: 30px;">CREA TU PIZZA PERSONALIZADA</span>
+            <hr style="flex: 1; border: 7px solid #577796;">
+        </div>
 
-    <div id="update-message" style="display: none; color: green; margin-top: 10px;">
-        <h5 style="color: green; ">Pedido Creado Con Éxito :) </h5>
-    </div>
+        <div id="create-message" style="display: none; color: green; margin-top: 90px; ">
+            <h5 style="color: green; ">Pedido Creado Con Éxito :) </h5>
+            <img src="https://icones.pro/wp-content/uploads/2021/03/symbole-visage-souriant-vert.png" style="width: 150px; height: 150px; margin-left:650px">
+        </div>
 
+    <div id="create-form" >
     <fieldset>
     <label for="masa">Masa:</label>
     <select name="masa" id="masa">
@@ -321,6 +331,7 @@
     <button onclick="send()" class="btn btn-success">Crear</button>
 
     </form>
+    </div>
     </div>
     </div>
     
