@@ -49,22 +49,19 @@ async def create_pedido(request: Item, db: Session = Depends(get_db)):
     return pedido_new
 
 
-@router.get('/{items_id}')
+@router.get('/get_id/{items_id}')
 async def get_pedido(items_id: int, db: Session = Depends(get_db)):
     pedido = CrudItems.get_pedido_by_id(items_id, db)
     # Devuelve el resultado desde la ruta
     return pedido
         
 
-@router.put('/put_by_id/', response_model=ItemDisplayModel)
-async def update_pedido(item_id: int, request: Item, db: Session = Depends(get_db), current_user: UserBaseModel = Depends(get_current_user)):
-    pedido = CrudItems.update_pedido(item_id, db, request)
+@router.put('/put/{items_id}', response_model=ItemDisplayModel)
+async def update_pedido(items_id: int, request: Item, db: Session = Depends(get_db)):
+    pedido = CrudItems.update_pedido(items_id, db, request)
     return pedido
 
-@router.delete('/delete_by_id/')
-async def delete_pedido(item_id: int, db: Session = Depends(get_db), current_user: UserBaseModel = Depends(get_current_user)):
-    pedido = CrudItems.delete_pedido(item_id, db)
+@router.delete('/delet/{items_id}')
+async def delete_pedido(items_id: int, db: Session = Depends(get_db)):
+    pedido = CrudItems.delete_pedido(items_id, db)
     return pedido
-
-
-

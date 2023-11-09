@@ -62,7 +62,7 @@
                 return;
             }
 
-            const response = await fetch(`http://127.0.0.1:8000/item/${pedidoId}`, {
+            const response = await fetch(`http://127.0.0.1:8000/item/get_id/${pedidoId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -71,8 +71,7 @@
 
             const json_response = await response.json();
             console.log(json_response);
-                        // Actualizar el contenido del elemento con la información del pedido
-                        
+
             const pedidoInfoContainer = document.getElementById("pedidoInfo");
             // Actualizar el contenido del elemento con la información del pedido
             document.getElementById("masaValue").innerText = json_response.masa;
@@ -116,15 +115,17 @@
         </ul>   
     
         <div id="success-message" style="display: none; margin-left: 70px;">
-            <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
-                <span id="username" style="color: white;"></span>
+            <div id="user-container" style="border: 1px solid #577796; padding: 6px; background-color: #29465B; border-radius: 8px;">
+                <span id="username" style="color: white; font-size: 18px; font-weight: bold;"></span>
             </div>
         </div>
 
         <div id="logout-container" style="display: none; margin-left: 10px;">
-            <span id="username" style="color: white;"></span>
-            <button onclick="cerrar_sesion()" class="btn btn-primary">Cerrar Sesion</button>
+                <span id="username" style="color: white;"></span>
+                <button onclick="cerrar_sesion()" class="btn btn-primary">Cerrar Sesion</button>
+            </div>
         </div>
+
     </nav>
 
     <!-- Contenido -->

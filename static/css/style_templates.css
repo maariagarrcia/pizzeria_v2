@@ -220,10 +220,9 @@ input[type="password"]:focus {
 
 .scroll-container {
     width:100%; /* Ancho del contenedor rectangular */
-    height: 500px; /* Altura del contenedor rectangular */
+    height: 600px; /* Altura del contenedor rectangular */
     overflow: auto; /* Habilitar la barra de desplazamiento */
     border: 1px solid #000; /* Borde para resaltar el contenedor */
-    margin:  auto; /* Centrar el contenedor */
 
 }
 

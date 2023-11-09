@@ -53,7 +53,30 @@
             }
         });
 
+        async function send() {
+            const pedidoIdInput = document.getElementById("pedidoId");
+            const pedidoId = parseInt(pedidoIdInput.value);
 
+            if (isNaN(pedidoId)) {
+                console.error("El valor de pedidoId no es un número entero válido.");
+                return;
+            }
+
+            const response = await fetch(`http://127.0.0.1:8000/item/delet/${pedidoId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                // No es necesario enviar un cuerpo en la solicitud DELETE
+            });
+            const eliminadoMessage = document.getElementById("eliminado");
+            eliminadoMessage.style.display = "block";
+            const json_response = await response.json();
+            console.log(json_response);
+                // Mostrar el mensaje de eliminación exitosa
+            
+
+        }
     </script>
 </head>
 <body>
@@ -75,19 +98,17 @@
             <li class="nav-item">
                 <a class="nav-link" href="/templates/register.html">REGISTRO</a>
             </li>
-
         </ul>   
     
-    <div id="success-message" style="display: none; margin-left: 70px;">
-        <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
-            <span id="username" style="color: white;"></span>
-    </div>
-    </div>
+        <div id="success-message" style="display: none; margin-left: 70px;">
+            <div id="user-container" style="border: 1px solid #577796; padding: 6px; background-color: #29465B; border-radius: 8px;">
+                <span id="username" style="color: white; font-size: 18px; font-weight: bold;"></span>
+            </div>
+        </div>
 
         <div id="logout-container" style="display: none; margin-left: 10px;">
-            <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
                 <span id="username" style="color: white;"></span>
-            <button onclick="cerrar_sesion()" class="btn btn-primary">Cerrar Sesion</button>
+                <button onclick="cerrar_sesion()" class="btn btn-primary">Cerrar Sesion</button>
             </div>
         </div>
 
@@ -103,11 +124,22 @@
                     <hr style="flex: 1; border: 7px solid #577796;">
                 </div>
                 <br>
+                    
+                <label for="pedidoId">Selecciona el ID del pedido:</label>
+                <input type="text" id="pedidoId" name="pedidoId">
 
-                
+                <div class="menu-item">
+                    <button onclick="send()" class="btn btn-primary">Obtener Pedido</button>
+                </div>
 
-            </div>
+
+                </div>
+                            
+                <div id="eliminado" style="display: none; color: green; margin-top: 10px;">
+                    <h5 style="color: green; ">Pedido Eliminado Con Éxito :) </h5>
+                </div>
         </div>
+
     </div>
 
 </body>

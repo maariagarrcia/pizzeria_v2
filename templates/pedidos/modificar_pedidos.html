@@ -53,11 +53,25 @@
             }
         });
 
-        async function send(){
-            
+        async function send() {
+            const pedidoIdInput = document.getElementById("pedidoId");
+            const pedidoId = parseInt(pedidoIdInput.value);
+
+            if (isNaN(pedidoId)) {
+                console.error("El valor de pedidoId no es un número entero válido.");
+                return;
+            }
+
+            const response = await fetch(`http://127.0.0.1:8000/item/put/${pedidoId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                // No es necesario enviar un cuerpo en la solicitud DELETE
+            });
+
+
         }
-
-
     </script>
 </head>
 <body>
@@ -79,23 +93,22 @@
             <li class="nav-item">
                 <a class="nav-link" href="/templates/register.html">REGISTRO</a>
             </li>
-
         </ul>   
     
-    <div id="success-message" style="display: none; margin-left: 70px;">
-        <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
-            <span id="username" style="color: white;"></span>
-    </div>
-    </div>
+        <div id="success-message" style="display: none; margin-left: 70px;">
+            <div id="user-container" style="border: 1px solid #577796; padding: 6px; background-color: #29465B; border-radius: 8px;">
+                <span id="username" style="color: white; font-size: 18px; font-weight: bold;"></span>
+            </div>
+        </div>
 
         <div id="logout-container" style="display: none; margin-left: 10px;">
-            <div id="user-container" style="border: 1px solid #577796; padding: 10px;">
                 <span id="username" style="color: white;"></span>
-            <button onclick="cerrar_sesion()" class="btn btn-primary">Cerrar Sesion</button>
+                <button onclick="cerrar_sesion()" class="btn btn-primary">Cerrar Sesion</button>
             </div>
         </div>
 
     </nav>
+
 
     <!-- Contenido -->
     <div class="scroll-container">
@@ -113,9 +126,13 @@
                         <button class="stylish-button"> CREAR PEDIDO PERSONALIZADO </button>
                     </a>
                 </div>
-
                 <!-- Otros elementos o botones para crear pedidos -->
             </div>
+
+                <div id="update-message" style="display: none; color: green; margin-top: 10px;">
+                    <h5 style="color: green; ">Pedido Moodificado Con Éxito :) </h5>
+                </div>
+
         </div>
     </div>
 

@@ -144,9 +144,21 @@ class CrudItems(CrudItemsInterfaz):
     
     @staticmethod
     def delete_pedido(id:int,db:Session):
+        # Obtener el pedido por ID
         pedido = CrudItems.get_pedido_by_id(id, db)
+
         if not pedido:
+            # Manejar el caso en que no se encuentra el pedido
             raise HTTPException(status_code=404, detail="Pedido no encontrado")
+        # Eliminar el pedido principal
         db.delete(pedido)
+
+        # Eliminar ingredientes y extras asociados al pedido
+        for ingrediente in pedido.ingredientes:
+            db.delete(ingrediente)
+
+        for extra in pedido.extras:
+            db.delete(extra)
+
         db.commit()
         return pedido
