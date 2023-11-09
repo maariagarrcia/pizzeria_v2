@@ -433,6 +433,17 @@ li{
     text-align: center;
 
 }
+
+.custom-menu-item {
+    margin-top:80px;
+    display: inline-block;
+    margin-right: 10px;
+    justify-content: center;
+}
+
+.menu-container {
+    text-align: center;
+}
 .jumbotron {
     border-radius: 0; /* Establece el border radius en 0 para eliminar los bordes redondeados */
 }
