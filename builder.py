@@ -16,61 +16,68 @@ from pydantic import BaseModel
 
 from sqlalchemy.orm import Session
 from db.models import DbItem, Ingredient, Extra, DbUser
+from sqlalchemy.orm import joinedload
+
+
 
 class ItemBuilder:
-    def __init__(self, id: int, db: Session):
-        self.item = db.query(DbItem).filter(DbItem.id == id).first()
+    def __init__(self, item_id: int, db: Session):
+        # Realiza la consulta a la base de datos y almacena el elemento (DbItem) en self.item
+        self.item = db.query(DbItem).filter(DbItem.id == item_id).first()
         self.db = db
-
-    def get_property(self, property_name):
-        if self.item:
-            property_value = getattr(self.item, property_name)
-            if property_value:
-                return property_value.name
-        return None
-
-    def build(self):
-        return self.item
+        self.pizza = None
 
     def get_masa(self):
         if self.item:
-            self.item.masa = self.get_property("masa")
-        return self.item.masa
-    
+            # Suponiendo que el elemento DbItem tiene un atributo "masa"
+            return self.item.masa
+        return None
+
     def get_salsa(self):
         if self.item:
-            self.item.salsa = self.get_property("salsa")
-        return self.item.salsa
-    
+            # Suponiendo que el elemento DbItem tiene un atributo "salsa"
+            return self.item.salsa
+        return None
+
     def get_tecnica(self):
         if self.item:
-            self.item.tecnica = self.get_property("tecnica")
-        return self.item.tecnica
-    
+            # Suponiendo que el elemento DbItem tiene un atributo "tecnica"
+            return self.item.tecnica
+        return None
+
     def get_presentacion(self):
         if self.item:
-            self.item.presentacion = self.get_property("presentacion")
-        return self.item.presentacion
-    
+            # Suponiendo que el elemento DbItem tiene un atributo "presentacion"
+            return self.item.presentacion
+        return None
+
     def get_maridaje(self):
         if self.item:
-            self.item.maridaje = self.get_property("maridaje")
-        return self.item.maridaje
-    
+            # Suponiendo que el elemento DbItem tiene un atributo "maridaje"
+            return self.item.maridaje
+        return None
+
     def get_ingredientes(self):
-        if self.item:
-            ingredientes = self.item.ingredientes
-            self.item.ingredientes = [ingrediente.name if ingrediente else None for ingrediente in ingredientes]
-        return self.item.ingredientes
-    
+       if self.item and self.item.ingredientes:
+           # Recopila solo los nombres de los ingredientes
+           ingredientes = [ingrediente.name for ingrediente in self.item.ingredientes]
+           return ingredientes
+       return None
+
+
     def get_extras(self):
         if self.item:
-            extras = self.item.extras
-            self.item.extras = [extra.name if extra else None for extra in extras]
-        return self.item.extras
-
+            # Suponiendo que el elemento DbItem tiene un atributo "extras"
+            return self.item.extras
+        return None
 
     def get_user(self):
         if self.item:
-            self.item.user = self.db.query(DbUser).filter(DbUser.id == self.item.user_id).first()
-        return self.item.user
+            # Suponiendo que el elemento DbItem tiene un atributo "user"
+            return self.item.user
+        return None
+
+
+          
+    def build(self):
+        return self.item        

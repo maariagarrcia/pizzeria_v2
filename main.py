@@ -33,6 +33,8 @@ app.mount("/static/images/", StaticFiles(directory="static/images"), name="stati
 app.mount("/static/css/", StaticFiles(directory="static/css"), name="static")
 
 app.mount("/templates", StaticFiles(directory="templates"), name="templates")
+app.mount("/templates/pedidos", StaticFiles(directory="templates/pedidos"), name="templates")
+
 templates = Jinja2Templates(directory="templates")
 
 
