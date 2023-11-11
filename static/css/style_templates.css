@@ -10,19 +10,20 @@ body {
 
 /* Encabezado */
 header {
-    background: linear-gradient(180deg, #577796, #2c3e50); /* Fondo con gradiente de colores (de arriba a abajo) */
     color: #ecf0f1; /* Color de texto blanco */
     padding: 20px;
     text-align: center;
     text-transform: uppercase;
+    background-color: black;
 }
+
 
 /* Título principal */
 h1 {
     margin: 0;
     font-size: 30px;
     font-weight: bold;
-    color: #8ba5bf; /* Color de texto azul oscuro */
+    color: red; /* Color de texto azul oscuro */
 }
 
 /* Barra de navegación */
@@ -31,6 +32,7 @@ nav {
     color: #ecf0f1; /* Color de texto blanco */
     border: 1px solid #0f0f10; /* Borde azul oscuro */
     text-align: center;
+    padding: 5px;
 }
 
 nav a {
@@ -73,13 +75,13 @@ h3 {
 
 h4 {
     font-size: 20px;
-    color: #2c3e50; /* Color de texto azul oscuro */
+    color: rgb(201, 46, 46); /* Color de texto azul oscuro */
     text-align: center;
 }
 
 h5 {
     font-size: 23px;
-    color: #2c3e50; /* Color de texto azul oscuro */
+    color: rgb(201, 46, 46); /* Color de texto azul oscuro */
     text-align: center;
     text-transform: uppercase;
 }
@@ -311,7 +313,7 @@ p{
     text-align: center;
     font-size: 35px;
     font-weight: bold;
-    color: #8ba5bf; /* Color de texto azul oscuro */
+    color: rgb(201, 46, 46); /* Color de texto azul oscuro */
     
 }
 
@@ -377,7 +379,7 @@ legend {
     font-weight: bold;
     font-size: 18px;
 
-    color:#577796;
+    color:rgb(201, 46, 46);
 }
 
 /* Estilo para las etiquetas de ingredientes */
@@ -385,13 +387,13 @@ label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #577796;
+    color: rgb(201, 46, 46);
     
 }
 
 .promocion p{
     font-size: 18px;
-    color: #577796; /* Color de texto azul oscuro */
+    color: rgb(201, 46, 46); /* Color de texto azul oscuro */
     text-align: center;
     text-transform: uppercase;
     font-weight: bold;
@@ -429,7 +431,7 @@ input[type="checkbox"]:checked + label {
 
 
 li{
-    color:#577796;
+    color:rgb(201, 46, 46);
     text-align: center;
 
 }
@@ -448,6 +450,36 @@ li{
     border-radius: 0; /* Establece el border radius en 0 para eliminar los bordes redondeados */
 }
 
+a{
+    color:rgb(244, 242, 242);
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
+a:hover{
+    color:rgb(201, 46, 46);
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
+.containr {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Estilos de las imágenes */
+.promo-image {
+    width: 243px;
+    height: 240px;
+    margin-right:60px ;
+}
+
 @media (max-width: 768px) {
     body {
         font-size: 16px;
@@ -457,4 +489,21 @@ li{
         padding: 10px;
     }
 
+}
+
+.animated-image {
+    width: 100%;
+    height: 300px; /* Ajusta la altura según tus necesidades */
+    background-image: url('https://images.telepizza.com/vol/es/images/info/testing/home/seccion-pizza-bebida-sin-fin/bg-hero-animado.jpg'); /* Reemplaza con la ruta de tu imagen */
+    background-size: cover;
+    animation: moveDown 20s linear infinite; /* Puedes ajustar la duración y el tiempo según tus necesidades */
+}
+
+@keyframes moveDown {
+    0% {
+        background-position-y: -100%;
+    }
+    100% {
+        background-position-y: 0%;
+    }
 }

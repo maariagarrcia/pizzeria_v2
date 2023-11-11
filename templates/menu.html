@@ -67,54 +67,96 @@
     
 </head>
 <body>
-    <header class="jumbotron mb-0">
-        <h1 class="display-4">Pizza a la Carta</h1>
-    </header>
+<header style="background-color: black; text-align: center; padding: 8px; display: flex; align-items: center; justify-content: center; height: 100%;">
+    <div style="display: flex; align-items: center;">
+        <img src="/static/images/logo.png" alt="Logo" style="width: 40px; height: 40px; margin-right: 7px;">
+        <h1 style="margin: 0;">LE PIZZERI</h1>
+    </div>
+</header>
 
-    <nav class="navbar p-1 navbar-expand-lg navbar-dark justify-content-center align-items-center" style="background-color: black">
-        <a class="navbar-brand" href="/templates/base.html">Inicio</a>
-        <a class="navbar-brand" href="/templates/menu.html">Menú</a>
-        <a class="navbar-brand" href="promociones.html">Promociones</a>
-        <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
-        <a class="navbar-brand" href="/templates/seccion_pedidos.html" id ="navbar">Pedidos<a>
+    <header class="jumbotron mb-0" style="background-image: url('/static/images/heaader.png'); background-size: cover; text-align: center; color: white;">
+    </header> 
 
-        <ul class="navbar-nav" id="navbar-nav">
-            <li class="nav-item d-inline-block ">
-                <a class="nav-link  mb-4 p-0" href="/templates/login.html">INICIAR SESIÓN</a>
-            </li>
-            <li class="nav-item d-inline-block p-0 ">
-                <a class="nav-link " href="/templates/register.html">REGÍSTRATE</a>
-            </li>
-        </ul>
-            
-        <div id="success-message" style="display: none; margin-left: 70px;">
-            <div id="user-container" style="border: 1px solid #577796; padding: 6px; background-color: #29465B; border-radius: 8px;">
-                <span id="username" style="color: white; font-size: 18px; font-weight: bold;"></span>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-center" style="background-color: black">
+    <a class="navbar-brand" href="/templates/base.html">Inicio</a>
+    <a class="navbar-brand" href="/templates/menu.html">Menú</a>
+    <a class="navbar-brand" href="promociones.html">Promociones</a>
+    <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
+    <a class="navbar-brand" href="/templates/seccion_pedidos.html" id="navbar">Pedidos</a>
+
+    <ul class="navbar-nav ml-4">
+        <li class="nav-item">
+            <a class="nav-link" href="/templates/login.html">Iniciar Sesión</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/templates/register.html">Regístrate</a>
+        </li>
+    </ul>
+
+    <div id="success-message" style="display: none;">
+        <div id="user-container" style="border: 1px solid #577796; padding: 6px; background-color: #29465B; border-radius: 8px;">
+            <span id="username" style="color: white; font-size: 14px; font-weight: bold;"></span>
         </div>
+    </div>
 
-        <div id="logout-container" style="display: none; margin-left: 10px;">
-                <span id="username" style="color: white;"></span>
-                <button onclick="cerrar_sesion()" class="btn btn-primary">Cerrar Sesion</button>
-            </div>
-        </div>
-
-    </nav>
+    <div id="logout-container" style="display: none; margin-left: 10px;">
+        <span id="username" style="color: white;"></span>
+        <button onclick="cerrar_sesion()" class="btn btn-primary btn-sm">Cerrar Sesión</button>
+    </div>
+</nav> 
+ 
     <div class="scroll-container">
     <div class="scroll-conten">
     <div class="container">
         <div style="display: flex; justify-content: center; align-items: center;">
-            <hr style="flex: 1; border: 7px solid #577796;">
-            <span style="padding: 0 10px; color: #577796 ;font-size: 30px;">CREA TU PIZZA</span>
-            <hr style="flex: 1; border: 7px solid #577796;">
+            <hr style="flex: 1; border: 5px solid red;">
+            <span style="padding: 0 10px; color: red ;font-size: 30px;">CREA TU PIZZA</span>
+            <hr style="flex: 1; border: 5px solid red;">
         </div>
-        <img src="/static/images/pizza.png" alt="Pizza Personalizada" width="100%" height="auto" style="margin-bottom: 20px; margin-top: 20px;">
-        <br>
-        <h4> En PIZZAS SALCHI puedes crear tu propia pizza a tu gusto.</h4>
-        <h4> Solo tienes que elegir tus alimentos favoritos</h4>
-        <h4> y nosotros nos encargamos del resto.</h4>
-        <h5> ¡A que esperas para disfrutar de tu pizza personalizada!</h5>
-        <h4> Desde 8.99€ </h4>
+
+        <img src="https://images.telepizza.com/vol/es/images/info/testing/listado-productos-ofertas/banner-eltriple/telepi-bannerweb-eltriple-859x200-20231031.jpg?t=v1" alt="Promoción de la semana" style="margin-left:270px; margin-top:30px;">
+
+        <div class="promo-container" style="margin-left:272px; margin-top:20px;">
+
+            <img src="https://s4d-images.telepizza.es/Coupons/Original/_Menu_para_2-I(2P)17-19.jpg" alt="Promoción de la semana" class="promo-image">
+            <img src="https://s4d-images.telepizza.es/Coupons/Original/Menu_Individual-I(I)01-31.jpg" alt="Promoción de la semana" class="promo-image">
+            <img src="https://s4d-images.telepizza.es/Coupons/Original/Menu_Junior-M_IF_51-64.png" alt="Promoción de la semana" class="promo-image">
+        </div>
+
+        <img src="https://images.pizzahut.es/Coupons/Original/Menu_para_3_______________________________________-M(2P)508-47.jpg" alt="Promoción de la semana" width=427px height=200px style="margin-left:272px; margin-top:30px;">
+        <img src="https://images.pizzahut.es/Coupons/Original/Menu_para_2_______________________________________-M(2P)504-27.png" alt="Promoción de la semana" width=427px height=200px"  style=" margin-top:30px;">
+    
+        
+<div class="container">
+    <div class="row text-center">
+        <div class="col-md-4 mx-auto">
+            <img src="https://media.istockphoto.com/id/1172354639/es/foto/pizza-margherita-sobre-fondo-negro-pizza-margarita-con-tomates-albahaca-y-queso-mozzarella.jpg?s=170667a&w=0&k=20&c=dlsgobvSrLxkU8xdg98_L-TRd51Zv-3j_-hWNvpAmTU=" alt="Pizza Personalizada" width="290px" height="290px" style="border-radius: 5px; margin-top:15px;">
+        </div>
+
+        <div class="col-md-4 ">
+            <img src="https://img.freepik.com/fotos-premium/pizza-fondo-negro-fondo-negro_894754-885.jpg" alt="Pizza Personalizada" width="355px" height="240px" style="border-radius: 5px; margin-top:60px;">
+        </div>
+
+        <div class="col-md-4 mx-auto">
+            <img src="https://img.freepik.com/fotos-premium/foto-deliciosa-pizza-plato-negro-salsa-picante-sobre-fondo-oscuro_271410-97.jpg" alt="Pizza Personalizada" width="320px" height="320px" style="border-radius: 5px; margin-top:5px">
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-md-12 text-center">
+            <h4>En LE PIZZERI puedes crear tu propia pizza a tu gusto.</h4>
+            <h4>Solo tienes que elegir tus alimentos favoritos</h4>
+            <h4>y nosotros nos encargamos del resto.</h4>
+            <h5>¡A qué esperas para disfrutar de tu pizza personalizada!</h5>
+            <h4>Desde 8.99€</h4>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
         <div class="menu-item" id=crear_pizza>
             <a href="/templates/pizza_personalizada.html">
