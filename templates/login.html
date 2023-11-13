@@ -28,6 +28,8 @@
                 },
                 body: new URLSearchParams(json),
             });
+            const navbar = document.getElementById("navbar");
+            navbar.style.display = "none";
             if (response.status === 200) {
                 const data = await response.json();
                 const username = data.username;  // Asumiendo que el nombre de usuario se encuentra en 'data' con la clave 'username'
@@ -71,7 +73,7 @@
     <a class="navbar-brand" href="/templates/menu.html">Menú</a>
     <a class="navbar-brand" href="promociones.html">Promociones</a>
     <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
-    <a class="navbar-brand" href="/templates/seccion_pedidos.html" id="navbar">Pedidos</a>
+    <a class="navbar-brand" href="/templates/seccion_pedidos.html" id="navbar" style="display:none;">Pedidos</a>
 
     <ul class="navbar-nav ml-4" id="navbar-nav">
         <li class="nav-item">
