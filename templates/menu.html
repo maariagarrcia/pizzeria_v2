@@ -84,24 +84,26 @@
     <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
     <a class="navbar-brand" href="/templates/seccion_pedidos.html" id="navbar">Pedidos</a>
 
-    <ul class="navbar-nav ml-4">
-        <li class="nav-item">
-            <a class="nav-link" href="/templates/login.html">Iniciar Sesión</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/templates/register.html">Regístrate</a>
-        </li>
-    </ul>
+    <div id="navbar-nav">
+        <ul class="navbar-nav ml-4">
+            <li class="nav-item">
+                <a class="nav-link" href="/templates/login.html">Iniciar Sesión</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/templates/register.html">Regístrate</a>
+            </li>
+        </ul>
+    </div>
 
     <div id="success-message" style="display: none;">
-        <div id="user-container" style="border: 1px solid #577796; padding: 6px; background-color: #29465B; border-radius: 8px;">
+            <div id="user-container" style="border: 1px solid #dc3545; padding: 3px; background-color: #dc3545  ; border-radius: 4px; margin-left:6px;">
             <span id="username" style="color: white; font-size: 14px; font-weight: bold;"></span>
         </div>
     </div>
 
     <div id="logout-container" style="display: none; margin-left: 10px;">
         <span id="username" style="color: white;"></span>
-        <button onclick="cerrar_sesion()" class="btn btn-primary btn-sm">Cerrar Sesión</button>
+        <button onclick="cerrar_sesion()" class="btn btn-danger btn-sm">Cerrar Sesión</button>
     </div>
 </nav> 
  
@@ -110,53 +112,57 @@
     <div class="container">
         <div style="display: flex; justify-content: center; align-items: center;">
             <hr style="flex: 1; border: 5px solid red;">
-            <span style="padding: 0 10px; color: red ;font-size: 30px;">CREA TU PIZZA</span>
+            <span style="padding: 0 10px; color: red ;font-size: 30px;">CREA TU MENU</span>
             <hr style="flex: 1; border: 5px solid red;">
         </div>
+        <h4>Decide tu  menu o crea tu propia pizza</h4>
 
-        <img src="https://images.telepizza.com/vol/es/images/info/testing/listado-productos-ofertas/banner-eltriple/telepi-bannerweb-eltriple-859x200-20231031.jpg?t=v1" alt="Promoción de la semana" style="margin-left:270px; margin-top:30px;">
+    <!-- Imagen principal -->
+    <img src="https://images.telepizza.com/vol/es/images/info/testing/listado-productos-ofertas/banner-eltriple/telepi-bannerweb-eltriple-859x200-20231031.jpg?t=v1"  class="promo-imag" alt="Promoción de la semana" style="margin-left: 270px; margin-top: 30px;"  onclick="openPopup('Info de la Promoción de la Semana', ' Compra 3 medianas, pagas 2')">
 
-        <div class="promo-container" style="margin-left:272px; margin-top:20px;">
+    <!-- Contenedor de imágenes secundarias -->
+    <div class="promo-container" style="margin-left: 272px; margin-top: 20px;">
+        <img src="https://s4d-images.telepizza.es/Coupons/Original/_Menu_para_2-I(2P)17-19.jpg" alt="Promoción de la semana" class="promo-image" onclick="openPopup('Info del Menú para 2', 'Elige nuestro delicioso Menú para 2 y disfruta de una comida perfecta para compartir.')">
+        <img src="https://s4d-images.telepizza.es/Coupons/Original/Menu_Individual-I(I)01-31.jpg" alt="Promoción de la semana" class="promo-image" onclick="openPopup('Info del Menú Individual', 'Descubre nuestro Menú Individual, ideal para una deliciosa comida personal.')">
+        <img src="https://s4d-images.telepizza.es/Coupons/Original/Menu_Junior-M_IF_51-64.png" alt="Promoción de la semana" class="promo-image" onclick="openPopup('Info del Menú Junior', '¡Los más pequeños también tienen su menú especial! Mini pizza + bebida.')">
+    </div>
 
-            <img src="https://s4d-images.telepizza.es/Coupons/Original/_Menu_para_2-I(2P)17-19.jpg" alt="Promoción de la semana" class="promo-image">
-            <img src="https://s4d-images.telepizza.es/Coupons/Original/Menu_Individual-I(I)01-31.jpg" alt="Promoción de la semana" class="promo-image">
-            <img src="https://s4d-images.telepizza.es/Coupons/Original/Menu_Junior-M_IF_51-64.png" alt="Promoción de la semana" class="promo-image">
+    <!-- Otras imágenes -->
+    <img src="https://images.pizzahut.es/Coupons/Original/Menu_para_3_______________________________________-M(2P)508-47.jpg" class="promo-imag" alt="Promoción de la semana" width="427px" height="200px" style="margin-left: 272px; margin-top: 30px;" class="promo-imag" onclick="openPopup('Info del Menú para 3', 'Comparte momentos especiales con nuestro Menú para 3 , 3 pizzas + 3 bebidas')">
+    <img src="https://images.pizzahut.es/Coupons/Original/Menu_para_2_______________________________________-M(2P)504-27.png" class="promo-imag"  alt="Promoción de la semana" width="427px" height="200px" style="margin-top: 30px;" class="promo-imag" onclick="openPopup('Info del Menú para 2', 'Comparte momentos especiales con nuestro Menú para 2, 2 pizzas + 2 bebidas')">
+
+    <!-- Ventana emergente -->
+    <div id="popup" class="popup-container">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <p id="popup-content"></p>
+        <div class="subwindow" id="subwindow-content"></div>
+    </div>
+
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mx-auto">
+                <img src="https://media.istockphoto.com/id/1172354639/es/foto/pizza-margherita-sobre-fondo-negro-pizza-margarita-con-tomates-albahaca-y-queso-mozzarella.jpg?s=170667a&w=0&k=20&c=dlsgobvSrLxkU8xdg98_L-TRd51Zv-3j_-hWNvpAmTU=" alt="Pizza Personalizada" width="290px" height="290px" style="border-radius: 5px; margin-top:15px;">
+            </div>
+
+            <div class="col-md-4 ">
+                <img src="https://img.freepik.com/fotos-premium/pizza-fondo-negro-fondo-negro_894754-885.jpg" alt="Pizza Personalizada" width="355px" height="240px" style="border-radius: 5px; margin-top:60px;">
+            </div>
+
+            <div class="col-md-4 mx-auto">
+                <img src="https://img.freepik.com/fotos-premium/foto-deliciosa-pizza-plato-negro-salsa-picante-sobre-fondo-oscuro_271410-97.jpg" alt="Pizza Personalizada" width="320px" height="320px" style="border-radius: 5px; margin-top:5px">
+            </div>
         </div>
 
-        <img src="https://images.pizzahut.es/Coupons/Original/Menu_para_3_______________________________________-M(2P)508-47.jpg" alt="Promoción de la semana" width=427px height=200px style="margin-left:272px; margin-top:30px;">
-        <img src="https://images.pizzahut.es/Coupons/Original/Menu_para_2_______________________________________-M(2P)504-27.png" alt="Promoción de la semana" width=427px height=200px"  style=" margin-top:30px;">
-    
-        
-<div class="container">
-    <div class="row text-center">
-        <div class="col-md-4 mx-auto">
-            <img src="https://media.istockphoto.com/id/1172354639/es/foto/pizza-margherita-sobre-fondo-negro-pizza-margarita-con-tomates-albahaca-y-queso-mozzarella.jpg?s=170667a&w=0&k=20&c=dlsgobvSrLxkU8xdg98_L-TRd51Zv-3j_-hWNvpAmTU=" alt="Pizza Personalizada" width="290px" height="290px" style="border-radius: 5px; margin-top:15px;">
-        </div>
-
-        <div class="col-md-4 ">
-            <img src="https://img.freepik.com/fotos-premium/pizza-fondo-negro-fondo-negro_894754-885.jpg" alt="Pizza Personalizada" width="355px" height="240px" style="border-radius: 5px; margin-top:60px;">
-        </div>
-
-        <div class="col-md-4 mx-auto">
-            <img src="https://img.freepik.com/fotos-premium/foto-deliciosa-pizza-plato-negro-salsa-picante-sobre-fondo-oscuro_271410-97.jpg" alt="Pizza Personalizada" width="320px" height="320px" style="border-radius: 5px; margin-top:5px">
+        <div class="row mt-5">
+            <div class="col-md-12 text-center">
+                <h4>En LE PIZZERI puedes crear tu propia pizza a tu gusto.</h4>
+                <h4>Solo tienes que elegir tus alimentos favoritos</h4>
+                <h4>y nosotros nos encargamos del resto.</h4>
+                <h5>¡A qué esperas para disfrutar de tu pizza personalizada!</h5>
+                <h4>Desde 8.99€</h4>
+            </div>
         </div>
     </div>
-    
-    <div class="row mt-5">
-        <div class="col-md-12 text-center">
-            <h4>En LE PIZZERI puedes crear tu propia pizza a tu gusto.</h4>
-            <h4>Solo tienes que elegir tus alimentos favoritos</h4>
-            <h4>y nosotros nos encargamos del resto.</h4>
-            <h5>¡A qué esperas para disfrutar de tu pizza personalizada!</h5>
-            <h4>Desde 8.99€</h4>
-        </div>
-    </div>
-</div>
-
-
-
-
-
 
         <div class="menu-item" id=crear_pizza>
             <a href="/templates/pizza_personalizada.html">
@@ -166,5 +172,17 @@
     </div>
     </div>
     </div>
+
+    <script>
+        function openPopup(title, content) {
+            document.getElementById('popup-content').innerText = title;
+            document.getElementById('subwindow-content').innerText = content;
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
 </body>
 </html>

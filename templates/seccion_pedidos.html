@@ -78,25 +78,27 @@
     <a class="navbar-brand" href="promociones.html">Promociones</a>
     <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
     <a class="navbar-brand" href="/templates/seccion_pedidos.html" id="navbar">Pedidos</a>
-
-    <ul class="navbar-nav ml-4">
-        <li class="nav-item">
-            <a class="nav-link" href="/templates/login.html">Iniciar Sesión</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/templates/register.html">Regístrate</a>
-        </li>
-    </ul>
+    
+    <div id="navbar-nav">
+        <ul class="navbar-nav ml-4">
+            <li class="nav-item">
+                <a class="nav-link" href="/templates/login.html">Iniciar Sesión</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/templates/register.html">Regístrate</a>
+            </li>
+        </ul>
+    </div>
 
     <div id="success-message" style="display: none;">
-        <div id="user-container" style="border: 1px solid #577796; padding: 6px; background-color: #29465B; border-radius: 8px;">
+        <div id="user-container" style="border: 1px solid #dc3545; padding: 3px; background-color: #dc3545  ; border-radius: 4px; margin-left:6px;">
             <span id="username" style="color: white; font-size: 14px; font-weight: bold;"></span>
         </div>
     </div>
 
     <div id="logout-container" style="display: none; margin-left: 10px;">
         <span id="username" style="color: white;"></span>
-        <button onclick="cerrar_sesion()" class="btn btn-primary btn-sm">Cerrar Sesión</button>
+        <button onclick="cerrar_sesion()" class="btn btn-danger btn-sm">Cerrar Sesión</button>
     </div>
 </nav>
     
