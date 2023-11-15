@@ -20,6 +20,7 @@ class DbUser(Base):
     username = Column(String)
     hashed_password = Column(String)
     email = Column(String)
+
     items = relationship("DbItem", back_populates="user")
     extra_info = relationship("DbInfoPersonal", uselist=False, back_populates="user")
 
@@ -69,3 +70,41 @@ class Extra(Base):
     name = Column(String)
     item_id = Column(Integer, ForeignKey('items.id'))
     item = relationship("DbItem", back_populates="extras")
+
+
+class DbArticulo(Base):
+    __tablename__ = "articulos"
+
+    id_articulo = Column(Integer, primary_key=True)
+    descripcion = Column(String)
+    precio = Column(Integer)
+
+    #pedidos = relationship("DbPedido", back_populates="articulo")
+    familia=relationship("Familia", back_populates="articulos")
+    familia_id = Column(Integer, ForeignKey("familias.id_familia"))
+
+
+class DbPedido(Base):
+    __tablename__ = "pedidos"
+
+    id_pedido = Column(Integer, primary_key=True)
+
+
+    id_user = Column(Integer, ForeignKey("users.id"))
+    user = relationship("DbUser")
+
+    #articulo = relationship("DbArticulo")
+    #id_articulo = Column(Integer, ForeignKey("articulos.id_articulo"))
+
+    cantidad = Column(Integer)
+
+    total = Column(Integer)
+
+
+class Familia(Base):
+    __tablename__ = "familias"
+
+    id_familia = Column(Integer, primary_key=True)
+    descripcion = Column(String)
+
+    articulos = relationship("DbArticulo", back_populates="familia")

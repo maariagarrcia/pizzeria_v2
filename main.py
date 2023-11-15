@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from db import models
 from db.database import engine
 
-from router import user, extra_info, item
+from router import user, extra_info, item,articulo,pedido,familia
 from auth import authentication
 
 from fastapi.staticfiles import StaticFiles
@@ -20,6 +20,9 @@ from fastapi.responses import RedirectResponse
 from fastapi import status
 
 app = FastAPI()
+app.include_router(familia.router)
+app.include_router(pedido.router)
+app.include_router(articulo.router)
 app.include_router(authentication.router)
 app.include_router(item.router)
 app.include_router(user.router)

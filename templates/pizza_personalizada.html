@@ -206,19 +206,20 @@
     </div>
 
     <div id="success-message" style="display: none;">
-            <div id="user-container" style="border: 1px solid #dc3545; padding: 3px; background-color: #dc3545  ; border-radius: 4px; margin-left:6px;">
+        <div id="user-container" style="border: 1px solid #dc3545; padding: 3px; background-color: #dc3545  ; border-radius: 8px;">
             <span id="username" style="color: white; font-size: 14px; font-weight: bold;"></span>
         </div>
     </div>
 
     <div id="logout-container" style="display: none; margin-left: 10px;">
         <span id="username" style="color: white;"></span>
-        <button onclick="cerrar_sesion()" class="btn btn-primary btn-sm">Cerrar Sesión</button>
+        <button onclick="cerrar_sesion()" class="btn btn-danger btn-sm">Cerrar Sesión</button>
     </div>
 </nav>
 
     <div class="scroll-container">
     <div class="scroll-contt">
+    <div class="container">
         <div style="display: flex; justify-content: center; align-items: center;">
             <hr style="flex: 1; border: 3px solid red;">
             <span style="padding: 0 10px; color: red ;font-size: 30px;">CREA TU PIZZA PERSONALIZADA</span>
@@ -231,133 +232,321 @@
             <img src="https://icones.pro/wp-content/uploads/2021/03/symbole-visage-souriant-vert.png" style="width: 150px; height: 150px; margin-left:650px">
         </div>
 
+   
+
+
     <div id="create-form" >
-    <fieldset>
-    <label for="masa">Masa:</label>
-    <select name="masa" id="masa">
+        <div id="campo-fijo" style="text-align: center; padding: 20px; background-color: #333; border-radius: 7px;">
+
+
+            <h4 style="color: white;">Precio de la Pizza:</h4>
+            <hr style="border: 1px solid white;">
+
+            <p id="resumenPedido" style="color: white; font-size: 16px; margin-bottom: 10px;"></p>
+            
+            <!-- Agrega un campo para ingresar el código de descuento -->
+            <br><br>
+            <input style="color: white; max-width: 236px; padding: 5px; border: 1px solid white; border-radius: 5px;" type="text" id="codigoDescuento" placeholder="Ingresa el código de descuento">
+
+            <!-- Agrega el botón para aplicar el descuento -->
+            <br><br>
+            <button onclick="aplicarDescuento()" class="btn btn-dark">Aplicar Descuento</button>
+            <br><br><br>
+            <button onclick="send()" class="btn btn-dark">Realizar Pedido</button>
+            <span id="precioPizza" style="font-size: 24px; font-weight: bold; color: white;">$0.00</span>
+
+        </div>
+
+        </div>
+
+        </fieldset>
+        <fieldset>
+        <label for="masa">Masa:</label>
+        <select name="masa" id="masa" onchange="calcularYActualizarPrecio()">
         <option value="Masa Original">Masa Original</option>
         <option value="Masa Finísima">Masa Finísima</option>
         <option value="Masa Queso">Masa Queso</option>
         <!-- Agrega más opciones de masa según sea necesario -->
-    </select>
-    </fieldset>
+        </select>
+        </fieldset>
 
 
-    <fieldset>
-    <label for="salsa">Salsa:</label>
-    <select name="salsa" id="salsa">
+        <fieldset>
+        <label for="salsa">Salsa:</label>
+        <select name="salsa" id="salsa" onchange="calcularYActualizarPrecio()">
         <option value="Salsa Tomate">Salsa Tomate</option>
         <option value="Salsa Barbacoa">Salsa Barbacoa</option>
         <option value="Salsa Chimichurri">Salsa Chimichurri</option>
         <!-- Agrega más opciones de salsa según sea necesario -->
-    </select>
-    </fieldset>
+        </select>
+        </fieldset>
 
- 
-    <fieldset>
+    
+        <fieldset>
             <label for="ingrediients">Ingredientes:</label>
-            <input type="checkbox" name="ingredientes[]" id="peperoni" style="display: inline-block; margin-right: 5px;" value="Peperoni">
+            <input type="checkbox" name="ingredientes[]" id="peperoni" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;" value="Peperoni">
             <label for="peperoni" class="ingredient-label" style="display: inline-block; margin-right: 5px;" >Peperoni</label><br>
 
-            <input type ="checkbox" name="ingredientes[]" id="york" style="display: inline-block; margin-right: 5px;"value="York">
+            <input type ="checkbox" name="ingredientes[]" id="york"onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;"value="York">
             <label for="york" class="ingredient-label" style="display: inline-block; margin-right: 5px;">York</label><br>
 
-            <input type="checkbox" name="ingredientes[]" id="jamonSerrano" style="display: inline-block; margin-right: 5px;"value="Jamón Serrano">
+            <input type="checkbox" name="ingredientes[]" id="jamonSerrano" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;"value="Jamón Serrano">
             <label for="jamonSerrano" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Jamón Serrano</label><br>
 
-            <input type="checkbox" name="ingredientes[]" id="bacon"style="display: inline-block; margin-right: 5px;" value="Bacon">
+            <input type="checkbox" name="ingredientes[]" id="bacon" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;" value="Bacon">
             <label for="bacon" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Bacon</label><br>
 
-            <input type="checkbox" name="ingredientes[]" id="carneDeVacuno" style="display: inline-block; margin-right: 5px;" value="Carne de Vacuno">
+            <input type="checkbox" name="ingredientes[]" id="carneDeVacuno" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;" value="Carne de Vacuno">
             <label for="carneDeVacuno" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Carne de Vacuno</label><br>
 
-            <input type="checkbox" name="ingredientes[]" id="polloALaParrilla" style="display: inline-block; margin-right: 5px;" value="Pollo a la Parrilla">
+            <input type="checkbox" name="ingredientes[]" id="polloALaParrilla" onchange="calcularYActualizarPrecio()"   style="display: inline-block; margin-right: 5px;" value="Pollo a la Parrilla">
             <label for="polloALaParrilla" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Pollo a la Parrilla</label><br>
 
-            <input type="checkbox" name="ingredientes[]" id="pimiento" style="display: inline-block; margin-right: 5px;" value="Pimiento">
+            <input type="checkbox" name="ingredientes[]" id="pimiento" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;" value="Pimiento">
             <label for="pimiento" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Pimiento</label><br>
 
-            <input type="checkbox" name="ingredientes[]" id="champinon" style="display: inline-block; margin-right: 5px;" value="Champiñón">
+            <input type="checkbox" name="ingredientes[]" id="champinon" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;" value="Champiñón">
             <label for="champinon" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Champiñón</label><br>
 
-            <input type="checkbox" name="ingredientes[]" id="cebollaCaramelizada" style="display: inline-block; margin-right: 5px;" value="Cebolla Caramelizada">
+            <input type="checkbox" name="ingredientes[]" id="cebollaCaramelizada" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;" value="Cebolla Caramelizada">
             <label for="cebollaCaramelizada" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Cebolla Caramelizada</label><br>
-    </fieldset>
+        </fieldset>
 
-    <fieldset>
+        <fieldset>
             <label for="ingrediients">Extras:</label>
-            <input type="checkbox" name="extras[]" id="Doble de queso" style="display: inline-block; margin-right: 5px;" value="Doble de queso">
+            <input type="checkbox" name="extras[]" id="Doble de queso" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;" value="Doble de queso">
             <label for="doble_queso" class="ingredient-label" style="display: inline-block; margin-right: 5px;" >Doble de queso</label><br>
 
-            <input type ="checkbox" name="extras[]" id="Doble de York" style="display: inline-block; margin-right: 5px;"value="Doble de York">
+            <input type ="checkbox" name="extras[]" id="Doble de York" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;"value="Doble de York">
             <label for="doble_york" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de York</label><br>
 
-            <input type="checkbox" name="extras[]" id="Doble de Jamón Serrano" style="display: inline-block; margin-right: 5px;"value="Doble de Jamón Serrano">
+            <input type="checkbox" name="extras[]" id="Doble de Jamón Serrano" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;"value="Doble de Jamón Serrano">
             <label for="doble_jamon" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de Jamón Serrano</label><br>
 
-            <input type="checkbox" name="e[]" id="Doble de Bacon"style="display: inline-block; margin-right: 5px;" value="Doble de Bacon">
+            <input type="checkbox" name="e[]" id="Doble de Bacon" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;" value="Doble de Bacon">
             <label for="doble_bacon" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de Bacon</label><br>
 
-            <input type="checkbox" name="extras[]" id="Doble de Pimiento" style="display: inline-block; margin-right: 5px;" value="Doble de Pimiento">
+            <input type="checkbox" name="extras[]" id="Doble de Pimiento" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;" value="Doble de Pimiento">
             <label for="Doble_Pimiento" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Doble de Pimiento</label><br>
 
-            <input type="checkbox" name="extras[]" id="Doble de Champiñón" style="display: inline-block; margin-right: 5px;" value="Doble de Champiñón">
+            <input type="checkbox" name="extras[]" id="Doble de Champiñón" onchange="calcularYActualizarPrecio()"   style="display: inline-block; margin-right: 5px;" value="Doble de Champiñón">
             <label for="doble_champi" class="ingredient-label"  style="display: inline-block; margin-right: 5px;">Doble de Champiñón</label><br>
 
-            <input type="checkbox" name="extras[]" id="Doble de Cebolla Caramelizada" style="display: inline-block; margin-right: 5px;" value="Doble de Cebolla Caramelizada">
+            <input type="checkbox" name="extras[]" id="Doble de Cebolla Caramelizada" onchange="calcularYActualizarPrecio()"  style="display: inline-block; margin-right: 5px;" value="Doble de Cebolla Caramelizada">
             <label for="doble_cebolla" class="ingredient-label" style="display: inline-block; margin-right: 5px;">Doble de Cebolla Caramelizada</label><br>
 
-    </fieldset>
+        </fieldset>
 
-    <fieldset>
-    <label for="tecnica">Tecnica:</label>
-    <select name="tecnica" id="tecnica">
+        <fieldset>
+        <label for="tecnica">Tecnica:</label>
+        <select name="tecnica" id="tecnica">
         <option value="Horno convencional">Horno convencional</option>
         <option value="Horno de leña">Horno de leña</option>
         <option value="Sartén de hierro fundido">Sartén de hierro fundido</option>
 
-    </select>
-    </fieldset>
+        </select>
+        </fieldset>
 
-    <fieldset>
-    <label for="presentacion">Presentacion:</label>
-    <select name="presentacion" id="presentacion">
+        <fieldset>
+        <label for="presentacion">Presentacion:</label>
+        <select name="presentacion" id="presentacion" onchange="calcularYActualizarPrecio()">
         <option value="Pizza pequeña">Pizza pequeña</option>
         <option value="Pizza mediana">Pizza mediana</option>
         <option value="Pizza familiar">Pizza familiar</option>
 
-    </select>
-    </fieldset>
-
- 
-    <fieldset>
-        <label for="maridaje">Maridaje:</label>
-        <select name="maridaje" id="maridaje">
-            <option value="Vino tinto">Vino tinto</option>
-            <option value="Cerveza artesanal">Cerveza artesanal</option>
-            <option value="Vino blanco">Vino blanco</option>
-            <!-- Agrega más opciones de maridaje según sea necesario -->
         </select>
-    </fieldset>
+        </fieldset>
 
-    <div id="tecnicaRecomendaciones" class="mt-4 mb-4 border p-3" style="font-size: 18px;">
-        <h5 >Recomendaciones de Maridaje según Técnica de Cocción:</h5>
-        <h5 id="tecnicaRecomendacionTexto" class="mt-4"></h5>
-    </div>
-
-
-    <button onclick="obtenerRecomendacionMaridaje()" class="btn btn-primary">Recomendación Maridaje</button>
-    <button onclick="send()" class="btn btn-success">Crear</button>
-
-    </form>
-    </div>
-    </div>
-    </div>
     
+        <fieldset>
+            <label for="maridaje">Maridaje:</label>
+            <select name="maridaje" id="maridaje" onchange="calcularYActualizarPrecio()">
+                <option value="Vino tinto">Vino tinto</option>
+                <option value="Cerveza artesanal">Cerveza artesanal</option>
+                <option value="Vino blanco">Vino blanco</option>
+                <option value="Refresco">Refresco</option>
+                <option value="Agua">Agua</option>
+
+                <!-- Agrega más opciones de maridaje según sea necesario -->
+            </select>
+        </fieldset>
+
+        <div id="tecnicaRecomendaciones" class="mt-4 mb-4 border p-3" style="font-size: 18px; width:900px;">
+            <h5 >Recomendaciones de Maridaje según Técnica de Cocción:</h5>
+            <h5 id="tecnicaRecomendacionTexto" class="mt-4"></h5>
+        </div>
+
+        </form>
+         <button onclick="obtenerRecomendacionMaridaje()" class="btn btn-danger">Recomendación Maridaje</button>
+
+    </div>
+    </div>
+    </div>
+
+    </div>
+    <script>
+
+        function calcularYActualizarPrecio() {
+            // Obtén el código ingresado por el usuario
+            const codigoDescuento = document.getElementById("codigoDescuento").value;
+
+            // Calcula el precio de la pizza basado en las selecciones del usuario
+            const precio = calcularPrecioPizza();
+
+            // Aplica el precio específico si se ingresó un código válido
+            const precioEspecifico = aplicarPrecioEspecifico(codigoDescuento);
+
+            // Actualiza el contenido del recuadro de la derecha con el nuevo precio
+            const precioPizzaElement = document.getElementById("precioPizza");
+            precioPizzaElement.textContent = `$${precioEspecifico.toFixed(2)}`;
+            actualizarResumenPedido();
+
+        }
+        function actualizarResumenPedido() {
+            // Lógica para construir el resumen del pedido
+            const resumenPedidoElement = document.getElementById("resumenPedido");
+            let resumen = "Resumen del pedido:\n ";
+
+            // Masa seleccionada
+            const masaSeleccionada = document.getElementById("masa").value;
+            resumen += `Masa: ${masaSeleccionada}\n`;
+
+            // Salsa seleccionada
+            const salsaSeleccionada = document.getElementById("salsa").value;
+            resumen += `, Salsa: ${salsaSeleccionada}\n`;
+
+            // Técnica seleccionada
+            const tecnicaSeleccionada = document.getElementById("tecnica").value;
+            resumen += `, Técnica: ${tecnicaSeleccionada}\n`;
+
+            // Ingredientes seleccionados
+            const ingredientesCheckboxes = document.getElementsByName("ingredientes[]");
+            for (let i = 0; i < ingredientesCheckboxes.length; i++) {
+                if (ingredientesCheckboxes[i].checked) {
+                    resumen += `, Ingredientes: ${ingredientesCheckboxes[i].value}\n`;
+                }
+            }
+            // Ingredientes seleccionados
+            const extrasCheckboxes = document.getElementsByName("extras[]");
+            for (let i = 0; i < extrasCheckboxes.length; i++) {
+                if (extrasCheckboxes[i].checked) {
+                    resumen += `,  Extras: ${extrasCheckboxes[i].value}\n`;
+                }
+            }
+            // Maridaje seleccionado
+            const maridajeSeleccionado = document.getElementById("maridaje").value;
+            resumen += `, Maridaje: ${maridajeSeleccionado}\n`;
+
+            // Otros elementos del resumen...
+
+            // Actualiza el contenido del resumen del pedido
+            resumenPedidoElement.textContent = resumen;
+        }
+        function calcularPrecioPizza() {
+            // Lógica para calcular el precio basado en las selecciones del usuario
+            // Puedes ajustar esta lógica según tus necesidades
+            const precioBase = 8.99;  // Precio base de la pizza
+
+            // Suma el precio de las opciones seleccionadas
+            let precioMasa = 0;
+            let precioIngredientes = 0;
+            let precioExtras = 0;
+            let precioPresentacion = 0;
+            let precioMaridaje = 0;
+
+            // Lógica para calcular el precio de ingredientes seleccionados
+            const masaSeleccionada = document.getElementById("masa").value;
+            if (masaSeleccionada === "Masa Original") {
+                masa = 0;
+            } else if (masaSeleccionada === "Masa Finísima") {
+                masa = 1.50;
+            } else if (masaSeleccionada === "Masa Queso") {
+                masa = 2.50;
+            }
+
+            const ingredientesCheckboxes = document.getElementsByName("ingredientes[]");
+            for (let i = 0; i < ingredientesCheckboxes.length; i++) {
+                if (ingredientesCheckboxes[i].checked) {
+                    // Puedes asignar diferentes precios a cada ingrediente
+                    precioIngredientes += 1.50;
+                }
+            }
+
+            // Lógica para calcular el precio de extras seleccionados
+            const extrasCheckboxes = document.getElementsByName("extras[]");
+            for (let i = 0; i < extrasCheckboxes.length; i++) {
+                if (extrasCheckboxes[i].checked) {
+                    // Puedes asignar diferentes precios a cada extra
+                    precioExtras += 0.75;
+                }
+            }
+
+            const presentacion = document.getElementById("presentacion").value;
+            if (presentacion === "Pizza pequeña") {
+                precioPresentacion = 0;
+            } else if (presentacion === "Pizza mediana") {
+                precioPresentacion = 2.50;
+            } else if (presentacion === "Pizza familiar") {
+                precioPresentacion = 5.00;
+            }
+
+            const maridaje = document.getElementById("maridaje").value;
+            if (maridaje === "Vino tinto") {
+                precioMaridaje = 5.00;
+            } else if (maridaje === "Cerveza artesanal") {
+                precioMaridaje = 3.00;
+            } else if (maridaje === "Vino blanco") {
+                precioMaridaje = 5.00;
+            } else if (maridaje === "Refresco") {
+                precioMaridaje = 1.50;
+            } else if (maridaje === "Agua") {
+                precioMaridaje = 1.00;
+            }
 
 
+            // Calcula el precio total
+            const precioTotal = precioBase + precioMasa + precioIngredientes + precioExtras + precioPresentacion + precioMaridaje;
+            return precioTotal;
+        }
 
+        function aplicarPrecioEspecifico(codigoDescuento) {
+            // Lógica para aplicar precios específicos basados en códigos
+            const preciosEspecificos = {
+                "P232323": 18.00,
+                "P242424": 23.00,
+                "P252525": 14.00,
+                "P262626": 12.00,
+                "P272727": 27.95,
+                "P282828": 17.95
+                // Puedes agregar más códigos y precios específicos según sea necesario
+            };
 
+            // Verifica si el código está en la lista de precios específicos
+            if (preciosEspecificos.hasOwnProperty(codigoDescuento)) {
+                // Devuelve el precio específico
+                return preciosEspecificos[codigoDescuento];
+            } else {
+                // Si no hay un código válido, devuelve el precio total sin cambios
+                return calcularPrecioPizza(); // O puedes devolver un valor predeterminado
+            }
+        }
+
+        function aplicarDescuento() {
+            // Obtén el código ingresado por el usuario
+            const codigoDescuento = document.getElementById("codigoDescuento").value;
+
+            // Calcula el precio de la pizza basado en las selecciones del usuario
+            const precio = calcularPrecioPizza();
+
+            // Aplica el precio específico si se ingresó un código válido
+            const precioEspecifico = aplicarPrecioEspecifico(codigoDescuento);
+
+            // Actualiza el contenido del recuadro de la derecha con el nuevo precio
+            const precioPizzaElement = document.getElementById("precioPizza");
+            precioPizzaElement.textContent = `$${precioEspecifico.toFixed(2)}`;
+        }
+
+    </script>
 
 </body>
 </html>

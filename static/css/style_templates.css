@@ -256,6 +256,13 @@ input[type="password"]:focus {
     scrollbar-color: grey ; /* Define el color de la barra de desplazamiento (Webkit y Blink) */
 }
 
+.scroll-contentt {
+    height: 700px;
+    background-color: black; /* Color de fondo del contenido */
+    margin: 0;
+    text-align: auto;
+    justify-content: auto;
+}
 .scroll-contt {
     width: 100%;
     height: 1440px; /* Altura del contenido, debe ser mayor que la del contenedor para que aparezca la barra de desplazamiento */
@@ -367,6 +374,7 @@ select:focus {
 
 /* Estilo para el contenedor de ingredientes */
 fieldset {
+    width: 900px;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
@@ -543,3 +551,15 @@ a:hover{
     border-radius: 5px;
     margin-top: 10px;
 }
+
+#campo-fijo {
+    position: fixed;
+    top: 317px; /* Ajusta la distancia desde la parte superior según sea necesario */
+    right: 23px; /* Ajusta la distancia desde la derecha según sea necesario */
+    width: 390px;
+    height: 470px;
+    background-color: #333;
+    border: 2px solid white;
+    border-radius: 3px;
+}
+

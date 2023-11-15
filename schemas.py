@@ -89,3 +89,49 @@ class InfoDisplayModel(BaseModel):
 
 
 # ------------------------------------------
+
+class Familia(BaseModel):
+    id: int
+
+    class Config():
+        orm_mode = True
+
+
+class Articulo(BaseModel):
+    descripcion: str
+    precio: int
+    familia_id: int
+   
+class ArticuloDisplayModel(BaseModel):
+    descripcion: str
+    precio: int
+    familia_id: Familia
+
+    class Config():
+        orm_mode = True
+
+# ------------------------------------------
+class User3(BaseModel):
+    id: int
+    username: str
+
+    class Config():
+        orm_mode = True
+
+
+class Pedido(BaseModel):
+    cantidad: int
+    total: int
+    id_articulo: int
+    id_user: int
+
+
+class PedidoDisplayModel(BaseModel):
+    cantidad: int
+    total: int
+    id_articulo: int
+    id_user: User3
+
+    class Config():
+        orm_mode = True
+  
