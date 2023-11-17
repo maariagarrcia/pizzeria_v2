@@ -48,3 +48,199 @@
         <button onclick="cerrar_sesion()" class="btn btn-danger btn-sm">Cerrar Sesión</button>
         </div>
     </nav>
+
+    <div class="scroll-container">
+    <div class="scroll-content">
+
+        <div class="container">
+
+<div style="margin-top: 40px; display: flex; ">
+
+    <fieldset style="width: 350px; height: 350px; display: inline-block; margin-left: 300px;margin-right:45px; text-align: center;">
+        {% for articulo in articulos if articulo.familia_id == 4 %}
+            <legend>TU MENÚ</legend>
+            <div class="col-md-3 text-center">
+                <div class="articulo mt-2" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <img src="/static/images/menu.png" style="width: 200px; height: 200px; margin-left:250px;">
+                    <button onclick="menu()" class="btn btn-danger mt-3" style="width: 150px; margin-left:250px;">{{ articulo.descripcion }}</button>
+                    <strong style="color: white; margin-left:250px;"> ${{ articulo.precio }}</strong>
+
+                </div>
+            </div>
+        {% endfor %}
+    </fieldset>
+
+    <fieldset style="width: 350px; height: 350px; display: inline-block; text-align: center;">
+        <legend>TU PIZZA PERSONALIZADA</legend>
+        <div class="col-md-12 text-center">
+            {% for articulo in articulos if articulo.familia_id == 5 %}
+                <div class="articulo d-flex flex-column align-items-center mt-2">
+                    <img src="/static/images/personalizar.png" style="width: 200px; height: 200px;">
+                    <button onclick="pizza()" class="btn btn-danger mt-3">{{ articulo.descripcion }}</button>
+                    <strong style="color: white;">${{ articulo.precio }}</strong>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+</div>
+            </div>
+
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <hr style="flex: 1; border: 5px solid red;">
+                    <span style="padding: 0 10px; color: red ;font-size: 30px;">PIZZAS</span>
+                    <hr style="flex: 1; border: 5px solid red;">
+                </div>           
+            </div>
+        </div>
+
+        <div class="row">
+            {% for articulo in articulos if articulo.familia_id == 1 %}
+                <div class="col-md-3">
+                    <div class="articulo d-flex justify-content-center align-items-center mt-2">
+                        <input type="checkbox" name="selected_pizzas" value="{{ articulo.id_articulo }}" style="margin-right: 5px;">
+                        <strong style="color: white;">{{ articulo.descripcion }} - ${{ articulo.precio }}</strong>
+                        <input type="number" name="cantidad_pizzas" id="cantidad" value="1" min="0" max="10" style="margin-left:15px; background-color: black; color: white;">
+
+                    </div>
+                    {% set imagen_nombre = articulo.descripcion|lower|replace(' ', '') %}
+                    {% set imagen_url = '/static/images/pizzas/' + imagen_nombre + '.png' %}
+                    <img src="{{ imagen_url }}" style="width: 200px; height: 200px; margin-left: 74px;">
+                </div>
+
+            {% endfor %}
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <hr style="flex: 1; border: 5px solid red;">
+                    <span style="padding: 0 10px; color: red ;font-size: 30px;">BEBIDAS</span>
+                    <hr style="flex: 1; border: 5px solid red;">
+                </div>     
+            </div>
+        </div>
+
+        <div class="row">
+            {% for articulo in articulos if articulo.familia_id == 2 %}
+                <div class="col-md-3">
+                    <div class="articulo d-flex justify-content-center align-items-center mt-2">
+                        <input type="checkbox" name="selected_bebidas" value="{{ articulo.id_articulo }}" style="margin-right: 5px;">
+                        <strong style="color: white;">{{ articulo.descripcion }} - ${{ articulo.precio }}</strong>
+                        <input type="number" name="cantidad_bebidas" id="cantidad" value="1" min="0" max="10" style="margin-left:15px; background-color: black; color: white;">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <hr style="flex: 1; border: 5px solid red;">
+                    <span style="padding: 0 10px; color: red ;font-size: 30px;">POSTRES</span>
+                    <hr style="flex: 1; border: 5px solid red;">
+                </div>            
+                </div>
+        </div>
+
+        <div class="row">
+            {% for articulo in articulos if articulo.familia_id == 3 %}
+                <div class="col-md-3">
+                    <div class="articulo d-flex justify-content-center align-items-center mt-2">
+                        <input type="checkbox" name="selected_postres" value="{{ articulo.id_articulo }}" style="margin-right: 5px;">
+                        <strong style="color: white;">{{ articulo.descripcion }} - ${{ articulo.precio }}</strong>
+                        <input type="number" name="cantidad_postres" id="cantidad" value="1" min="0" max="10" style="margin-left:15px; background-color: black; color: white;">
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button onclick="agregar_pedido()" class="btn btn-danger btn-lg btn-block mt-5">Agregar Pedido</button>
+
+    </div>
+        
+
+    </div>
+    </div>
+    <script>
+        function menu() {
+            // Cambia la URL a la que deseas redirigir
+            window.location.href = '/articulo/menu';
+        }
+
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+              let c = ca[i];
+              while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+              }
+            }
+            return "";
+        }
+
+        let pedidoCounter = 1;
+
+        async function agregar_pedido() {
+            const selectedPizzas = document.querySelectorAll('input[name="selected_pizzas"]:checked');
+            const selectedBebidas = document.querySelectorAll('input[name="selected_bebidas"]:checked');
+            const selectedPostres = document.querySelectorAll('input[name="selected_postres"]:checked');
+
+            const selectedPizzasIds = Array.from(selectedPizzas).map(checkbox => parseInt(checkbox.value));
+            const selectedBebidasIds = Array.from(selectedBebidas).map(checkbox => parseInt(checkbox.value));
+            const selectedPostresIds = Array.from(selectedPostres).map(checkbox => parseInt(checkbox.value));
+            
+
+            // Combine all selected item IDs into a single array
+            const selectedIds = selectedPizzasIds.concat(selectedBebidasIds, selectedPostresIds);
+
+            const selectedCantidadBebidas = document.getElementById("cantidad");
+            const cantidadBebidas = parseInt(selectedCantidadBebidas.value);
+
+
+            const currentPedidoId = pedidoCounter;
+            pedidoCounter++;
+
+            // Iterate over each selected item and send a separate request
+            for (const id of selectedIds) {
+                const pedidoData = {
+                    id_pedido: currentPedidoId,
+                    id_user: parseInt(getCookie("user_id")),
+                    id_articulo: id,
+                    cantidad: cantidadBebidas,  // You may customize this based on your requirements
+                    total: 11 ,
+                    menu:0 
+                };
+
+                
+                // Example of sending the data using fetch (replace URL with your actual endpoint)
+                const response = await fetch('http://127.0.0.1:8000/pedido/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(pedidoData),
+                });
+
+                // Handle the response as needed for each item
+                const result = await response.json();
+                console.log(result);
+            }
+
+        }          
+
+
+
+
+
+    </script>
+
+</body>
+</html>

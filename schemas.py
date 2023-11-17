@@ -101,17 +101,19 @@ class Articulo(BaseModel):
     descripcion: str
     precio: int
     familia_id: int
+    tipo: str
    
 class ArticuloDisplayModel(BaseModel):
     descripcion: str
     precio: int
     familia_id: Familia
+    tipo:str
 
     class Config():
         orm_mode = True
 
 # ------------------------------------------
-class User3(BaseModel):
+class User2(BaseModel):
     id: int
     username: str
 
@@ -119,18 +121,31 @@ class User3(BaseModel):
         orm_mode = True
 
 
+class Articulo2(BaseModel):
+    id: int
+    descripcion: str
+    tipo: str
+    precio: int
+
+    class Config():
+        orm_mode = True
+
 class Pedido(BaseModel):
+    id_pedido:int
+    id_user: int
+    id_articulo: int
     cantidad: int
     total: int
-    id_articulo: int
-    id_user: int
+    menu:int
 
 
 class PedidoDisplayModel(BaseModel):
+    id_pedido:int
+    id_user: User2
+    id_articulo: Articulo2
     cantidad: int
     total: int
-    id_articulo: int
-    id_user: User3
+    menu:int
 
     class Config():
         orm_mode = True

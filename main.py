@@ -33,6 +33,7 @@ app.include_router(extra_info.router)
 
 
 app.mount("/static/images/", StaticFiles(directory="static/images"), name="static")
+app.mount("/static/images/pizzas/", StaticFiles(directory="static/images/pizzas"), name="static")
 app.mount("/static/css/", StaticFiles(directory="static/css"), name="static")
 
 app.mount("/templates", StaticFiles(directory="templates"), name="templates")

@@ -39,9 +39,19 @@ async def create_familia(db: Session = Depends(get_db)):
         descripcion="Postre"
     )
 
+    menu = Familia(
+        descripcion="Menu"
+    )
+
+    pizza_pers = Familia(
+        descripcion="Pizza Personalizada"
+    )
+
     db.add(pizza)
     db.add(bebida)
     db.add(postre)
+    db.add(menu)
+    db.add(pizza_pers)
     db.commit()
 
 

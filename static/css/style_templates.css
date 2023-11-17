@@ -58,10 +58,10 @@ nav a:hover {
 h2 {
     text-transform: uppercase;
     font-weight: bold;
-    color: #577796; /* Hace que el texto sea transparente */
+    color: red; /* Hace que el texto sea transparente */
     font-size: 35px;
     text-align: center;
-    border: 1px solid #2c3e50; /* Borde azul oscuro */
+    border: 1px solid red; /* Borde azul oscuro */
     border-radius: 5px;
     padding: 5px;
 }
@@ -563,3 +563,27 @@ a:hover{
     border-radius: 3px;
 }
 
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.articulo {
+    margin-bottom: 10px;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: inline-block;
+    width: 250px; /* Set a fixed width for better alignment */
+}
+
+.categoria {
+    color: rgb(201, 46, 46);
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
