@@ -47,24 +47,45 @@
             <button onclick="cerrar_sesion()" class="btn btn-danger btn-sm">Cerrar Sesión</button>
         </div>
     </nav>
+<div class="scroll-container">
+    <div class="scroll-content">
+        <div class="container" style="justify-content: center;">
+            <div class="row">
+                <!-- Contenido izquierdo -->
+                <div class="col-md-3 mt-4" style="position: fixed;border-right:1px solid rgb(25, 25, 25) ;height:100%">
+                    <button onclick="mostrarMenu(1)" class="btn btn-danger btn-sm">MENU INDIVIDUAL</button>
+                    <img src="https://s4d-images.telepizza.es/Coupons/Original/Menu_Individual-I(I)01-31.jpg" style="width: 110px; height: 110px; margin-left: 36px;">
+                    <br><br><br><br>
+                    <button onclick="mostrarMenu(2)" class="btn btn-danger btn-sm" style="width: 142px;">MENU PAREJA</button>
+                    <img src="https://s4d-images.telepizza.es/Coupons/Original/_Menu_para_2-I(2P)17-19.jpg" style="width: 110px; height: 110px; margin-left: 35px;">
+                    <br><br><br>
+                    <button onclick="mostrarMenu(3)" class="btn btn-danger btn-sm" style="width: 142px;">MENU TRIPLE</button>
+                    <img src="https://s4d-images.telepizza.es/Coupons/Original/El_Triple__3_familiares_desde_12_95%E2%82%AC_c_u-IAB_3P09-55.jpg" style="width: 110px; height: 110px; margin-left: 36px;">
+                </div>
 
-    <div class="scroll-container">
-        <div class="scroll-content">
-            <div class="container" style="justify-content: center;">
-                <button onclick="mostrarMenu(1)" class="btn btn-danger btn-sm">MENU INDIVIDUAL</button>
-                <button onclick="mostrarMenu(2)" class="btn btn-danger btn-sm">MENU PAREJA</button>
-                <button onclick="mostrarMenu(3)" class="btn btn-danger btn-sm">MENU TRIPLE</button>
-                
+                <!-- Contenido dinámico de los menús -->
+                <div class="col-md-9" style="margin-left: 410px; margin-top:20px;"> <!-- Ajusta según sea necesario -->
+                    <!-- Contenido del menú -->
+                    <div id="menu-container" style="margin-right: 0px; font-size: 20px;"></div>
+                </div>
 
-                <!-- Contenido dinámico de los menús se generará aquí -->
-                <div id="menu-container"></div>
-
-            </div>
-                <div id="menu-extra-container"></div>
+            <!-- Contenedor de menú extra -->
+                <div class="col-md-9" style="margin-left: 410px; margin-top:20px;"> <!-- Ajusta según sea necesario -->
+                    <!-- Contenido del menú -->
+                    <div id="menu-extra-container" style="margin-right: 0px; font-size: 20px;"></div>
+                </div>           
+                </div>
 
         </div>
-
     </div>
+
+    <!-- Imagen de pizza -->
+    <img id="pizza-images" src="/static/images/id.png" style="display:none; position: fixed; margin-left: 350px; margin-top: 0px; width: 270px; height: 120px; border-radius: 5px;">
+
+    <!-- Número de pedido -->
+    <div id="numero-pedido" style=""></div>
+</div>
+
 
     <script>
             function limitarSeleccion() {
@@ -118,44 +139,44 @@
             // Genera el contenido del menú según el tipo seleccionado
             
             menuContainer.innerHTML = `
-                <div id="${id}" style="display:none">
-                    <br>
-                    <div>
-                        <label for="pizza">Selecciona tus pizzas (máximo ${id}):</label>
+                <div id="${id}" style="display:none; font-size:18px;">
+                    <div style="float: left; width: 30%; ">
+                        <label for="pizza" style="color:#dc3545;">Selecciona tus pizzas (máximo ${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 1 %}
-                            <div>
-                                <input type="checkbox" name="selected_pizzas" value="{{ articulo.id_articulo }}" class="pizza-checkbox">
+                            <div style=" margin-top: 8px;">
+                                <input type="checkbox" name="selected_pizzas" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="pizza-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
                     </div>
-                    <div>
-                    <br>
-                        <label for="bebida">Selecciona tus bebidas (máximo${id}):</label>
+
+                    <div style="float: left; width: 30%;">
+                        <label for="bebida" style= "color:#dc3545;">Selecciona tus bebidas (máximo${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 2 %}
-                            <div>
-                                <input type="checkbox" name="selected_bebidas" value="{{ articulo.id_articulo }}" class="bebida-checkbox">
+                            <div style=" margin-top: 8px;">
+                                <input type="checkbox" name="selected_bebidas" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="bebida-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
                     </div>
-                    <!-- Postres -->
-                    <div>
-                    <br>
-                        <label for="postre">Selecciona tus postres (máximo ${id}):</label>
+
+                    <div style="float: left; width: 30%; margin-right:50px;">
+                        <label for="postre" style="color:#dc3545;">Selecciona tus postres (máximo ${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 3 %}
-                            <div>
-                                <input type="checkbox" name="selected_postres" value="{{ articulo.id_articulo }}" class="postre-checkbox">
+                            <div style=" margin-top: 8px;">
+                                <input type="checkbox" name="selected_postres" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="postre-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
                     </div>
-                    </div>
-                    <button onclick="agregar(${id})" id="agregar2" class="btn btn-danger btn-sm">AGREGAR</button>
+
+                    <div style="clear: both;"></div>
+
+                    <button onclick="agregar(${id})" id="agregar" class="btn btn-danger btn-sm" style="margin-left:250px;">AGREGAR</button>
                     <button onclick="send()" class="btn btn-danger btn-sm">ENVIAR</button>
                 </div>
             `;
-            
+
             // Muestra el menú correspondiente
             document.getElementById(id).style.display = "block";
             // Llama a la función para limitar la selección
@@ -172,49 +193,46 @@
             // Genera el contenido del menú según el tipo seleccionado
             
             menuContainer.innerHTML = `
-                <div id="${id}">
-                    <br>
-                    <div>
-                        <label for="pizza">Selecciona tus pizzas (máximo ${id}):</label>
+                <div id="${id}" style="font-size:18px;margin-top:80px;">
+                    <div style="float: left; width: 30%; ">
+                        <label for="pizza" style="color:#dc3545;">Selecciona tus pizzas (máximo ${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 1 %}
-                            <div>
+                            <div style=" margin-top: 8px;">
                                 <input type="checkbox" name="selected_pizzas" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="pizza-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
                     </div>
-                    <div>
-                    <br>
-                        <label for="bebida">Selecciona tus bebidas (máximo${id}):</label>
+            
+                    <div style="float: left; width: 30%;">
+                        <label for="bebida" style= "color:#dc3545;">Selecciona tus bebidas (máximo${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 2 %}
-                            <div>
-                                <input type="checkbox" name="selected_bebidas" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}"  class="bebida-checkbox">
+                            <div style=" margin-top: 8px;">
+                                <input type="checkbox" name="selected_bebidas" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="bebida-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
                     </div>
-                    <!-- Postres -->
-                    <div>
-                    <br>
-                        <label for="postre">Selecciona tus postres (máximo ${id}):</label>
+            
+                    <div style="float: left; width: 30%; margin-right:50px;">
+                        <label for="postre" style="color:#dc3545;">Selecciona tus postres (máximo ${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 3 %}
-                            <div>
+                            <div style=" margin-top: 8px;">
                                 <input type="checkbox" name="selected_postres" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="postre-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
                     </div>
-                    </div>
-                    <button onclick="agregar(${id})" class="btn btn-danger btn-sm">AGREGAR</button>
+            
+                    <div style="clear: both;"></div>
+            
+                    <button onclick="agregar(${id})" id="agregar" class="btn btn-danger btn-sm" style="margin-left:250px;" >AGREGAR</button>
                     <button onclick="send()" class="btn btn-danger btn-sm">ENVIAR</button>
                 </div>
             `;
-            
-            // Muestra el menú correspondiente
             document.getElementById(id).style.display = "block";
             // Llama a la función para limitar la selección
-            limitarSeleccion(id);
-
+            limitarSeleccion();
         }
         
         let pedidoCounter = 1;
@@ -230,6 +248,13 @@
 
             const selectedIds = selectedPizzasIds.concat(selectedBebidasIds, selectedPostresIds);
 
+            const selectedPizzasPrecios = Array.from(selectedPizzas).map(checkbox => parseInt(checkbox.getAttribute("precio")));
+            const selectedBebidasPrecios = Array.from(selectedBebidas).map(checkbox => parseInt(checkbox.getAttribute("precio")));
+            const selectedPostresPrecios = Array.from(selectedPostres).map(checkbox => parseInt(checkbox.getAttribute("precio")));
+
+            const selectedPrecios = selectedPizzasPrecios + selectedBebidasPrecios + selectedPostresPrecios;
+
+
 
             const currentPedidoId = pedidoCounter;
             pedidoCounter++;
@@ -244,7 +269,7 @@
                     id_user: parseInt(getCookie("user_id")),
                     id_articulo: id,
                     cantidad: 1,
-                    total: 1,
+                    total: selectedPrecios,
                     menu: menuType, // Establece el tipo de menú en función de la selección
                 };
 
@@ -261,6 +286,30 @@
                 const result = await response.json();
                 console.log(result);
             }
+
+            // Muestra un mensaje de éxito
+            const numeroPedido = document.getElementById("numero-pedido");
+            numeroPedido.innerHTML = currentPedidoId;
+            numeroPedido.style.display = "block";
+
+            // Muestra la imagen de la pizza
+            const pizzaImage = document.getElementById("pizza-images");
+            pizzaImage.style.display = "block";
+
+            // Oculta el botón de agregar
+            const agregarButton = document.getElementById("agregar");
+            agregarButton.style.display = "none";
+
+            // Oculta el menú
+            const menuContainer = document.getElementById("menu-container");
+            menuContainer.style.display = "none";
+
+            // Oculta el menú extra
+            const menuExtraContainer = document.getElementById("menu-extra-container");
+            menuExtraContainer.style.display = "none";
+
+
+            
         }
 
         function getMenuType() {

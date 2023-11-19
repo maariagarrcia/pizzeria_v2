@@ -1,7 +1,7 @@
 from sqlalchemy.orm.session import Session
 from db.models import DbItem
 from fastapi import HTTPException
-from schemas import ItemDisplayModel,Item
+from schemas import ItemDisplayModel, Item
 from builder import ItemBuilder
 from abc import ABC, abstractmethod
 from db.models import DbItem, Ingredient, Extra
@@ -10,16 +10,14 @@ from schemas import UserBaseModel, UserDisplayModel, ItemDisplayModel, ItemModel
 from fastapi.responses import JSONResponse
 
 
-
-
 class CrudItemsInterfaz:
     @abstractmethod
-    def create_pedido(self, data,request):
+    def create_pedido(self, data, request):
         # create a new record in the database
         pass
 
     @abstractmethod
-    def get_all(self,data):
+    def get_all(self, data):
         # get all records from the database
         pass
 
@@ -29,7 +27,7 @@ class CrudItemsInterfaz:
         pass
 
     @abstractmethod
-    def update_pedido(self, id, data,request):
+    def update_pedido(self, id, data, request):
         # update a record in the database
         pass
 
@@ -38,10 +36,11 @@ class CrudItemsInterfaz:
         # delete a record from the database
         pass
 
+
 class CrudItems(CrudItemsInterfaz):
-    
+
     @staticmethod
-    def create_pedido(db:Session, request:Item):
+    def create_pedido(db: Session, request: Item):
         if not request.ingredientes:
             request.ingredientes = []
         if not request.extras:
@@ -72,7 +71,6 @@ class CrudItems(CrudItemsInterfaz):
         db.commit()
         db.refresh(new_pedido)
 
-
         userr = User(id=request.creator_id, username=" ")
 
         new_pedido_dict = ItemDisplayModel(
@@ -86,15 +84,13 @@ class CrudItems(CrudItemsInterfaz):
             maridaje=new_pedido.maridaje,
             user=userr
         )
-        
+
         new_pedido_id = new_pedido.id
-        response= JSONResponse(content={"pedido_id":  new_pedido.id})
+        response = JSONResponse(content={"pedido_id":  new_pedido.id})
         response.set_cookie(key="pedido_id", value=f"{new_pedido.id}")
 
-        
         print(f"Pedido creado con ID: {new_pedido_id}")
-        return new_pedido_dict    
-    
+        return new_pedido_dict
 
     @staticmethod
     def get_pedido_by_id(items_id: int, db: Session):
@@ -109,7 +105,7 @@ class CrudItems(CrudItemsInterfaz):
             item_builder.get_maridaje()
             item_builder.get_ingredientes()
             item_builder.get_extras()
-            item_builder.get_user()    
+            item_builder.get_user()
 
             print("Construyendo pizza")
             pizza = item_builder.build()
@@ -118,43 +114,46 @@ class CrudItems(CrudItemsInterfaz):
                 raise HTTPException(status_code=404, detail="Item not found")
 
             return pizza
-        
+
         except Exception as e:
             print(f"Error en get_pedido_by_id: {e}")
             raise
- 
+
     @staticmethod
     def update_pedido(id: int, db: Session, request: Item):
         pedido = CrudItems.get_pedido_by_id(id, db)
-    
+
         if pedido:
             pedido.masa = request.masa
             pedido.salsa = request.salsa
-    
+
             # Convertir la lista de ingredientes a una cadena separada por comas
             ingredientes_str = ', '.join(request.ingredientes)
             # Crear instancias de Ingredient para cada ingrediente en la lista
-            ingredientes_objetos = [Ingredient(name=nombre) for nombre in ingredientes_str.split(', ')]
+            ingredientes_objetos = [Ingredient(
+                name=nombre) for nombre in ingredientes_str.split(', ')]
             pedido.ingredientes = ingredientes_objetos
-    
+
             # Convertir la lista de extras a una cadena separada por comas
             extras_str = ', '.join(request.extras)
             # Crear instancias de Extra para cada extra en la lista
-            extras_objetos = [Extra(name=nombre) for nombre in extras_str.split(', ')]
+            extras_objetos = [Extra(name=nombre)
+                              for nombre in extras_str.split(', ')]
             pedido.extras = extras_objetos
-    
+
             pedido.tecnica = request.tecnica
             pedido.presentacion = request.presentacion
             pedido.maridaje = request.maridaje
-    
+
             db.commit()
-    
+
             db.refresh(pedido)
             return ItemDisplayModel(
                 id=pedido.id,
                 masa=pedido.masa,
                 salsa=pedido.salsa,
-                ingredientes=[ingrediente.name for ingrediente in pedido.ingredientes],
+                ingredientes=[
+                    ingrediente.name for ingrediente in pedido.ingredientes],
                 extras=[extra.name for extra in pedido.extras],
                 tecnica=pedido.tecnica,
                 presentacion=pedido.presentacion,
@@ -164,7 +163,7 @@ class CrudItems(CrudItemsInterfaz):
         raise HTTPException(status_code=404, detail="Pedido no encontrado")
 
     @staticmethod
-    def delete_pedido(id:int,db:Session):
+    def delete_pedido(id: int, db: Session):
         # Obtener el pedido por ID
         pedido = CrudItems.get_pedido_by_id(id, db)
 
