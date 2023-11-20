@@ -14,7 +14,7 @@ from typing import List
 
 from schemas import User2, PedidoDisplayModel, Pedido, Articulo2
 
-from composite import Pedido, LineasPedido, Articulo
+from composite import PedidoC, LineasPedido, Articulo
 
 from fastapi import HTTPException
 
@@ -61,32 +61,48 @@ async def submit_pedido(request: Pedido, db: Session = Depends(get_db)):
     return new_pedido_dict
 
 
+
 @router.get('/get_id/{pedido_id}')
 async def get_pedido(pedido_id: int, db: Session = Depends(get_db)):
-    # Obtener el pedido de la base de datos
-    db_pedido = db.query(DbPedido).filter(
-        DbPedido.id_pedido == pedido_id).first()
+    # Obtener el pedido y sus líneas de pedido de la base de datos
+    db_pedido = db.query(DbPedido).filter(DbPedido.id_pedido == pedido_id).first()
 
     # Verificar si el pedido existe
     if not db_pedido:
         raise HTTPException(status_code=404, detail="Pedido no encontrado")
 
-    # Convertir el pedido de la base de datos a un objeto Pedido
-    pedido = Pedido(id_pedido=db_pedido.id_pedido,
-                    id_user=db_pedido.id_user, pvp=db_pedido.total, lineas_pedido=[])
+    # Si el pedido es una hoja (tipo 0), simplemente crea una línea de pedido
+    if db_pedido.menu == 0:
+        articulo = Articulo(
+            id_articulo=db_pedido.articulo.id_articulo,
+            tipo_articulo=db_pedido.articulo.tipo,
+            descripcion=db_pedido.articulo.descripcion,
+            pvp=db_pedido.articulo.precio
+        )
+        linea_pedido = LineasPedido(
+            articulo=articulo, cantidad=db_pedido.cantidad
+        )
+        detalles_pedido = linea_pedido.obtener_detalles()
+    else:
+        # Si el pedido es una composición (tipo diferente de 0), crea un pedido compuesto
+        pedido_compuesto = PedidoC(id_pedido=db_pedido.id_pedido, id_user=db_pedido.id_user, pvp=db_pedido.total, lineas_pedido=[])
 
-    # Convertir la línea de pedido de la base de datos a un objeto LineasPedido
-    articulo = Articulo(
-        id_articulo=db_pedido.articulo.id_articulo,
-        tipo_articulo=db_pedido.articulo.tipo,
-        descripcion=db_pedido.articulo.descripcion,
-        pvp=db_pedido.articulo.precio
-    )
-    linea_pedido = LineasPedido(
-        articulo=articulo, cantidad=db_pedido.cantidad)
-    pedido.lineas_pedido.append(linea_pedido)
+        # Obtén todas las líneas de pedido asociadas al pedido
+        db_lineas_pedido = db.query(DbPedido).filter(DbPedido.id_pedido == pedido_id).all()
 
-    # Obtener los detalles del pedido compuesto utilizando el patrón Composite
-    detalles_pedido = pedido.obtener_detalles()
+        for db_linea_pedido in db_lineas_pedido:
+            articulo = Articulo(
+                id_articulo=db_linea_pedido.articulo.id_articulo,
+                tipo_articulo=db_linea_pedido.articulo.tipo,
+                descripcion=db_linea_pedido.articulo.descripcion,
+                pvp=db_linea_pedido.articulo.precio
+            )
+            linea_pedido = LineasPedido(
+                articulo=articulo, cantidad=db_linea_pedido.cantidad
+            )
+            pedido_compuesto.lineas_pedido.append(linea_pedido)
+
+        # Obtener los detalles del pedido compuesto utilizando el patrón Composite
+        detalles_pedido = pedido_compuesto.obtener_detalles()
 
     return {"detalles_pedido": detalles_pedido}

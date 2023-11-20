@@ -20,7 +20,7 @@ class LineasPedido(BaseModel):
     pvp: float
 
 
-class Pedido(BaseModel):
+class PedidoC(BaseModel):
     id_pedido: int
     id_user: int
     pvp: float
@@ -69,7 +69,7 @@ class LineasPedido(Componente):
     def obtener_detalles(self) -> str:
         return f"{self.cantidad} x {self.articulo.obtener_detalles()}"
 
-class Pedido(Componente):
+class PedidoC(Componente):
     id_pedido: int
     id_user: int
     pvp: float
