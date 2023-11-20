@@ -62,13 +62,13 @@
 
         <h1 class="mb-4"></h1>
         <ul class="list-group">
-            <li class="list-group-item" style="background-color: rgb(201, 46, 46); color: black;" >
+            <li class="list-group-item" style="background-color: rgb(201, 46, 46); color: white;" >
                 <strong>ID del Pedido:</strong> {{ pedido_compuesto.id_pedido }}<br>
                 <strong>Precio Total:</strong> ${{ pedido_compuesto.get_pvp() }}<br><br>
                 <strong>Detalles sobre el Pedido:</strong><br>
                 <ul class="list-group">
                 {% for linea in pedido_compuesto.lineas_pedido %}
-                    <li class="list-group-item" style="background-color: rgb(201, 46, 46); color: black;">
+                    <li class="list-group-item" style="background-color: rgb(201, 46, 46); color: white;">
                         <strong>Artículo:</strong> {{ linea.articulo.descripcion }}<br>
                         <strong>Cantidad:</strong> {{ linea.cantidad }}<br>
                         <strong>Precio Unitario:</strong> ${{ linea.articulo.pvp }}<br>
