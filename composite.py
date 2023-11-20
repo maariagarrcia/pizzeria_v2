@@ -7,24 +7,7 @@ from typing import List
 # Clases de datos (DTO) pydantic y enumerables
 #
 
-class Articulo(BaseModel):
-    id_articulo: int
-    tipo_articulo: str
-    descripcion: str
-    pvp: float
 
-
-class LineasPedido(BaseModel):
-    articulo: Articulo
-    cantidad: int
-    pvp: float
-
-
-class PedidoC(BaseModel):
-    id_pedido: int
-    id_user: int
-    pvp: float
-    lineas_pedido: list[LineasPedido]
 
 
 from typing import List
@@ -80,7 +63,7 @@ class PedidoC(Componente):
 
     def obtener_detalles(self) -> str:
         detalles_lineas = "\n".join(linea.obtener_detalles() for linea in self.lineas_pedido)
-        return f"Detalles del Pedido (ID: {self.id_pedido}, Usuario ID: {self.id_user}):\n{detalles_lineas}\nPrecio Total: ${self.get_pvp()}"
+        return detalles_lineas
 
 # Ejemplo de uso
 #if __name__ == "__main__":

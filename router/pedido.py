@@ -18,16 +18,28 @@ from composite import PedidoC, LineasPedido, Articulo
 
 from fastapi import HTTPException
 
+from fastapi.responses import HTMLResponse
+from fastapi import Request
+
 
 router = APIRouter(
     prefix='/pedido',
     tags=['Pedido']
 )
 
+router.mount("/static/images/",
+             StaticFiles(directory="static/images"), name="static")
+router.mount("/static/images/pizzas/",
+             StaticFiles(directory="static/images/pizzas"), name="static")
 router.mount("/static/css/", StaticFiles(directory="static/css"), name="static")
-
+router
 router.mount("/templates", StaticFiles(directory="templates"),
              name="templates")
+router.mount("/templates/pizza_personalizada",
+             StaticFiles(directory="templates/pizza_personalizada"), name="templates")
+router.mount("/templates/pedidos",
+             StaticFiles(directory="templates/pedidos"), name="templates")
+
 templates = Jinja2Templates(directory="templates")
 
 
@@ -61,11 +73,11 @@ async def submit_pedido(request: Pedido, db: Session = Depends(get_db)):
     return new_pedido_dict
 
 
-
 @router.get('/get_id/{pedido_id}')
-async def get_pedido(pedido_id: int, db: Session = Depends(get_db)):
+async def get_pedido(request: Request, pedido_id: int, db: Session = Depends(get_db)):
     # Obtener el pedido y sus líneas de pedido de la base de datos
-    db_pedido = db.query(DbPedido).filter(DbPedido.id_pedido == pedido_id).first()
+    db_pedido = db.query(DbPedido).filter(
+        DbPedido.id_pedido == pedido_id).first()
 
     # Verificar si el pedido existe
     if not db_pedido:
@@ -85,10 +97,12 @@ async def get_pedido(pedido_id: int, db: Session = Depends(get_db)):
         detalles_pedido = linea_pedido.obtener_detalles()
     else:
         # Si el pedido es una composición (tipo diferente de 0), crea un pedido compuesto
-        pedido_compuesto = PedidoC(id_pedido=db_pedido.id_pedido, id_user=db_pedido.id_user, pvp=db_pedido.total, lineas_pedido=[])
+        pedido_compuesto = PedidoC(id_pedido=db_pedido.id_pedido,
+                                   id_user=db_pedido.id_user, pvp=db_pedido.total, lineas_pedido=[])
 
         # Obtén todas las líneas de pedido asociadas al pedido
-        db_lineas_pedido = db.query(DbPedido).filter(DbPedido.id_pedido == pedido_id).all()
+        db_lineas_pedido = db.query(DbPedido).filter(
+            DbPedido.id_pedido == pedido_id).all()
 
         for db_linea_pedido in db_lineas_pedido:
             articulo = Articulo(
@@ -105,4 +119,5 @@ async def get_pedido(pedido_id: int, db: Session = Depends(get_db)):
         # Obtener los detalles del pedido compuesto utilizando el patrón Composite
         detalles_pedido = pedido_compuesto.obtener_detalles()
 
-    return {"detalles_pedido": detalles_pedido}
+    # Devuelve los detalles del pedido para mostrarlos en la página web
+        return templates.TemplateResponse("pedidos/ver_pedido.html", {"request": request, "detalles_pedido": detalles_pedido,"pedido_compuesto":pedido_compuesto,"linea_pedido":linea_pedido,"articulo":articulo})
