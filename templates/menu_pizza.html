@@ -88,50 +88,41 @@
 
 
     <script>
-            function limitarSeleccion() {
-                const menu1 = document.getElementById("1");
-                const menu2 = document.getElementById("2");
-                const menu3 = document.getElementById("3");
+function limitarSeleccion() {
+    const menu1 = document.getElementById("1");
+    const menu2 = document.getElementById("2");
+    const menu3 = document.getElementById("3");
 
-                if (menu1 && (menu1.style.display === "" || menu1.style.display === "block")) {
-                    // Script para limitar la selección a 1 checkbox por categoría
-                    const checkboxes = document.querySelectorAll('.pizza-checkbox, .bebida-checkbox, .postre-checkbox');
-                    checkboxes.forEach(checkbox => {
-                        checkbox.addEventListener('change', () => {
-                            const checkboxesSeleccionados = document.querySelectorAll(`.${checkbox.className}:checked`);
-                            if (checkboxesSeleccionados.length > 1) {
-                                checkbox.checked = false;
-                            }
-                        });
-                    });
-                } else if (menu2 && menu2.style.display === "block") {
-                    const checkboxes = document.querySelectorAll('.pizza-checkbox, .bebida-checkbox, .postre-checkbox');
-                    checkboxes.forEach(checkbox => {
-                        checkbox.addEventListener('change', () => {
-                            const checkboxesSeleccionados = document.querySelectorAll(`.${checkbox.className}:checked`);
-                            if (checkboxesSeleccionados.length > 2) {
-                                checkbox.checked = false;
-                            }
-                        });
-                    });
-                } else if (menu3 && menu3.style.display === "block") {
-                    const checkboxes = document.querySelectorAll('.pizza-checkbox, .bebida-checkbox, .postre-checkbox');
-                    checkboxes.forEach(checkbox => {
-                        checkbox.addEventListener('change', () => {
-                            const checkboxesSeleccionados = document.querySelectorAll(`.${checkbox.className}:checked`);
-                            if (checkboxesSeleccionados.length > 3) {
-                                checkbox.checked = false;
-                            }
-                        });
-                    });
+    let currentMenu;
+    if (menu1 && (menu1.style.display === "" || menu1.style.display === "block")) {
+        currentMenu = menu1;
+    } else if (menu2 && menu2.style.display === "block") {
+        currentMenu = menu2;
+    } else if (menu3 && menu3.style.display === "block") {
+        currentMenu = menu3;
+    }
+
+    if (currentMenu) {
+        const checkboxes = currentMenu.querySelectorAll('.pizza-checkbox, .bebida-checkbox, .postre-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const checkboxesSeleccionados = currentMenu.querySelectorAll(`.${checkbox.className}:checked`);
+                const maxSeleccion = parseInt(currentMenu.id);
+                if (checkboxesSeleccionados.length > maxSeleccion) {
+                    checkbox.checked = false;
                 }
-
-            }
-
+            });
+        });
+    }
+}
 
         function mostrarMenu(id) {
             // Obtén la referencia al contenedor del menú
             const menuContainer = document.getElementById("menu-container");
+
+            menuContainer.style.display = "block";
+
+
 
             // Reinicia el contenido del contenedor
             menuContainer.innerHTML = "";
@@ -139,12 +130,12 @@
             // Genera el contenido del menú según el tipo seleccionado
             
             menuContainer.innerHTML = `
-                <div id="${id}" style="display:none; font-size:18px;">
+                <div id="${id}" style="font-size:18px;">
                     <div style="float: left; width: 30%; ">
                         <label for="pizza" style="color:#dc3545;">Selecciona tus pizzas (máximo ${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 1 %}
                             <div style=" margin-top: 8px;">
-                                <input type="checkbox" name="selected_pizzas" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="pizza-checkbox">
+                                <input type="checkbox" name="selected_pizzas" value="{{ articulo.id_articulo }}" precio={{ articulo.precio }} class="pizza-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
@@ -154,7 +145,7 @@
                         <label for="bebida" style= "color:#dc3545;">Selecciona tus bebidas (máximo${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 2 %}
                             <div style=" margin-top: 8px;">
-                                <input type="checkbox" name="selected_bebidas" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="bebida-checkbox">
+                                <input type="checkbox" name="selected_bebidas" value="{{ articulo.id_articulo }}" precio={{ articulo.precio }} class="bebida-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
@@ -164,7 +155,7 @@
                         <label for="postre" style="color:#dc3545;">Selecciona tus postres (máximo ${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 3 %}
                             <div style=" margin-top: 8px;">
-                                <input type="checkbox" name="selected_postres" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="postre-checkbox">
+                                <input type="checkbox" name="selected_postres" value="{{ articulo.id_articulo }}" precio="{ articulo.precio }} class="postre-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
@@ -185,20 +176,20 @@
         }
         
         function agregar(id){
-            const menuContainer = document.getElementById("menu-extra-container");
+            const menuExtraContainer = document.getElementById("menu-extra-container");
+            menuExtraContainer.innerHTML += "";  // Concatenar el nuevo contenido
+            menuExtraContainer.style.display = "block";
 
-            // Reinicia el contenido del contenedor
-            menuContainer.innerHTML = "";
 
             // Genera el contenido del menú según el tipo seleccionado
             
-            menuContainer.innerHTML = `
+            menuExtraContainer.innerHTML = `
                 <div id="${id}" style="font-size:18px;margin-top:80px;">
                     <div style="float: left; width: 30%; ">
                         <label for="pizza" style="color:#dc3545;">Selecciona tus pizzas (máximo ${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 1 %}
                             <div style=" margin-top: 8px;">
-                                <input type="checkbox" name="selected_pizzas" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="pizza-checkbox">
+                                <input type="checkbox" name="selected_pizzas_extras" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="pizza-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
@@ -208,7 +199,7 @@
                         <label for="bebida" style= "color:#dc3545;">Selecciona tus bebidas (máximo${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 2 %}
                             <div style=" margin-top: 8px;">
-                                <input type="checkbox" name="selected_bebidas" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="bebida-checkbox">
+                                <input type="checkbox" name="selected_bebidas_extras" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="bebida-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
@@ -218,7 +209,7 @@
                         <label for="postre" style="color:#dc3545;">Selecciona tus postres (máximo ${id}):</label>
                         {% for articulo in articulos if articulo.familia_id == 3 %}
                             <div style=" margin-top: 8px;">
-                                <input type="checkbox" name="selected_postres" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="postre-checkbox">
+                                <input type="checkbox" name="selected_postres_extras" value="{{ articulo.id_articulo }}" precio="{{ articulo.precio }}" class="postre-checkbox">
                                 <span style="color: white;">{{ articulo.descripcion }}</span>
                             </div>
                         {% endfor %}
@@ -242,17 +233,27 @@
             const selectedBebidas = document.querySelectorAll('input[name="selected_bebidas"]:checked');
             const selectedPostres = document.querySelectorAll('input[name="selected_postres"]:checked');
 
+            const selectedPizzasExtras = document.querySelectorAll('input[name="selected_pizzas_extras"]:checked');
+            const selectedBebidasExtras = document.querySelectorAll('input[name="selected_bebidas_extras"]:checked');
+            const selectedPostresExtras = document.querySelectorAll('input[name="selected_postres_extras"]:checked');
+
             const selectedPizzasIds = Array.from(selectedPizzas).map(checkbox => parseInt(checkbox.value));
             const selectedBebidasIds = Array.from(selectedBebidas).map(checkbox => parseInt(checkbox.value));
             const selectedPostresIds = Array.from(selectedPostres).map(checkbox => parseInt(checkbox.value));
 
-            const selectedIds = selectedPizzasIds.concat(selectedBebidasIds, selectedPostresIds);
+            const selectedPizzasExtrasIds = Array.from(selectedPizzasExtras).map(checkbox => parseInt(checkbox.value));
+            const selectedBebidasExtrasIds = Array.from(selectedBebidasExtras).map(checkbox => parseInt(checkbox.value));
+            const selectedPostresExtrasIds = Array.from(selectedPostresExtras).map(checkbox => parseInt(checkbox.value));
+
+            const selectedIds = selectedPizzasIds.concat(selectedBebidasIds, selectedPostresIds, selectedPizzasExtrasIds, selectedBebidasExtrasIds, selectedPostresExtrasIds);
 
             const selectedPizzasPrecios = Array.from(selectedPizzas).map(checkbox => parseInt(checkbox.getAttribute("precio")));
             const selectedBebidasPrecios = Array.from(selectedBebidas).map(checkbox => parseInt(checkbox.getAttribute("precio")));
             const selectedPostresPrecios = Array.from(selectedPostres).map(checkbox => parseInt(checkbox.getAttribute("precio")));
 
-            const selectedPrecios = selectedPizzasPrecios + selectedBebidasPrecios + selectedPostresPrecios;
+            const precios = selectedPizzasPrecios + selectedBebidasPrecios + selectedPostresPrecios;
+
+
 
 
 
@@ -269,7 +270,7 @@
                     id_user: parseInt(getCookie("user_id")),
                     id_articulo: id,
                     cantidad: 1,
-                    total: selectedPrecios,
+                    total: 1,
                     menu: menuType, // Establece el tipo de menú en función de la selección
                 };
 
@@ -295,10 +296,6 @@
             // Muestra la imagen de la pizza
             const pizzaImage = document.getElementById("pizza-images");
             pizzaImage.style.display = "block";
-
-            // Oculta el botón de agregar
-            const agregarButton = document.getElementById("agregar");
-            agregarButton.style.display = "none";
 
             // Oculta el menú
             const menuContainer = document.getElementById("menu-container");
