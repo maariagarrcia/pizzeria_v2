@@ -37,6 +37,7 @@ app.mount("/static/images/pizzas/", StaticFiles(directory="static/images/pizzas"
 app.mount("/static/css/", StaticFiles(directory="static/css"), name="static")
 
 app.mount("/templates", StaticFiles(directory="templates"), name="templates")
+app.mount("/templates/pizza_personalizada", StaticFiles(directory="templates/pizza_personalizada"), name="templates")
 app.mount("/templates/pedidos", StaticFiles(directory="templates/pedidos"), name="templates")
 
 templates = Jinja2Templates(directory="templates")
