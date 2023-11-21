@@ -14,6 +14,9 @@ from typing import List
 from fastapi import FastAPI, Request, status
 import logging
 
+from db import  db_familia
+from db.db_familia import CrudFamilias
+
 
 router = APIRouter(
     prefix='/familia',
@@ -28,32 +31,7 @@ templates = Jinja2Templates(directory="templates")
 
 @router.post('/submit', status_code=status.HTTP_201_CREATED)
 async def create_familia(db: Session = Depends(get_db)):
-    pizza=Familia(
-        descripcion="Pizza"
-    )
-    bebida=Familia(
-        descripcion="Bebida"
-    )
-
-    postre=Familia(
-        descripcion="Postre"
-    )
-
-    menu = Familia(
-        descripcion="Menu"
-    )
-
-    pizza_pers = Familia(
-        descripcion="Pizza Personalizada"
-    )
-
-    db.add(pizza)
-    db.add(bebida)
-    db.add(postre)
-    db.add(menu)
-    db.add(pizza_pers)
+    CrudFamilias.create_familia(db=db)
     db.commit()
-
-
     return {"message": "Articulos creados"}
 

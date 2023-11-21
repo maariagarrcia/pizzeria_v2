@@ -18,6 +18,13 @@ from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 
 from fastapi import status
+from fastapi.responses import HTMLResponse
+
+from db.database import SessionLocal, engine
+from db import models
+from db.models import DbArticulo
+from db.db_articulo import CrudArticulos
+from db.db_familia import CrudFamilias
 
 app = FastAPI()
 app.include_router(familia.router)
@@ -47,6 +54,35 @@ templates = Jinja2Templates(directory="templates")
 async def root(request: Request):
     return templates.TemplateResponse("base.html", {"request": request})
 
+startup_event_executed = False
+
+
+def startup_event():
+    """Evento de inicio de la aplicación
+    """
+
+    global startup_event_executed
+
+    # Crea una sesión de la base de datos
+    db = SessionLocal()
+
+    # Ejecuta la lógica de creación inicial de artículos
+    CrudArticulos.create_articulo(db)
+    CrudFamilias.create_familia(db)
+
+    # Confirma los cambios en la base de datos
+    db.commit()
+
+    # Cierra la sesión de la base de datos
+    db.close()
+
+    # Marca el evento de inicio como ejecutado
+    startup_event_executed = True
+
+
+if not startup_event_executed:
+    app.add_event_handler("startup", startup_event)
+    
 # -- REDIRECCIONES: index.html pasa a ser archivo por defecto de la ruta
 # SE CREA EL DABATASE
 

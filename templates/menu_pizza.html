@@ -250,17 +250,13 @@ function limitarSeleccion() {
 
             const selectedIds = selectedPizzasIds.concat(selectedBebidasIds, selectedPostresIds, selectedPizzasExtrasIds, selectedBebidasExtrasIds, selectedPostresExtrasIds);
 
-            const selectedPizzasPrecios = Array.from(selectedPizzas).map(checkbox => parseInt(checkbox.getAttribute("precio")));
-            const selectedBebidasPrecios = Array.from(selectedBebidas).map(checkbox => parseInt(checkbox.getAttribute("precio")));
-            const selectedPostresPrecios = Array.from(selectedPostres).map(checkbox => parseInt(checkbox.getAttribute("precio")));
 
-            const precios = selectedPizzasPrecios + selectedBebidasPrecios + selectedPostresPrecios;
-
-
-
-
-
+            // En algún lugar de tu código donde se crea un nuevo pedido
             const currentPedidoId = pedidoCounter;
+            pedidoCounter++;
+            
+            // En algún otro lugar donde se crea otro pedido
+            const otroPedidoId = pedidoCounter;
             pedidoCounter++;
 
             // Obtén el valor del menú seleccionado
@@ -308,7 +304,8 @@ function limitarSeleccion() {
             const menuExtraContainer = document.getElementById("menu-extra-container");
             menuExtraContainer.style.display = "none";
 
-
+            // q se redirija y se pueda ver el pedido realizado
+            window.location.href = "/pedido/get_id/" + currentPedidoId;
             
         }
 

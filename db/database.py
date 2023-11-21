@@ -14,6 +14,7 @@ Base = declarative_base()
 
 def get_db():
    db = SessionLocal()
+   
    try:
        # yield es como un return pero no termina la funcion
        yield db
