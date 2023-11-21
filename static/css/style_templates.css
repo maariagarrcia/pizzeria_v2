@@ -47,9 +47,9 @@ nav a:hover {
 
 /* Contenedor principal */
 .container {
+    background-color: black; 
     max-width: 100%;
     padding: 20px;
-    background-color: rgb(33, 33, 33); /* Color de fondo gris claro */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 0px;
 }

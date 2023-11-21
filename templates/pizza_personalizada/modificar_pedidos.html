@@ -232,47 +232,56 @@
 </head>
 
 <body>
-    <header class="jumbotron mb-0">
-        <h1 class="display-4">Pizza a la Carta</h1>
-    </header>
+<header style="background-color: black; text-align: center; padding: 8px; display: flex; align-items: center; justify-content: center; height: 100%;">
+    <div style="display: flex; align-items: center;">
+        <img src="/static/images/logo.png" alt="Logo" style="width: 40px; height: 40px; margin-right: 7px;">
+        <h1 style="margin: 0;">LE PIZZERI</h1>
+    </div>
+</header>
 
-    <nav class="navbar navbar-expand-lg navbar-dark justify-content-center" style="background-color: black;">
-        <a class="navbar-brand" href="/templates/base.html">Inicio</a>
-        <a class="navbar-brand" href="/templates/menu.html">Menú</a>
-        <a class="navbar-brand" href="/templates/promociones.html">Promociones</a>
-        <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
-        <a class="navbar-brand" href="/templates/seccion_pedidos.html" id ="navbar">Pedidos<a>
+    <header class="jumbotron mb-0" style="background-image: url('/static/images/heaader.png'); background-size: cover; text-align: center; color: white;">
+    </header> 
 
-        <ul class="navbar-nav" id="navbar-nav">
+
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-center" style="background-color: black">
+    <a class="navbar-brand" href="/templates/base.html">Inicio</a>
+    <a class="navbar-brand" href="/templates/menu.html">Menú</a>
+    <a class="navbar-brand" href="promociones.html">Promociones</a>
+    <a class="navbar-brand" href="/templates/contact.html">Contacto</a>
+    <a class="navbar-brand" href="/templates/seccion_pedidos.html" id="navbar">Pedidos</a>
+
+    <div id="navbar-nav">
+        <ul class="navbar-nav ml-4">
             <li class="nav-item">
-                <a class="nav-link" href="/templates/login.html">LOGIN</a>
+                <a class="nav-link" href="/templates/login.html">Iniciar Sesión</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/templates/register.html">REGISTRO</a>
+                <a class="nav-link" href="/templates/register.html">Regístrate</a>
             </li>
-        </ul>   
-    
-        <div id="success-message" style="display: none; margin-left: 70px;">
-            <div id="user-container" style="border: 1px solid #577796; padding: 6px; background-color: #29465B; border-radius: 8px;">
-                <span id="username" style="color: white; font-size: 18px; font-weight: bold;"></span>
-            </div>
-        </div>
+        </ul>
+    </div>
 
-        <div id="logout-container" style="display: none; margin-left: 10px;">
-            <span id="username" style="color: white;"></span>
-            <button onclick="cerrar_sesion()" class="btn btn-primary">Cerrar Sesion</button>
+    <div id="success-message" style="display: none;">
+        <div id="user-container" style="border: 1px solid #dc3545; padding: 3px; background-color: #dc3545  ; border-radius: 4px; margin-left:6px;">
+        <span id="username" style="color: white; font-size: 14px; font-weight: bold;"></span>
         </div>
-    </nav>
+    </div>
+
+    <div id="logout-container" style="display: none; margin-left: 10px;">
+        <span id="username" style="color: white;"></span>
+        <button onclick="cerrar_sesion()" class="btn btn-danger btn-sm">Cerrar Sesión</button>
+    </div>
+</nav>
 
 
     <!-- Contenido -->
     <div class="scroll-container">
         <div class="scroll-contnt">
-            <div class="container">
+            <div class="container" style="background-color:black;">
                 <div style="display: flex; justify-content: center; align-items: center;">
-                    <hr style="flex: 1; border: 7px solid #577796;">
-                    <span style="padding: 0 10px; color: #577796 ;font-size: 30px;">MODIFICAR PEDIDOS</span>
-                    <hr style="flex: 1; border: 7px solid #577796;">
+                    <hr style="flex: 1; border: 7px solid #dc3545;">
+                    <span style="padding: 0 10px; color: #dc3545 ;font-size: 30px;">MODIFICAR PEDIDOS</span>
+                    <hr style="flex: 1; border: 7px solid #dc3545;">
                 </div>
                 <br>
                 
@@ -289,26 +298,26 @@
                 </div>
 
         <div id="pedidoInfo" style="margin-top: 20px; background-color: black; padding: 20px; border-radius: 8px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); border: 1px solid ; display: none;">
-            <h3 style="color: #577796; text-align: center; margin-bottom: 15px;">Información del Pedido</h3>
+            <h3 style="color: #dc3545; text-align: center; margin-bottom: 15px;">Información del Pedido</h3>
 
             <div style="border-bottom: 1px solid; margin-bottom: 15px ;"></div>
 
             <div style="margin-bottom: 15px;">
-                <h5 style="color: #577796;"><strong>Masa:</strong> <span id="masaValue"></span></h5>
-                <h5 style="color: #577796;"><strong>Presentación:</strong> <span id="presentacionValue"></span></h5>
-                <h5 style="color: #577796;"><strong>Salsa:</strong> <span id="salsaValue"></span></h5>
-                <h5 style="color: #577796;"><strong>Técnica:</strong> <span id="tecnicaValue"></span></h5>
-                <h5 style="color: #577796;"><strong>Maridaje:</strong> <span id="maridajeValue"></span></h5>
+                <h5 style="color: #dc3545;"><strong>Masa:</strong> <span id="masaValue"></span></h5>
+                <h5 style="color: #dc3545;"><strong>Presentación:</strong> <span id="presentacionValue"></span></h5>
+                <h5 style="color: #dc3545;"><strong>Salsa:</strong> <span id="salsaValue"></span></h5>
+                <h5 style="color: #dc3545;"><strong>Técnica:</strong> <span id="tecnicaValue"></span></h5>
+                <h5 style="color: #dc3545;"><strong>Maridaje:</strong> <span id="maridajeValue"></span></h5>
 
             </div>
 
 
             <div style="margin-bottom: 15px;">
-                <h5 style="color: #577796;"><strong>Extras:</strong> <span id="extrasValue"></span></h5>
+                <h5 style="color: #dc3545;"><strong>Extras:</strong> <span id="extrasValue"></span></h5>
             </div>
 
             <div style="margin-bottom: 15px;">
-                <h5 style="color: #577796;"><strong>Ingredientes:</strong> <span id="ingredientesValue"></span></h5>
+                <h5 style="color: #dc3545;"><strong>Ingredientes:</strong> <span id="ingredientesValue"></span></h5>
             </div>
         </div>
 
