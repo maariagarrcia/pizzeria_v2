@@ -13,6 +13,8 @@ A diferencia de frameworks más integrados como Django, la gestión de usuarios 
 
 - Builder: Se ha implementado un patrón de diseño Builder para crear objeto, utilizándolo para crear objetos relacionados con pedidos. Cuando un cliente busca su pedido, se genera un builder con el pedido creado. Más detallado abajo.
 
+- Composite: Se ha implementado un patrón estructural para estructurar a un conjunto de objetos como una entidad única independientemente de si son objetos individuales o estructuras compuestas de múltiples objetos. 
+
 - Auth: Al crear un nuevo pedido, se asigna un ID de usuario y se genera un objeto User. La información relevante, como el ID del pedido, se almacena en cookies del navegador.
   Se utiliza JavaScript para obtener y manipular cookies. La autenticación y la gestión de sesiones se llevan a cabo manualmente. Al cerrar sesión, se eliminan las cookies relacionadas con el usuario.
 
@@ -35,3 +37,14 @@ CRUD Operations: Las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) se imp
 
 - Implementación: El código del Builder se encuentra en la sección que maneja los pedidos en el backend. La clase ItemBuilder se encarga de construir objetos DbItem (pedidos de pizza) paso a paso.
   El proceso se realiza de la siguiente manera: al recuperar un pedido de la base de datos, utilizamos el patrón Builder. Creamos una instancia de la clase ItemBuilder y configuramos sus propiedades utilizando la información específica almacenada en la base de datos. Cada método del Builder se encarga de asignar un aspecto particular del pedido, como la masa, la salsa, los ingredientes, entre otros. Una vez que todas las propiedades relevantes han sido configuradas, invocamos el método build para obtener el objeto DbItem completamente estructurado.
+
+4. Patrón Composite:
+----------------------
+El patrón Composite es un patrón de diseño estructural que permite componer objetos en estructuras de árbol para representar jerarquías de parte-todo. Este patrón trata a los objetos individuales y a las composiciones de objetos de manera uniforme, lo que facilita trabajar con estructuras complejas de manera más sencilla.
+
+En la pizzería vamos a representar los menús de manera jerárquica. La idea principal es tratar tanto las pizzas individuales como los combos de pizzas de manera uniforme, como si fueran del mismo tipo.
+
+Un cliente podrá pedir 2 bebibas y un menú doble y serán tratados de la misma forma ya que se guardarán en la base de datos el pedido pero se mostrará lo que ha pedido organizado, estructurado usando el patrón estructural para facilitar al cliente un resumen de su pedido.
+
+
+  
