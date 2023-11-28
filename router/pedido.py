@@ -91,9 +91,11 @@ async def get_pedido(request: Request, pedido_id: int, db: Session = Depends(get
             descripcion=db_pedido.articulo.descripcion,
             pvp=db_pedido.articulo.precio
         )
+
         linea_pedido = LineasPedido(
             articulo=articulo, cantidad=db_pedido.cantidad
         )
+        
         detalles_pedido = linea_pedido.obtener_detalles()
     else:
         # Si el pedido es una composición (tipo diferente de 0), crea un pedido compuesto

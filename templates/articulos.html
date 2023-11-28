@@ -210,6 +210,16 @@
             const selectedCantidadBebidas = document.getElementById("cantidad");
             const cantidadBebidas = parseInt(selectedCantidadBebidas.value);
 
+            const selectedCantidadPizzas = document.getElementById("cantidad");
+            const cantidadPizzas = parseInt(selectedCantidadPizzas.value);
+
+            const selectedCantidadPostres = document.getElementById("cantidad");
+            const cantidadPostres = parseInt(selectedCantidadPostres.value);
+
+
+            const cantidadElement = document.getElementById("cantidad_" + id);  // Asegúrate de que el elemento tenga un ID único
+            const cantidadSeleccionada = parseInt(cantidadElement.value);
+
 
             const currentPedidoId = pedidoCounter;
             pedidoCounter++;
@@ -220,7 +230,7 @@
                     id_pedido: currentPedidoId,
                     id_user: parseInt(getCookie("user_id")),
                     id_articulo: id,
-                    cantidad: cantidadBebidas,  // You may customize this based on your requirements
+                    cantidad: cantidadSeleccionada,  // You may customize this based on your requirements
                     total: 11 ,
                     menu:0 
                 };

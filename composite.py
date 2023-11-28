@@ -18,7 +18,7 @@ class Componente(BaseModel):
     """
     Clase base para el patrón Composite
     """
-    def get_pvp(self) -> float:
+    def get_tamaño(self) -> float:
         """
         Método para obtener el precio total del componente
         """

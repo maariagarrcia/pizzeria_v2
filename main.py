@@ -50,6 +50,7 @@ app.mount("/templates/pedidos", StaticFiles(directory="templates/pedidos"), name
 templates = Jinja2Templates(directory="templates")
 
 
+# -- REDIRECCIONES: index.html pasa a ser archivo por defecto de la ruta
 @app.get("/")
 async def root(request: Request):
     return templates.TemplateResponse("base.html", {"request": request})
@@ -80,10 +81,8 @@ def startup_event():
     startup_event_executed = True
 
 
-if not startup_event_executed:
-    app.add_event_handler("startup", startup_event)
     
-# -- REDIRECCIONES: index.html pasa a ser archivo por defecto de la ruta
+
 # SE CREA EL DABATASE
 
 models.Base.metadata.create_all(engine)
