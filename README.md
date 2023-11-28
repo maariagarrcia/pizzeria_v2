@@ -46,5 +46,7 @@ En la pizzería vamos a representar los menús de manera jerárquica. La idea pr
 
 Un cliente podrá pedir 2 bebibas y un menú doble y serán tratados de la misma forma ya que se guardarán en la base de datos el pedido pero se mostrará lo que ha pedido organizado, estructurado usando el patrón estructural para facilitar al cliente un resumen de su pedido.
 
+La aplicación es flexible para manejar pedidos complejos sin necesidad de cambiar la lógica existente. Puedes agregar nuevos tipos de elementos al menú sin alterar la forma en que se manejan los pedidos.
 
-  
+La estructura del Composite facilita la adición de nuevos elementos al menú y la adaptación de la aplicación a cambios en los productos ofrecidos.
+
